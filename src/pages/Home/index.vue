@@ -1,12 +1,15 @@
-<script setup lang="ts"> 
+<script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
+
 import { ref } from "vue";
+
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 const name = "无名小站";
 let expand = ref(true);
 const leftList: string[] = ["books", "movies", "games", "news"];
 </script>
-<template>
+    
+    <template>
   <div class="container">
     <div class="top">{{name}}</div>
     <div class="page_body">
@@ -15,20 +18,15 @@ const leftList: string[] = ["books", "movies", "games", "news"];
           <li class="list_top">
             <button class="btn" @click="() => expand = !expand">{{expand?'收起':'展开'}}</button>
           </li>
-          <li v-for="item in leftList" :key="item" class="item">
-            {{item}}
-            <el-icon color="black" size="14px">
-              <ArrowRightBold />
-            </el-icon>
-          </li>
+          <li v-for="item in leftList" :key="item" class="item">{{item}}</li>
         </ul>
       </div>
       <div class="right"></div>
     </div>
   </div>
 </template>
-
-<style scoped lang="less">
+    
+    <style scoped lang="less">
 .container {
   display: flex;
   flex-direction: column;
@@ -63,8 +61,7 @@ const leftList: string[] = ["books", "movies", "games", "news"];
 }
 .item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  align-content: center;
   min-height: 30px;
   padding: 10px 20px;
   font-size: 18px;
@@ -73,7 +70,6 @@ const leftList: string[] = ["books", "movies", "games", "news"];
     cursor: pointer;
     background: #fafafa;
     transform: scaleX(1.1);
-    border-right: 1px solid #eee;
     border-radius: 10px;
   }
 }
@@ -87,3 +83,4 @@ const leftList: string[] = ["books", "movies", "games", "news"];
   }
 }
 </style>
+    
