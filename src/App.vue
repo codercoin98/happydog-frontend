@@ -1,23 +1,24 @@
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 
-import { ref } from 'vue';
+import { ref } from "vue";
 
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 const name = "无名小站";
-const leftList = ['books','movies','games','news'];
-let a = ref(0)
+let expand = ref(true);
+const leftList: string[] = ["books", "movies", "games", "news"];
 </script>
 
 <template>
   <div class="container">
     <div class="top">{{name}}</div>
     <div class="page_body">
-      <div class="left">
+      <div :style="{width: expand? '16rem':'10rem'}" class="left">
         <ul class="list">
-          <li>
-            <bitton class="expand" @click="a++">点我{{a}}</bitton>
+          <li class="list_top">
+            <button class="btn" @click="() => expand = !expand">{{expand?'收起':'展开'}}</button>
           </li>
+          <li v-for="item in leftList" :key="item" class="item">{{item}}</li>
         </ul>
       </div>
       <div class="right"></div>
@@ -25,7 +26,7 @@ let a = ref(0)
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .container {
   display: flex;
   flex-direction: column;
@@ -44,7 +45,6 @@ let a = ref(0)
   flex: 1;
 }
 .left {
-  width: 16rem;
   border-right: 1px solid #eee;
 }
 .right {
@@ -52,14 +52,34 @@ let a = ref(0)
 }
 .list {
   list-style: none;
+  padding: 0;
 }
-.expand {
+.list_top {
+  padding: 10px 20px;
+  display: flex;
+  justify-content: end;
+}
+.item {
+  display: flex;
+  align-content: center;
+  min-height: 30px;
+  padding: 10px 20px;
+  font-size: 18px;
+  border-bottom: 1px solid #eee;
+  &:hover {
+    cursor: pointer;
+    background: #fafafa;
+    transform: scaleX(1.1);
+    border-radius: 10px;
+  }
+}
+.btn {
   padding: 4px 10px;
   border: 1px solid #bfbfbf;
   border-radius: 6px;
-}
-.expand:hover {
-  cursor: pointer;
-  background: #bfbfbf;
+  &:hover {
+    cursor: pointer;
+    background: #bfbfbf;
+  }
 }
 </style>
