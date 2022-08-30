@@ -1,9 +1,7 @@
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
-import { ref } from "vue";
 import moment from "moment";
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-let expand = ref(true);
 const leftList: string[] = ["Home", "Friends", "Message", "Settings"];
 const contentList = [
   {
@@ -57,7 +55,7 @@ const contentList = [
 ];
 </script>
 <template>
-  <div class="container mx-auto px-10 flex flex-col max-h-screen">
+  <div class="lg:container lg:mx-auto lg:w-1/2 flex flex-col max-h-screen">
     <!--顶部-->
     <div class="flex-none h-20 py-3">
       <el-space>
@@ -69,11 +67,10 @@ const contentList = [
     <div class="flex flex-grow relative">
       <div class="w-40">
         <ul class="space-y-2">
-          <li class="list_top">
-            <button
-              class="rounded-full border-purple-400 w-full px-4 py-2 mb-2 cursor-pointer text-purple-400 hover:border-purple-600"
-              @click="() => expand = !expand"
-            >{{expand?'登录':'注册'}}</button>
+          <li>
+            <div
+              class="rounded-full text-center border border-purple-400 w-full px-4 py-2 mb-2 cursor-pointer text-purple-400 hover:border-purple-500 hover:text-white hover:bg-purple-500 active:bg-purple-400 active:text-white active:border-opacity-0"
+            >登录</div>
           </li>
           <li
             v-for="item in leftList"
