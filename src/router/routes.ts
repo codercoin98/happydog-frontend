@@ -1,5 +1,6 @@
 const Home = () => import('@/pages/Home/index.vue')
-const Login = () => import('@/pages/Login/index.vue')
+const SignIn = () => import('@/pages/SignIn/index.vue')
+const SignUp = () => import('@/pages/SignUp/index.vue')
 import { RouteRecordRaw } from 'vue-router'
 //路由配置表
 const routes: RouteRecordRaw[] = [
@@ -9,9 +10,14 @@ const routes: RouteRecordRaw[] = [
     component: Home,
   },
   {
-    name: 'login',
-    path: '/login',
-    component: Login,
+    name: 'sign_in',
+    path: '/sign-in',
+    component: SignIn,
   },
+  {
+    name:'sign_up',
+    path:'/sign-up',
+    component: SignUp,
+  }
 ]
 export default routes

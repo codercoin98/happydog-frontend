@@ -5,7 +5,7 @@
       <div class="w-40">
         <ul class="space-y-2">
           <li>
-            <router-link to="/login">
+            <router-link to="/sign-in">
               <div
                 class="rounded-full text-center border border-purple-400 w-full px-4 py-2 mb-2 cursor-pointer text-purple-400 font-semibold hover:border-purple-500 hover:text-white hover:bg-purple-500 active:bg-purple-400 active:text-white active:border-opacity-0">
                 Sign in
