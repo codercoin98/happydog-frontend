@@ -1,10 +1,3 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-import moment from "moment";
-moment.locale('zh-cn');
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-const leftList: string[] = ["Home", "Friends", "Message", "Settings"];
-</script>
 <template>
   <div class="flex flex-col flex-1">
     <!--主体-->
@@ -27,8 +20,7 @@ const leftList: string[] = ["Home", "Friends", "Message", "Settings"];
             </el-icon>
           </li>
         </ul>
-        <div
-          class="absolute inset-x-0 bottom-0 h-20 w-40 flex flex-col justify-center items-center cursor-pointer hover:bg-gradient-to-b hover:from-gray-200 hover:to-gray-50 hover:rounded-full">
+        <div class="absolute inset-x-0 bottom-0 h-20 w-40 flex flex-col justify-center items-center cursor-pointer">
           <a href="https://github.com/coderlcb" class="no-underline">@Codercoin</a>
           <div class="mt-2">{{ moment().format('dddd') }}</div>
         </div>
@@ -38,7 +30,15 @@ const leftList: string[] = ["Home", "Friends", "Message", "Settings"];
     </div>
   </div>
 </template>
+<script setup lang="ts">
+// This starter template is using Vue 3 <script setup> SFCs
+import moment from "moment";
+moment.locale('zh-cn');
+// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
+const leftList: string[] = ["Home", "Friends", "Message", "Settings"];
+</script>
+
   
-  <style scoped>
-  </style>
+<style scoped>
+</style>
   
