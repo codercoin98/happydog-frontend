@@ -15,7 +15,7 @@
           <li v-for="item in leftList" :key="item.title">
             <router-link :to="item.path" @click="changeRouter(item.path)"
               :class="state.checkedPath === item.path ? 'bg-purple-500 rounded-full text-white' : null"
-              class="flex justify-between items-center px-4 py-2 cursor-pointer text-black hover:bg-purple-400 hover:rounded-full hover:text-white">
+              class="flex justify-between items-center px-4 py-2 cursor-pointer text-black hover:bg-purple-500 hover:rounded-full hover:text-white">
               {{ item.title }}
               <el-icon size="14px">
                 <ArrowRightBold />
