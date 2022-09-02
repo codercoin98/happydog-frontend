@@ -6,10 +6,9 @@
         <el-avatar :size="50" src="http://124.220.47.26:7777/images/dog.jpg" />
         <span class="text-xl text-black subpixel-antialiased font-semibold cursor-pointer">HappyDog</span>
       </el-space> 
-      </router-link>
-     
+      </router-link>    
     </div>
-    <router-view />
+    <router-view/>
   </div>
 </template>
 <script setup lang="ts">

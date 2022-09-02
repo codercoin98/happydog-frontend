@@ -1,6 +1,6 @@
 <template>
     <div>
-        Home
+        纸飞机
     </div>
 </template>
 
@@ -9,5 +9,4 @@
 </script>
 
 <style lang="scss" scoped>
-
 </style>
