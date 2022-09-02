@@ -10,41 +10,52 @@
                 </el-icon>
             </router-link>
         </div>
-        <el-form label-position="right" class="card w-1/2 mx-auto py-4">
+        <el-form class="card w-1/2 mx-auto py-4">
             <el-form-item required>
-                <el-input v-model="userInfo.username" placeholder="Your username" />
+                <el-input v-model="state.commitInfo.username" placeholder="Your username" />
             </el-form-item>
             <el-form-item required>
-                <el-input type="password" v-model="userInfo.password" placeholder="Your password" autocomplete="off" />
+                <el-input type="password" v-model="state.commitInfo.password" placeholder="Your password"
+                    autocomplete="off" />
             </el-form-item>
             <el-form-item required>
-                <el-input type="password" v-model="userInfo.rePassword" placeholder="Confirm your password"
+                <el-input type="password" v-model="state.commitInfo.rePassword" placeholder="Confirm your password"
                     autocomplete="off" />
             </el-form-item>
             <el-form-item>
-                <el-input type="text" v-model="userInfo.captcha" /><span v-html="state.captcha"></span>
+                <div class="flex flex-1">
+                    <el-input type="text" v-model="state.commitInfo.captcha" placeholder="captcha" />
+                    <span v-html="state.captcha"></span>
+                </div>
+
             </el-form-item>
             <el-form-item>
                 <button class="bg-purple-400 w-full text-white border-none hover:bg-purple-500 focus:outline-none">Sign
                     Up
                 </button>
             </el-form-item>
+            <el-form-item>
+                <div class="text-center w-full">
+                    <el-checkbox label="agree" v-model="agree">已阅读<a href="#">用户协议</a>并同意该协议</el-checkbox>
+                </div>
+            </el-form-item>
         </el-form>
     </div>
 </template>
 
 <script setup lang="ts">import { getCaptcha } from '@/services/user.api';
+const agree = ref(false);
 const state = reactive({
-    captcha: ''
-})
-const userInfo = reactive({
-    username: '',
-    password: '',
-    rePassword: '',
     captcha: '',
+    commitInfo: {
+        username: '',
+        password: '',
+        rePassword: '',
+        captcha: '',
+    }
 })
 const genCaptcha = async () => {
-    await getCaptcha().then((res: string) => {
+    await getCaptcha().then((res: any) => {
         if (res) {
             state.captcha = res;
         }
