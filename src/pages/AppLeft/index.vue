@@ -1,10 +1,16 @@
 <template>
-  <div class="flex flex-col flex-1">
-    <!--主体-->
-    <div class="flex flex-grow relative">
-      <div class="w-40">
+    <!--网站左侧-->
+    <div class="flex flex-col relative">
+        <div class="flex justify-center h-20 py-3">
+          <router-link to="/" class="text-black ">
+            <el-space>
+              <el-avatar :size="50" src="http://124.220.47.26:7777/images/dog.jpg" />
+              <span class="text-xl text-black subpixel-antialiased font-semibold cursor-pointer">HappyDog</span>
+            </el-space>
+          </router-link>
+        </div>
         <ul class="space-y-2">
-          <li>
+          <li class="w-52">
             <router-link to="/sign-in">
               <div
                 class="rounded-full text-center border border-purple-400 w-full px-4 py-2 mb-2 cursor-pointer text-purple-400 font-semibold hover:border-purple-500 hover:text-white hover:bg-purple-500 active:bg-purple-400 active:text-white active:border-opacity-0">
@@ -15,7 +21,7 @@
           <li v-for="item in leftList" :key="item.title">
             <router-link :to="item.path" @click="changeRouter(item.path)"
               :class="state.checkedPath === item.path ? 'bg-purple-500 rounded-full text-white' : null"
-              class="flex justify-between items-center px-4 py-2 cursor-pointer text-black hover:bg-purple-500 hover:rounded-full hover:text-white">
+              class="flex justify-between w-52 items-center px-4 py-2 cursor-pointer text-black hover:bg-purple-500 hover:rounded-full hover:text-white">
               {{ item.title }}
               <el-icon size="14px">
                 <ArrowRightBold />
@@ -27,12 +33,8 @@
           <a href="https://github.com/coderlcb" class="no-underline">@Codercoin</a>
           <div class="mt-2">{{ moment().format('dddd') }}</div>
         </div>
-      </div>
-      <div class="flex-1 px-10 overflow-hidden">
-        <router-view name="rightView" />
-      </div>
     </div>
-  </div>
+
 </template>
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
@@ -40,17 +42,17 @@ import moment from "moment";
 moment.locale('zh-cn');
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 let state = reactive({
-  checkedPath: '/'
+checkedPath: '/'
 });
 const leftList = [
-  { title: "Home", path: '/' },
-  { title: "PaperPlane", path: '/paper-plane' },
-  { title: "Friends", path: '/friends' },
-  { title: "Tools", path: '/tools' },
+{ title: "Home", path: '/' },
+{ title: "PaperPlane", path: '/paper-plane' },
+{ title: "Friends", path: '/friends' },
+{ title: "Tools", path: '/funny-tools' },
 ];
 //监听左侧按钮点击
 const changeRouter = (path: string) => {
-  state.checkedPath = path;
+state.checkedPath = path;
 }
 </script>
 

@@ -18,5 +18,6 @@ declare module '@vue/runtime-core' {
     ElSpace: typeof import('element-plus/es')['ElSpace']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ToolCard: typeof import('./components/ToolCard/index.vue')['default']
   }
 }
