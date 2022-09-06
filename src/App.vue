@@ -2,7 +2,7 @@
   <div class="lg:container lg:mx-auto lg:w-2/3 flex min-h-screen">
     <AppLeft />
     <div class="flex-1 p-3 overflow-hidden ">
-      <router-view />
+      <router-view/>
     </div>
   </div>
 </template>

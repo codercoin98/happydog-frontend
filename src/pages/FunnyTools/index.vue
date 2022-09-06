@@ -8,7 +8,6 @@
                 </router-link>
             </li>
         </ul>
-
     </div>
 </template>
 
@@ -18,12 +17,12 @@ const tools = [
 {
 title: 'Github用户检索',
 iconUrl: 'http://124.220.47.26:7777/images/dog.jpg',
-to: '/tools/github-profile'
+to: '/'
 },
 {
-title: 'Github用户检索',
+title: '图书检索',
 iconUrl: 'http://124.220.47.26:7777/images/dog.jpg',
-to: '/'
+to: '/search-books'
 },
 {
 title: 'Github用户检索',

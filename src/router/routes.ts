@@ -4,7 +4,7 @@ const Home = () => import('@/pages/Home/index.vue')
 const PaperPlane = () => import('@/pages/PaperPlane/index.vue')
 const Friends = () => import('@/pages/Friends/index.vue')
 const FunnyTools = () => import('@/pages/FunnyTools/index.vue')
-import GithubProfile from '@/pages/FunnyTools/components/GithubProfile/index.vue'
+const SearchBooks = () => import('@/pages/FunnyTools/components/SearchBooks/index.vue')
 import { RouteRecordRaw } from 'vue-router'
 //路由配置表
 const routes: RouteRecordRaw[] = [
@@ -27,6 +27,11 @@ const routes: RouteRecordRaw[] = [
     name: 'funny-tools',
     path: '/funny-tools',
     component: FunnyTools,
+  },
+  {
+    name: 'search-books',
+    path: '/search-books',
+    component: SearchBooks ,
   },
   {
     name: 'sign_in',
