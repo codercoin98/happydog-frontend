@@ -14,13 +14,15 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
+        timeout: 5000,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
-      '/google':{
+      '/google': {
         target: 'https://www.googleapis.com',
+        timeout: 500000,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/google/, ''),
-      }
+      },
     },
   },
   plugins: [
