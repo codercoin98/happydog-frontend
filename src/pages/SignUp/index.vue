@@ -25,9 +25,8 @@
             <el-form-item>
                 <div class="flex flex-1">
                     <el-input type="text" v-model="state.commitInfo.captcha" placeholder="captcha" />
-                    <span v-html="state.captcha"></span>
+                    <span v-html="state.captcha" @click="genCaptcha"></span>
                 </div>
-
             </el-form-item>
             <el-form-item>
                 <button class="bg-purple-400 w-full text-white border-none hover:bg-purple-500 focus:outline-none">Sign
