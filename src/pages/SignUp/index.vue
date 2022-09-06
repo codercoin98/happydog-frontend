@@ -1,9 +1,9 @@
 <template>
-    <div class="h-full flex flex-1 flex-col">
+    <div class="container h-1/2 flex flex-col items-center border rounded-lg">
         <!--top-->
         <div class="w-1/2 mx-auto py-4 mt-10 items-center">
             <div class="text-center font-bold text-xl mb-4">Join Us !</div>
-            <router-link to="/">
+            <router-link to="../">
                 <el-icon size="24px"
                     class="inline-block cursor-pointer hover:text-purple-400 hover:bg-gray-100 hover:rounded-md">
                     <ArrowLeft />

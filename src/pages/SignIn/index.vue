@@ -5,16 +5,8 @@ const userInfo = reactive({
 })
 </script>
 <template>
-    <div class="h-full flex flex-1 flex-col">
+    <div class="container h-1/2 flex items-center border rounded-lg">
         <!--top-->
-        <div class="w-1/2 mx-auto py-4 mt-10 items-center">
-            <router-link to="/">
-                <el-icon size="24px"
-                    class="inline-block cursor-pointer hover:text-purple-400 hover:bg-gray-100 hover:rounded-md">
-                    <ArrowLeft />
-                </el-icon>
-            </router-link>
-        </div>
         <el-form label-position="right" class="card w-1/2 mx-auto py-4">
             <el-form-item required>
                 <el-input v-model="userInfo.username" placeholder="Username" />
