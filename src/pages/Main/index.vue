@@ -46,7 +46,7 @@ const leftList = [
   { title: "Home", path: '/' },
   { title: "PaperPlane", path: '/paper-plane' },
   { title: "Friends", path: '/friends' },
-  { title: "EveryDay", path: '/every-day' },
+  { title: "Tools", path: '/tools' },
 ];
 //监听左侧按钮点击
 const changeRouter = (path: string) => {

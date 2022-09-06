@@ -4,7 +4,7 @@ const SignUp = () => import('@/pages/SignUp/index.vue')
 const Home = () => import('@/pages/Home/index.vue')
 const PaperPlane = () => import('@/pages/PaperPlane/index.vue')
 const Friends = () => import('@/pages/Friends/index.vue')
-const EveryDay = () => import('@/pages/EveryDay/index.vue')
+const FunnyTools = () => import('@/pages/FunnyTools/index.vue')
 import { RouteRecordRaw } from 'vue-router'
 //路由配置表
 const routes: RouteRecordRaw[] = [
@@ -32,9 +32,9 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
-        path: 'every-day',
+        path: 'tools',
         components: {
-          rightView: EveryDay,
+          rightView: FunnyTools,
         },
       },
     ],
