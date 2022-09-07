@@ -1,12 +1,7 @@
 import axios from 'axios'
 
 // 创建一个 axios 实例
-const service = axios.create({ // 请求超时时间毫秒 
-  headers: {
-    // 设置后端需要的传参类型
-    'Content-Type': 'application/json',
-  },
-})
+const service = axios.create();
 
 // 添加请求拦截器
 service.interceptors.request.use(
@@ -15,7 +10,7 @@ service.interceptors.request.use(
     return config
   },
   function (error) {
-    // 对请求错误做些什么
+    // 对请求错误做些什
     console.log(error)
     return Promise.reject(error)
   }

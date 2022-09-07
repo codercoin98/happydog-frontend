@@ -1,7 +1,7 @@
 <template>
   <div class="lg:container lg:mx-auto lg:w-2/3 flex min-h-screen">
     <AppLeft />
-    <div class="flex-1 p-3 overflow-hidden ">
+    <div class="flex-1 py-3 px-10 overflow-hidden ">
       <router-view/>
     </div>
   </div>

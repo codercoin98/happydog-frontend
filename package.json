@@ -9,14 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^2.0.9",
     "axios": "^0.27.2",
-    "element-plus": "^2.2.15",
     "moment": "^2.29.4",
     "vue": "^3.2.37",
     "vue-router": "4"
   },
   "devDependencies": {
+    "@arco-design/web-vue": "^2.36.0",
     "@types/node": "^18.7.14",
     "@vitejs/plugin-vue": "^3.0.0",
     "autoprefixer": "^10.4.8",

@@ -1,43 +1,46 @@
 <template>
-    <!--网站左侧-->
-    <div class="flex flex-col relative">
-        <div class="flex justify-center h-20 py-3">
-          <router-link to="/" class="text-black ">
-            <el-space>
-              <el-avatar :size="50" src="http://124.220.47.26:7777/images/dog.jpg" />
-              <span class="text-xl text-black subpixel-antialiased font-semibold cursor-pointer">HappyDog</span>
-            </el-space>
-          </router-link>
-        </div>
-        <ul class="space-y-2">
-          <li class="w-52">
-            <router-link to="/sign-in">
-              <div
-                class="rounded-full text-center border border-purple-400 w-full px-4 py-2 mb-2 cursor-pointer text-purple-400 font-semibold hover:border-purple-500 hover:text-white hover:bg-purple-500 active:bg-purple-400 active:text-white active:border-opacity-0">
-                Sign in
-              </div>
-            </router-link>
-          </li>
-          <li v-for="item in leftList" :key="item.title">
-            <router-link :to="item.path" @click="changeRouter(item.path)"
-              :class="state.checkedPath === item.path ? 'bg-purple-500 rounded-full text-white' : null"
-              class="flex justify-between w-52 items-center px-4 py-2 cursor-pointer text-black hover:bg-purple-500 hover:rounded-full hover:text-white">
-              {{ item.title }}
-              <el-icon size="14px">
-                <ArrowRightBold />
-              </el-icon>
-            </router-link>
-          </li>
-        </ul>
-        <div class="absolute inset-x-0 bottom-0 h-20 w-40 flex flex-col justify-center items-center cursor-pointer">
-          <a href="https://github.com/coderlcb" class="no-underline">@Codercoin</a>
-          <div class="mt-2">{{ moment().format('dddd') }}</div>
-        </div>
+  <!--网站左侧-->
+  <div class="flex flex-col relative">
+    <div class="flex justify-center h-20 py-3">
+      <router-link to="/" class="text-black ">
+        <a-space>
+          <a-avatar :size="50"><img src="http://124.220.47.26:7777/images/dog.jpg" /></a-avatar>
+          <span class="text-xl text-black subpixel-antialiased font-semibold cursor-pointer">HappyDog</span>
+        </a-space>
+      </router-link>
     </div>
+    <ul class="space-y-2">
+      <li class="w-52">
+        <router-link to="/sign-in">
+          <div
+            class="rounded-full text-center border border-purple-400 w-full px-4 py-2 mb-2 cursor-pointer text-purple-400 font-semibold hover:border-purple-500 hover:text-white hover:bg-purple-500 active:bg-purple-400 active:text-white active:border-opacity-0">
+            Sign in
+          </div>
+        </router-link>
+      </li>
+      <li v-for="item in leftList" :key="item.title">
+        <router-link :to="item.path" @click="changeRouter(item.path)"
+          :class="state.checkedPath === item.path ? 'bg-purple-500 rounded-full text-white' : null"
+          class="flex justify-between w-52 items-center px-4 py-2 cursor-pointer text-black font-semibold hover:bg-purple-500 hover:rounded-full hover:text-white">
+          {{ item.title }}
+          <icon-right />
+        </router-link>
+      </li>
+    </ul>
+    <div class="absolute inset-x-0 bottom-0 h-20 w-40 flex flex-col justify-center items-center cursor-pointer">
+      <a href="https://github.com/coderlcb" class="no-underline text-black align-middle">
+        <a-space>
+          <icon-github size="18" />Codercoin
+        </a-space>
+      </a>
+      <div class="mt-2">{{ moment().format('dddd') }}</div>
+    </div>
+  </div>
 
 </template>
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
+import { reactive } from 'vue'
 import moment from "moment";
 moment.locale('zh-cn');
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
