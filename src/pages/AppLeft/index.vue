@@ -22,6 +22,10 @@
         <router-link :to="item.path" @click="changeRouter(item.path)"
           :class="state.checkedPath === item.path ? 'bg-purple-500 rounded-full text-white' : null"
           class="flex justify-between w-52 items-center px-4 py-2 cursor-pointer text-black font-semibold hover:bg-purple-500 hover:rounded-full hover:text-white">
+          <icon-home v-if="item.key === 1" size="20"/>
+          <icon-send v-else-if="item.key === 2" size="20"/>
+          <icon-message v-else-if="item.key === 3" size="20"/>
+          <icon-settings v-else-if="item.key === 4" size="20"/>
           {{ item.title }}
           <icon-right />
         </router-link>
@@ -40,7 +44,7 @@
 </template>
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import moment from "moment";
 moment.locale('zh-cn');
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
@@ -48,10 +52,10 @@ let state = reactive({
 checkedPath: '/'
 });
 const leftList = [
-{ title: "Home", path: '/' },
-{ title: "PaperPlane", path: '/paper-plane' },
-{ title: "Friends", path: '/friends' },
-{ title: "Tools", path: '/funny-tools' },
+{ key: 1, title: "主页", path: '/' },
+{ key: 2, title: "纸飞机", path: '/paper-plane' },
+{ key: 3, title: "圈子", path: '/friends' },
+{ key: 4, title: "工具", path: '/funny-tools' },
 ];
 //监听左侧按钮点击
 const changeRouter = (path: string) => {
