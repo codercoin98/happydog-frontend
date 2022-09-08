@@ -18,7 +18,7 @@
                         autocomplete="off" />
                 </a-form-item>
                 <a-form-item>
-                    <a-input type="password" v-model="state.commitInfo.rePassword" placeholder="Confirm your password"
+                    <a-input type="password" v-model="state.rePassword" placeholder="Confirm your password"
                         autocomplete="off" />
                 </a-form-item>
                 <a-form-item>
@@ -48,25 +48,26 @@
 import { ref, reactive, onMounted } from 'vue';
 const agree = ref(false);
 const state = reactive({
-captcha: '',
-commitInfo: {
-username: '',
-password: '',
-rePassword: '',
-captcha: '',
-}
+    captcha: '',
+    rePassword: '',
+    commitInfo: {
+        username: '',
+        password: '',
+        captcha: '',
+    }
 })
 const genCaptcha = async () => {
-await getCaptcha().then((res: any) => {
-if (res) {
-state.captcha = res;
-}
-});
+    await getCaptcha().then((res: any) => {
+        if (res) {
+            state.captcha = res;
+        }
+    });
 }
 onMounted(() => {
-genCaptcha();
+    genCaptcha();
 })
 </script>
 
 <style lang="scss" scoped>
+
 </style>
