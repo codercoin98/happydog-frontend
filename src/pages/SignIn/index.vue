@@ -7,7 +7,7 @@ password: ''
 })
 </script>
 <template>
-    <div class="container h-1/2 flex items-center border rounded-lg">
+    <div class="container h-full flex items-center border rounded-lg">
         <div class="card w-1/2 mx-auto py-4">
             <a-form :model="userInfo" :label-col-props="{span:0}" :wrapper-col-props="{span:24}">
                 <a-form-item>

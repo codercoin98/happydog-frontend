@@ -1,5 +1,5 @@
 <template>
-    <div class="container h-1/2 flex flex-col items-center border rounded-lg">
+    <div class="container h-full flex flex-col items-center border rounded-lg">
         <!--top-->
         <div class="w-1/2 mx-auto py-4 mt-10 items-center">
             <div class="text-center font-bold text-xl mb-4">Join Us !</div>
