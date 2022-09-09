@@ -28,8 +28,8 @@
                     </div>
                 </a-form-item>
                 <a-form-item>
-                    <button
-                        class="bg-purple-400 w-full text-white border-none hover:bg-purple-500 focus:outline-none">Sign
+                    <button class="bg-purple-400 w-full  text-white border-none hover:bg-purple-500 focus:outline-none"
+                        @click="submit" :disabled="haveNull" :class="{' hover:cursor-not-allowed': haveNull}">Sign
                         Up
                     </button>
                 </a-form-item>
@@ -44,8 +44,10 @@
     </div>
 </template>
 
-<script setup lang="ts">import { getCaptcha } from '@/services/user.api';
-import { ref, reactive, onMounted } from 'vue';
+<script setup lang="ts">
+import { getCaptcha, signUp } from '@/services/auth.api';
+import { ref, reactive, onMounted, getCurrentInstance, computed, ComputedRef } from 'vue';
+const internalInstance = getCurrentInstance();
 const agree = ref(false);
 const state = reactive({
     captcha: '',
@@ -56,6 +58,7 @@ const state = reactive({
         captcha: '',
     }
 })
+//获取验证码
 const genCaptcha = async () => {
     await getCaptcha().then((res: any) => {
         if (res) {
@@ -63,8 +66,20 @@ const genCaptcha = async () => {
         }
     });
 }
+// 提交注册
+const submit = async () => {
+    const result: any = await signUp(state.commitInfo);
+    if (result.status === 200) {
+        internalInstance?.appContext.config.globalProperties.$message.success('success');
+        return
+    }
+    internalInstance?.appContext.config.globalProperties.$message.error('failure');
+}
 onMounted(() => {
     genCaptcha();
+})
+const haveNull: ComputedRef<boolean> = computed(() => {
+    return state.commitInfo.username !== '' && state.commitInfo.password !== '' && state.commitInfo.captcha !== ''
 })
 </script>
 
