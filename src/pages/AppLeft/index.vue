@@ -46,13 +46,11 @@
 import { reactive } from 'vue'
 import moment from "moment";
 import { useRoute, useRouter } from 'vue-router';
-moment.locale('zh-cn');
+moment.locale('zh-cn', {
+  weekdays: '星期天_星期一_星期二_星期三_星期四_星期五_星期六'.split('_')
+})
 const router = useRouter()
 const route = useRoute()
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-let state = reactive({
-  checkedPath: '/'
-});
 const leftList = [
   { key: 1, title: "主页", path: '/' },
   { key: 2, title: "纸飞机", path: '/paper-plane' },
