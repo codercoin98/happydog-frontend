@@ -18,17 +18,16 @@
           </div>
         </router-link>
       </li>
-      <li v-for="item in leftList" :key="item.title">
-        <router-link :to="item.path" @click="changeRouter(item.path)"
-          :class="state.checkedPath === item.path ? 'bg-purple-500 rounded-full text-white' : null"
-          class="flex justify-between w-52 items-center px-4 py-2 cursor-pointer text-black font-semibold hover:bg-purple-500 hover:rounded-full hover:text-white">
-          <icon-home v-if="item.key === 1" size="20"/>
-          <icon-send v-else-if="item.key === 2" size="20"/>
-          <icon-message v-else-if="item.key === 3" size="20"/>
-          <icon-settings v-else-if="item.key === 4" size="20"/>
-          {{ item.title }}
-          <icon-right />
-        </router-link>
+      <li v-for="item in leftList" :key="item.title"
+        :class="route.path === item.path ? 'bg-purple-500 rounded-full text-white' : null"
+        class="flex justify-between w-52 items-center px-4 py-2 cursor-pointer text-black font-semibold hover:bg-purple-500 hover:rounded-full hover:text-white"
+        @click="router.push({path:item.path}) ">
+        <icon-home v-if="item.key === 1" size="20" />
+        <icon-send v-else-if="item.key === 2" size="20" />
+        <icon-message v-else-if="item.key === 3" size="20" />
+        <icon-settings v-else-if="item.key === 4" size="20" />
+        {{ item.title }}
+        <icon-right />
       </li>
     </ul>
     <div class="absolute inset-x-0 bottom-0 h-20 w-40 flex flex-col justify-center items-center cursor-pointer">
@@ -44,26 +43,26 @@
 </template>
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
-import { computed, reactive } from 'vue'
+import { reactive } from 'vue'
 import moment from "moment";
+import { useRoute, useRouter } from 'vue-router';
 moment.locale('zh-cn');
+const router = useRouter()
+const route = useRoute()
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 let state = reactive({
-checkedPath: '/'
+  checkedPath: '/'
 });
 const leftList = [
-{ key: 1, title: "主页", path: '/' },
-{ key: 2, title: "纸飞机", path: '/paper-plane' },
-{ key: 3, title: "圈子", path: '/friends' },
-{ key: 4, title: "工具", path: '/funny-tools' },
+  { key: 1, title: "主页", path: '/' },
+  { key: 2, title: "纸飞机", path: '/paper-plane' },
+  { key: 3, title: "圈子", path: '/friends' },
+  { key: 4, title: "工具", path: '/funny-tools' },
 ];
-//监听左侧按钮点击
-const changeRouter = (path: string) => {
-state.checkedPath = path;
-}
 </script>
 
   
 <style scoped>
+
 </style>
   
