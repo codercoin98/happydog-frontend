@@ -1,5 +1,5 @@
 <template>
-    <div clas="container">
+    <div class="container h-full flex flex-col  items-center border rounded-lg">
         <p class="text-center my-10 text-lg">一些有趣的工具，Have fun !</p>
         <ul class="grid-container grid grid-cols-4 place-items-stretch space-x-4">
             <li v-for="item in tools" :key="item.title" @click="router.push({path:item.to})">

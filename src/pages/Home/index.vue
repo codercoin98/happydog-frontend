@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container h-full flex flex-col justify-center items-center border rounded-lg">
         Home
     </div>
 </template>
