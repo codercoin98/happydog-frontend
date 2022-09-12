@@ -30,7 +30,7 @@
         <icon-right />
       </li>
     </ul>
-    <div class="absolute inset-x-0 bottom-0 h-20 w-40 flex flex-col justify-center items-center cursor-pointer">
+    <div class="absolute inset-x-0 bottom-0 mx-auto h-20 w-40 flex flex-col justify-center items-center cursor-pointer">
       <a href="https://github.com/coderlcb" class="no-underline text-black align-middle">
         <a-space>
           <icon-github size="18" />Codercoin
@@ -43,7 +43,6 @@
 </template>
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
-import { reactive } from 'vue'
 import moment from "moment";
 import { useRoute, useRouter } from 'vue-router';
 moment.locale('zh-cn', {
