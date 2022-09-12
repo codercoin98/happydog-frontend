@@ -24,7 +24,8 @@
                 </a-form-item>
                 <a-form-item>
                     <div class="text-center w-full">
-                        <a-checkbox label="agree" v-model="agree">登录代表您同意<a href="#" class="underline">用户协议</a>
+                        <a-checkbox label="agree" v-model="agree">登录代表您同意<router-link to="/help" class="underline">用户协议
+                            </router-link>
                         </a-checkbox>
                     </div>
                 </a-form-item>

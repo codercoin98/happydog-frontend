@@ -92,6 +92,13 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
+"@tinymce/tinymce-vue@^4":
+  version "4.0.7"
+  resolved "https://repo.huaweicloud.com/repository/npm/@tinymce/tinymce-vue/-/tinymce-vue-4.0.7.tgz#811dd87a2a9f70e60c43c2d9d932771c0c8b4677"
+  integrity sha512-1esB8wGWrjPCY+rK8vy3QB1cxwXo7HLJWuNrcyPl6LOVR+QJjub0OiV/C+TUEsLN6OpCtRv+QnIqMC5vXz783Q==
+  dependencies:
+    tinymce "^5.5.0"
+
 "@types/node@^18.7.14":
   version "18.7.14"
   resolved "https://registry.npmmirror.com/@types/node/-/node-18.7.14.tgz"
@@ -1183,6 +1190,11 @@ tailwindcss@^3.1.8:
     postcss-value-parser "^4.2.0"
     quick-lru "^5.1.1"
     resolve "^1.22.1"
+
+tinymce@^5.5.0:
+  version "5.10.5"
+  resolved "https://repo.huaweicloud.com/repository/npm/tinymce/-/tinymce-5.10.5.tgz#02aef6a67e915f1559e51fa8fb007270d9666778"
+  integrity sha512-nFKtLhmoRtExBxUfv06JlkbQWux5D+d115vxSRAqUmccZdrtpFvOIYwZmikvulLdM9pfEpvO0B+RQ2qFV/+R7w==
 
 to-regex-range@^5.0.1:
   version "5.0.1"

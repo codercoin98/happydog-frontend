@@ -4,7 +4,9 @@ const Home = () => import('@/pages/Home/index.vue')
 const PaperPlane = () => import('@/pages/PaperPlane/index.vue')
 const Friends = () => import('@/pages/Friends/index.vue')
 const FunnyTools = () => import('@/pages/FunnyTools/index.vue')
+const Help = () => import('@/pages/Help/index.vue')
 const SearchBooks = () => import('@/pages/FunnyTools/components/SearchBooks/index.vue')
+
 import { RouteRecordRaw } from 'vue-router'
 //路由配置表
 const routes: RouteRecordRaw[] = [
@@ -31,7 +33,7 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'search-books',
     path: '/search-books',
-    component: SearchBooks ,
+    component: SearchBooks,
   },
   {
     name: 'sign_in',
@@ -42,6 +44,11 @@ const routes: RouteRecordRaw[] = [
     name: 'sign_up',
     path: '/sign-up',
     component: SignUp,
+  },
+  {
+    name: 'help',
+    path: '/help',
+    component: Help,
   },
 ]
 export default routes
