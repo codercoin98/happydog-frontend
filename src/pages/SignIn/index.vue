@@ -13,10 +13,14 @@
                 <a-form-item>
                     <div class="flex justify-between w-full">
                         <button html-type="submit"
-                            class="w-1/3 bg-purple-400 text-white border-none hover:bg-purple-500 focus:outline-none">登录</button>
-                        <button class="bg-gray-200 text-black hover:border-purple-400 focus:outline-none"
-                            @click="router.push({path:'/sign-up'})">没有账户？去注册</button>
+                            class="w-full bg-purple-400 text-white border-none hover:bg-purple-500 focus:outline-none">登录</button>
                     </div>
+                </a-form-item>
+                <a-form-item>
+                    <a class=" text-black hover:cursor-pointer hover:border-purple-400 focus:outline-none"
+                        @click="router.push({path:'/sign-up'})">没有账户？去注册
+                        <icon-double-right />
+                    </a>
                 </a-form-item>
                 <a-form-item>
                     <div class="text-center w-full">
@@ -27,14 +31,14 @@
             </a-form>
         </div>
         <div class="w-1/2 mx-auto py-4 items-center">
-            <a href="/" class="text-black hover:text-black">
-                <div class="text-center p-1 mb-2 border rounded-lg">
+            <a href="/" class="text-black hover:text-black ">
+                <div class="text-center p-1 mb-2 border rounded-lg hover:bg-gray-100">
                     <icon-github />
                     Github登录
                 </div>
             </a>
-            <a href="/" class="text-black hover:text-black">
-                <div class="text-center p-1 mb-2 border rounded-lg">
+            <a href="/" class="text-black hover:text-black ">
+                <div class="text-center p-1 mb-2 border rounded-lg hover:bg-gray-100">
                     <icon-wechat />
                     微信登录
                 </div>
