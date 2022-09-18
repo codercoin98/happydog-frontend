@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // 创建一个 axios 实例
-const service = axios.create();
+const service = axios.create()
 
 // 添加请求拦截器
 service.interceptors.request.use(
@@ -20,13 +20,8 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   function (response) {
     console.log(response)
-    // 2xx 范围内的状态码都会触发该函数。
-    // 对响应数据做点什么
-    // dataAxios 是 axios 返回数据中的 data
-    const dataAxios = response.data
-    // 这个状态码是和后端约定的
-    const code = dataAxios.reset
-    return dataAxios
+    //直接返回data，让所有请求直接消费数据
+    return response.data
   },
   function (error) {
     // 超出 2xx 范围的状态码都会触发该函数。

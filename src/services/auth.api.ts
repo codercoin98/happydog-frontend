@@ -1,7 +1,7 @@
 // 导入axios实例
 import httpRequest from '@/request/index'
 //注册
-export function signUp(info: USER.SignUpInfo) {
+export function signUp(info: USER_API.SignUpParams) {
   return httpRequest({
     url: '/api/auth/signup',
     method: 'post',

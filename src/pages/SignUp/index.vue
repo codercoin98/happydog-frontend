@@ -3,97 +3,171 @@
         <!--top-->
         <div class="w-1/2 mx-auto py-4 items-center">
             <div class="flex items-center justify-center font-bold text-xl text-purple-400 mb-4">
-                <icon-user-group size="40" />加入我们吧!
+                <n-icon size="30">
+                    <Users />
+                </n-icon>加入我们吧!
                 <p>已经有{{state.userNumber}}位成员</p>
             </div>
-            <icon-arrow-left size="24px"
-                class="inline-block cursor-pointer hover:text-purple-500 hover:bg-gray-100 hover:rounded-md"
-                @click="() => router.push({ path:'/sign-in'})" />
-
+            <n-icon size="24">
+                <ArrowLeft class="inline-block cursor-pointer hover:text-purple-500 hover:bg-gray-100 hover:rounded-md"
+                    @click="() => router.push({ path:'/sign-in'})" />
+            </n-icon>
         </div>
         <div class="card w-1/2 mx-auto py-4">
-            <a-form :model="state.commitInfo" :label-col-props="{span:0}" :wrapper-col-props="{span:24}"
-                @submit="submit">
-                <a-form-item field="username"
-                    :rules="[{required:true,message:'用户名不能为空！'},{minLength:6,message:'最小长度为6'},{maxLength:20,message:'最大长度为20'}]">
-                    <a-input v-model="state.commitInfo.username" placeholder="用户名" />
-                </a-form-item>
-                <a-form-item field="password"
-                    :rules="[{required:true,message:'密码不能为空！'},{minLength:8,message:'最小长度为8'},{maxLength:25,message:'最大长度为25'}]">
-                    <a-input type="password" v-model="state.commitInfo.password" placeholder="密码" autocomplete="off" />
-                </a-form-item>
-                <a-form-item field="rePassword"
-                    :rules="[{required:true,message:'重复密码不能为空！'},{match:new RegExp(`${state.commitInfo.password}`),message:'必须和上次输入的密码保持一致！'}]">
-                    <a-input type="password" v-model="state.commitInfo.rePassword" placeholder="重复密码"
-                        autocomplete="off" />
-                </a-form-item>
-                <a-form-item field="captcha">
+            <n-form ref="formRef" :model="state.formModel" :rules="rules">
+                <n-form-item path="username">
+                    <n-input v-model:value="state.formModel.username" placeholder="用户名" />
+                </n-form-item>
+                <n-form-item path="password">
+                    <n-input type="password" show-password-on="mousedown" v-model:value="state.formModel.password"
+                        placeholder="密码" />
+                </n-form-item>
+                <n-form-item path="rePassword">
+                    <n-input type="password" show-password-on="mousedown" v-model:value="state.formModel.rePassword"
+                        placeholder="重复密码" />
+                </n-form-item>
+                <n-form-item path="captcha">
                     <div class="flex flex-1">
-                        <a-input type="text" v-model="state.commitInfo.captcha" placeholder="验证码" />
-                        <span v-html="state.captcha" @click="genCaptcha"></span>
+                        <n-input type="text" v-model:value="state.formModel.captcha" placeholder="验证码" />
+                        <span v-html="state.captcha" @click="refreshCaptcha"></span>
                     </div>
-                </a-form-item>
-                <a-form-item>
-                    <button html-type="submit" class="w-full  text-white border-none  focus:outline-none"
+                </n-form-item>
+                <n-form-item>
+                    <button @click="submit" class="w-full  text-white border-none  focus:outline-none"
                         :disabled="!noNull"
                         :class="{'bg-purple-400 hover:bg-purple-500': noNull,' bg-gray-400  hover:cursor-not-allowed': !noNull}">注册
                     </button>
-                </a-form-item>
-                <a-form-item>
+                </n-form-item>
+                <n-form-item>
                     <div class="text-center w-full">
-                        <a-checkbox label="agree" v-model="agree">注册代表您同意<a href="#" class="underline w-">用户协议</a>
-                        </a-checkbox>
+                        <n-checkbox v-model:checked="agree">注册代表您同意<a href="#" class="underline w-">用户协议</a>
+                        </n-checkbox>
                     </div>
-                </a-form-item>
-            </a-form>
+                </n-form-item>
+            </n-form>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { ref, reactive, onMounted, computed, ComputedRef } from 'vue';
+import { useRouter } from 'vue-router';
 import { getCaptcha, signUp } from '@/services/auth.api';
 import { getAllUser } from '@/services/user.api';
-import { ref, reactive, onMounted, getCurrentInstance, computed, ComputedRef } from 'vue';
-import { useRouter } from 'vue-router';
+import { Users, ArrowLeft } from '@vicons/fa'
+import { FormInst, FormItemRule, FormRules, useMessage } from 'naive-ui';
 const router = useRouter()
-const internalInstance = getCurrentInstance();
-const agree = ref(false);
-const state = reactive({
+const message = useMessage()
+const formRef = ref<FormInst | null>(null)
+const agree = ref<boolean>(false);
+const state = reactive<SIGN_IN.State>({
     userNumber: 0,
     captcha: '',
-    commitInfo: {
+    formModel: {
         username: '',
         password: '',
         rePassword: '',
         captcha: '',
     }
 })
-//获取验证码
-const genCaptcha = async () => {
-    await getCaptcha().then((res: any) => {
+//表单规则
+const rules: FormRules = {
+    username: [
+        {
+            required: true,
+            validator(rule: FormItemRule, value: string) {
+                if (!value) {
+                    return new Error('用户名不能为空！这是你独特的标志！')
+                } else if (value.length < 8) {
+                    return new Error('长度不能小于8个字符！')
+                } else if (value.length > 18) {
+                    return new Error('长度不能大于18个字符！')
+                }
+                return true
+            },
+            trigger: ['input', 'blur']
+        }
+    ],
+    password: [
+        {
+            required: true,
+            validator(rule: FormItemRule, value: string) {
+                if (!value) {
+                    return new Error('密码不能为空！这是你独特的标志！')
+                } else if (value.length < 10) {
+                    return new Error('长度不能小于10个字符！')
+                } else if (value.length > 18) {
+                    return new Error('长度不能大于18个字符！')
+                }
+                return true
+            },
+            trigger: ['input', 'blur']
+        }
+    ],
+    rePassword: [
+        {
+            required: true,
+            validator(rule: FormItemRule, value: string) {
+                if (value !== state.formModel.password) {
+                    return new Error('请保持密码一致，正如坚持自己的初心！')
+                }
+                return true
+            },
+            trigger: ['input', 'blur']
+        }
+    ],
+    captcha: [
+        {
+            required: true,
+            validator(rule: FormItemRule, value: string) {
+                if (value.length !== 4) {
+                    return new Error('验证码只有4位')
+                }
+                return true
+            },
+            trigger: ['input', 'blur']
+        }
+    ]
+}
+const refreshCaptcha = () => {
+    getCaptcha().then((res: string) => {
         if (res) {
             state.captcha = res;
         }
-    });
+    })
+}
+//初始化界面信息
+const init = () => {
+    Promise.all([getCaptcha(), getAllUser()]).then((values) => {
+        state.captcha = values[0];
+        state.userNumber = values[1].length;
+    })
 }
 // 提交注册
 const submit = async () => {
-    const result: any = await signUp(state.commitInfo);
-    if (result.status === 200) {
-        internalInstance?.appContext.config.globalProperties.$message.success('success');
-        return
-    }
-    internalInstance?.appContext.config.globalProperties.$message.error('failure');
-}
-onMounted(() => {
-    genCaptcha();
-    getAllUser().then(res => {
-        console.log(res);
-        state.userNumber = res.length;
+    formRef.value?.validate(async errors => {
+        if (!errors) {
+            const commitInfo = {
+                username: state.formModel.username!,
+                password: state.formModel.password!,
+                captcha: state.formModel.captcha!,
+            }
+            const result: any = await signUp(commitInfo);
+            if (result.status === 200) {
+                message.success('注册成功！欢迎加入我们！')
+                router.push('/home');
+                return
+            }
+            message.error('抱歉，出了一点问题~')
+        }
     })
+
+}
+onMounted(async () => {
+    init();
 })
 const noNull: ComputedRef<boolean> = computed(() => {
-    return state.commitInfo.username !== '' && state.commitInfo.password !== '' && state.commitInfo.captcha !== '' && agree.value === true
+    return state.formModel.username !== '' && state.formModel.password !== '' && state.formModel.captcha !== '' && agree.value === true
 })
 </script>
 

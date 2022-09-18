@@ -1,46 +1,52 @@
 <template>
     <div class="container h-full flex flex-col justify-center items-center border rounded-lg">
         <div class="card w-1/2 mx-auto py-4">
-            <a-form :model="userInfo" :label-col-props="{span:0}" :wrapper-col-props="{span:24}" @submit="submit">
-                <a-form-item field="username"
-                    :rules="[{required:true,message:'用户名不能为空！'},{minLength:6,message:'最小长度为6'},{maxLength:20,message:'最大长度为20'}]">
-                    <a-input v-model="userInfo.username" placeholder="用户名" />
-                </a-form-item>
-                <a-form-item field="password"
-                    :rules="[{required:true,message:'密码不能为空！'},{minLength:8,message:'最小长度为8'},{maxLength:25,message:'最大长度为25'}]">
-                    <a-input type="password" v-model="userInfo.password" placeholder="密码" autocomplete="off" />
-                </a-form-item>
-                <a-form-item>
+            <n-form ref="formRef" :model="authInfo" :rules="rules">
+                <n-form-item path="username">
+                    <n-input v-model:value="authInfo.username" placeholder="用户名" />
+                </n-form-item>
+                <n-form-item path="password">
+                    <n-input type="password" show-password-on="mousedown" v-model:value="authInfo.password"
+                        placeholder="密码" />
+                </n-form-item>
+                <n-form-item>
                     <div class="flex justify-between w-full">
-                        <button html-type="submit"
+                        <button :disabled="authInfo.username === null && authInfo.password === null" @click="submit"
                             class="w-full bg-purple-400 text-white border-none hover:bg-purple-500 focus:outline-none">登录</button>
                     </div>
-                </a-form-item>
-                <a-form-item>
+                </n-form-item>
+                <n-form-item>
                     <a class=" text-black hover:cursor-pointer hover:border-purple-400 focus:outline-none"
                         @click="router.push({path:'/sign-up'})">没有账户？去注册
-                        <icon-double-right />
+                        <n-icon>
+                            <ArrowRight />
+                        </n-icon>
                     </a>
-                </a-form-item>
-                <a-form-item>
+                </n-form-item>
+                <n-form-item>
                     <div class="text-center w-full">
-                        <a-checkbox label="agree" v-model="agree">登录代表您同意<router-link to="/help" class="underline">用户协议
+                        <n-checkbox v-model:checked="agree" class="checked:bg-purple-400">登录代表您同意
+                            <router-link to="/help" class="underline">用户协议
                             </router-link>
-                        </a-checkbox>
+                        </n-checkbox>
                     </div>
-                </a-form-item>
-            </a-form>
+                </n-form-item>
+            </n-form>
         </div>
         <div class="w-1/2 mx-auto py-4 items-center">
             <a href="/" class="text-black hover:text-black ">
                 <div class="text-center p-1 mb-2 border rounded-lg hover:bg-gray-100">
-                    <icon-github />
+                    <n-icon>
+                        <Github />
+                    </n-icon>
                     Github登录
                 </div>
             </a>
             <a href="/" class="text-black hover:text-black ">
                 <div class="text-center p-1 mb-2 border rounded-lg hover:bg-gray-100">
-                    <icon-wechat />
+                    <n-icon>
+                        <Weixin />
+                    </n-icon>
                     微信登录
                 </div>
             </a>
@@ -49,21 +55,64 @@
     </div>
 </template>
 <script setup lang="ts">
-import { getCurrentInstance, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import {
+    FormInst,
+    FormRules,
+    useMessage,
+} from 'naive-ui'
+import { Github, Weixin, ArrowRight } from '@vicons/fa'
 const router = useRouter()
-const internalInstance = getCurrentInstance();
+const formRef = ref<FormInst | null>(null)
 const agree = ref(false)
-const userInfo = reactive({
+const message = useMessage()
+interface Form {
+    username: string | null;
+    password: string | null;
+}
+const authInfo = reactive<Form>({
     username: '',
     password: ''
 })
+//表单规则
+const rules: FormRules = {
+    username: [
+        {
+            required: true,
+            validator(rule, value: string) {
+                if (!value) {
+                    return new Error('用户名不能为空！这是你独特的标志！')
+                } else if (value.length < 8) {
+                    return new Error('长度不能小于8个字符！')
+                } else if (value.length > 18) {
+                    return new Error('长度不能大于18个字符！')
+                }
+                return true
+            },
+            trigger: ['input', 'blur']
+        },
+    ],
+    password: [
+        {
+            required: true,
+            message: '密码不能为空，就像每个人都需要秘密！',
+        }
+    ],
+}
 //登录
-const submit = () => {
-    if (userInfo.username !== '' && userInfo.password !== '' && agree.value === true) {
-        internalInstance?.appContext.config.globalProperties.$message.success('success');
-    }
-    internalInstance?.appContext.config.globalProperties.$message.error('failure');
+const submit = (e: MouseEvent) => {
+    formRef.value?.validate(errors => {
+        console.log(errors);
+        if (!errors) {
+            if (agree.value === false) {
+                message.warning('请勾选用户协议，你可以把这看作是一个象征性的流程。');
+                return
+            }
+            message.success('校验成功！')
+        }
+
+    })
     return
 }
 </script>
