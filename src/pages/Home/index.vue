@@ -1,6 +1,6 @@
 <template>
     <div class="container h-full flex flex-col">
-        <div class="p-2 border rounded-lg">
+        <div class="px-4 py-2 border rounded-lg">
             <Editor />
         </div>
 
