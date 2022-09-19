@@ -23,8 +23,8 @@
                         placeholder="密码" />
                 </n-form-item>
                 <n-form-item path="rePassword">
-                    <n-input type="password" show-password-on="mousedown" v-model:value="state.formModel.rePassword"
-                        placeholder="重复密码" />
+                    <n-input type="password" show-password-on="mousedown" :disabled="state.formModel.password === '' "
+                        v-model:value="state.formModel.rePassword" placeholder="重复密码" />
                 </n-form-item>
                 <n-form-item path="captcha">
                     <div class="flex flex-1">
@@ -93,7 +93,7 @@ const rules: FormRules = {
             required: true,
             validator(rule: FormItemRule, value: string) {
                 if (!value) {
-                    return new Error('密码不能为空！这是你独特的标志！')
+                    return new Error('密码不能为空，就像每个人都需要秘密！')
                 } else if (value.length < 10) {
                     return new Error('长度不能小于10个字符！')
                 } else if (value.length > 18) {

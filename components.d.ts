@@ -7,19 +7,8 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AAvatar: typeof import('@arco-design/web-vue')['Avatar']
-    AButton: typeof import('@arco-design/web-vue')['Button']
-    ACheckbox: typeof import('@arco-design/web-vue')['Checkbox']
-    AForm: typeof import('@arco-design/web-vue')['Form']
-    AFormItem: typeof import('@arco-design/web-vue')['FormItem']
-    AInput: typeof import('@arco-design/web-vue')['Input']
-    AOption: typeof import('@arco-design/web-vue')['Option']
-    ASelect: typeof import('@arco-design/web-vue')['Select']
-    ASpace: typeof import('@arco-design/web-vue')['Space']
     NAvatar: typeof import('naive-ui')['NAvatar']
-    NButton: typeof import('naive-ui')['NButton']
     NCheckbox: typeof import('naive-ui')['NCheckbox']
-    NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NForm: typeof import('naive-ui')['NForm']
     NFormItem: typeof import('naive-ui')['NFormItem']
     NIcon: typeof import('naive-ui')['NIcon']
