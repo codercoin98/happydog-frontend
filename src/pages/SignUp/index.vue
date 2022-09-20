@@ -130,17 +130,17 @@ const rules: FormRules = {
     ]
 }
 const refreshCaptcha = () => {
-    getCaptcha().then((res: string) => {
-        if (res) {
-            state.captcha = res;
+    getCaptcha().then(({data}) => {
+        if (data) {
+            state.captcha = data;
         }
     })
 }
 //初始化界面信息
 const init = () => {
     Promise.all([getCaptcha(), getAllUser()]).then((values) => {
-        state.captcha = values[0];
-        state.userNumber = values[1].length;
+        state.captcha = values[0].data;
+        state.userNumber = values[1].data.length;
     })
 }
 // 提交注册

@@ -1,6 +1,6 @@
 import { IToolbarConfig, IEditorConfig } from '@wangeditor/editor'
 import { ImageElement, InsertFnType } from './types'
-import { useLoadingBar, useMessage } from 'naive-ui'
+import { useMessage } from 'naive-ui'
 import { uploadImage } from '@/services/upload.api'
 const message = useMessage()
 //工具栏配置
@@ -80,12 +80,11 @@ editorConfig.MENU_CONF!['uploadImage'] = {
     const form = new FormData()
     form.set('file', file)
     uploadImage(form)
-      .then(({ status, url, alt, href }) => {
-        console.log(status)
-        if (status === 200) {
+      .then(({ data }) => {
+        if (data.status == 201) {
           message.success('上传成功！')
           //上传成功
-          insertFn(url, alt, href)
+          insertFn(data.url, data.alt, data.href)
         }
       })
       .catch(() => {
