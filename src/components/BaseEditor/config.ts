@@ -1,7 +1,7 @@
 import { IToolbarConfig, IEditorConfig } from '@wangeditor/editor'
-import { ImageElement } from './types'
+import { ImageElement, InsertFnType } from './types'
 import { useLoadingBar, useMessage } from 'naive-ui'
-const loadingBar = useLoadingBar()
+import { uploadImage } from '@/services/upload.api'
 const message = useMessage()
 //工具栏配置
 export const toolbarConfig: Partial<IToolbarConfig> = {
@@ -73,35 +73,23 @@ editorConfig.MENU_CONF!['editImage'] = {
   parseImageSrc: customParseImageSrc, // 也支持 async 函数
 }
 editorConfig.MENU_CONF!['uploadImage'] = {
-  server: '/api/uploadImage',
-  meta: {
-    token: '',
-  },
-  fieldName: 'image',
-  maxFileSize: 1 * 1024 * 1024,
-  maxNumberOfFiles: 9,
-  allowedFileTypes: ['image/*'],
-  timeout: 5000,
-  onProgress(progress: number) {
-    console.log('progress', progress)
-    loadingBar.start()
-  },
-  // 单个文件上传成功之后
-  onSuccess(file: File, res: any) {
-    console.log(`${file.name} 上传成功`, res)
-    loadingBar.finish()
-    message.success('上传成功！')
-  },
-  // 单个文件上传失败
-  onFailed(file: File, res: any) {
-    console.log(`${file.name} 上传失败`, res)
-    loadingBar.error()
-    message.error('上传失败！')
-  },
-  // 上传错误，或者触发 timeout 超时
-  onError(file: File, err: any, res: any) {
-    console.log(`${file.name} 上传出错`, err, res)
-    loadingBar.error()
-    message.error('上传失败！')
+  // 自定义上传
+  async customUpload(file: File, insertFn: InsertFnType) {
+    // 自己实现上传，并得到图片 url alt href
+    console.log(file)
+    const form = new FormData()
+    form.set('file', file)
+    uploadImage(form)
+      .then(({ status, url, alt, href }) => {
+        console.log(status)
+        if (status === 200) {
+          message.success('上传成功！')
+          //上传成功
+          insertFn(url, alt, href)
+        }
+      })
+      .catch(() => {
+        message.success('上传失败！')
+      })
   },
 }
