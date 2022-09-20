@@ -5,7 +5,7 @@ const PaperPlane = () => import('@/pages/PaperPlane/index.vue')
 const Friends = () => import('@/pages/Friends/index.vue')
 const FunnyTools = () => import('@/pages/FunnyTools/index.vue')
 const Help = () => import('@/pages/Help/index.vue')
-
+const Create = () => import('@/pages/Create/index.vue')
 import { RouteRecordRaw } from 'vue-router'
 //路由配置表
 const routes: RouteRecordRaw[] = [
@@ -44,5 +44,10 @@ const routes: RouteRecordRaw[] = [
     path: '/help',
     component: Help,
   },
+  {
+    name:'create',
+    path:'/create',
+    component: Create,
+  }
 ]
 export default routes
