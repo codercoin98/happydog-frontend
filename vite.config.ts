@@ -16,13 +16,6 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
-      '/google': {
-        target: 'https://www.googleapis.com/',
-        timeout: 5000,
-        secure: false,
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/google/, ''),
-      },
     },
   },
   plugins: [
