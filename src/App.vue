@@ -1,13 +1,16 @@
 <template>
   <n-config-provider :theme-overrides="themeOverrides" class="m-0">
-    <n-message-provider>
-      <div class="lg:container lg:mx-auto lg:w-2/3 flex min-h-screen">
-        <AppLeft />
-        <div class="flex-1 py-3 px-10 overflow-hidden ">
-          <router-view />
+    <n-loading-bar-provider>
+      <n-message-provider>
+        <div class="lg:container lg:mx-auto lg:w-2/3 flex min-h-screen">
+          <AppLeft />
+          <div class="flex-1 py-3 px-10 overflow-hidden ">
+            <router-view />
+          </div>
         </div>
-      </div>
-    </n-message-provider>
+      </n-message-provider>
+    </n-loading-bar-provider>
+
 
   </n-config-provider>
 
