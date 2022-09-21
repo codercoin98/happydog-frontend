@@ -9,9 +9,6 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BaseEditor: typeof import('./src/components/BaseEditor/index.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
-    NCheckbox: typeof import('naive-ui')['NCheckbox']
-    NForm: typeof import('naive-ui')['NForm']
-    NFormItem: typeof import('naive-ui')['NFormItem']
     NIcon: typeof import('naive-ui')['NIcon']
     NInput: typeof import('naive-ui')['NInput']
     NList: typeof import('naive-ui')['NList']
