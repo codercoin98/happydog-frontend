@@ -9,6 +9,9 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BaseEditor: typeof import('./src/components/BaseEditor/index.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
+    NCheckbox: typeof import('naive-ui')['NCheckbox']
+    NForm: typeof import('naive-ui')['NForm']
+    NFormItem: typeof import('naive-ui')['NFormItem']
     NIcon: typeof import('naive-ui')['NIcon']
     NInput: typeof import('naive-ui')['NInput']
     NList: typeof import('naive-ui')['NList']
@@ -16,6 +19,7 @@ declare module '@vue/runtime-core' {
     NLoadingBarProvider: typeof import('naive-ui')['NLoadingBarProvider']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NSpace: typeof import('naive-ui')['NSpace']
+    NSpin: typeof import('naive-ui')['NSpin']
     NTab: typeof import('naive-ui')['NTab']
     NTabs: typeof import('naive-ui')['NTabs']
     RouterLink: typeof import('vue-router')['RouterLink']

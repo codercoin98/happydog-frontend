@@ -1,4 +1,8 @@
 declare namespace USER_API {
+  interface SignInParams {
+    username: string
+    password: string
+  }
   interface SignUpParams {
     username: string
     password: string

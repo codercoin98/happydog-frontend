@@ -6,13 +6,16 @@
                     <n-input v-model:value="authInfo.username" placeholder="用户名" />
                 </n-form-item>
                 <n-form-item path="password">
-                    <n-input type="password" show-password-on="mousedown" v-model:value="authInfo.password"
+                    <n-input type="password" show-password-on="mousedown" autocomplete v-model:value="authInfo.password"
                         placeholder="密码" />
                 </n-form-item>
                 <n-form-item>
                     <div class="flex justify-between w-full">
-                        <button :disabled="authInfo.username === null && authInfo.password === null" @click="submit"
-                            class="w-full bg-purple-400 text-white border-none hover:bg-purple-500 focus:outline-none">登录</button>
+                        <n-spin :show="loading" class="w-full">
+                            <button :disabled="authInfo.username === null && authInfo.password === null" @click="submit"
+                                class="w-full bg-purple-400 text-white border-none hover:bg-purple-500 focus:outline-none">登录</button>
+                        </n-spin>
+
                     </div>
                 </n-form-item>
                 <n-form-item>
@@ -63,13 +66,15 @@ import {
     useMessage,
 } from 'naive-ui'
 import { Github, Weixin, ArrowRight } from '@vicons/fa'
+import { signin } from '@/services/auth.api';
 const router = useRouter()
 const formRef = ref<FormInst | null>(null)
 const agree = ref(false)
+const loading = ref(false)
 const message = useMessage()
 interface Form {
-    username: string | null;
-    password: string | null;
+    username: string;
+    password: string;
 }
 const authInfo = reactive<Form>({
     username: '',
@@ -102,18 +107,28 @@ const rules: FormRules = {
 }
 //登录
 const submit = (e: MouseEvent) => {
-    formRef.value?.validate(errors => {
-        console.log(errors);
+
+    formRef.value?.validate(async errors => {
         if (!errors) {
             if (agree.value === false) {
                 message.warning('请勾选用户协议，你可以把这看作是一个象征性的流程。');
                 return
             }
-            message.success('校验成功！')
+            loading.value = true
+            await signin(authInfo).then(({ data }) => {
+                if (data.access_token) {
+                    localStorage.setItem('token', data.access_token);
+                    message.success('登录成功');
+                    loading.value = false
+                    router.push('/')
+                    return
+                }
+                message.success('失败');
+                loading.value = false
+            })
         }
 
     })
-    return
 }
 </script>
 <style scoped>

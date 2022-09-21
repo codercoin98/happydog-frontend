@@ -33,10 +33,13 @@
                     </div>
                 </n-form-item>
                 <n-form-item>
-                    <button @click="submit" class="w-full  text-white border-none  focus:outline-none"
-                        :disabled="!noNull"
-                        :class="{'bg-purple-400 hover:bg-purple-500': noNull,' bg-gray-400  hover:cursor-not-allowed': !noNull}">注册
-                    </button>
+                    <n-spin :show="loading" class="w-full">
+                        <button @click="submit" class="w-full  text-white border-none  focus:outline-none"
+                            :disabled="!noNull"
+                            :class="{'bg-purple-400 hover:bg-purple-500': noNull,' bg-gray-400  hover:cursor-not-allowed': !noNull}">注册
+                        </button>
+                    </n-spin>
+
                 </n-form-item>
                 <n-form-item>
                     <div class="text-center w-full">
@@ -60,6 +63,7 @@ const router = useRouter()
 const message = useMessage()
 const formRef = ref<FormInst | null>(null)
 const agree = ref<boolean>(false);
+const loading = ref<boolean>(false);
 const state = reactive<SIGN_IN.State>({
     userNumber: 0,
     captcha: '',
@@ -130,7 +134,7 @@ const rules: FormRules = {
     ]
 }
 const refreshCaptcha = () => {
-    getCaptcha().then(({data}) => {
+    getCaptcha().then(({ data }) => {
         if (data) {
             state.captcha = data;
         }
@@ -152,13 +156,26 @@ const submit = async () => {
                 password: state.formModel.password!,
                 captcha: state.formModel.captcha!,
             }
-            const result: any = await signUp(commitInfo);
-            if (result.status === 200) {
+            loading.value = true
+            const { data } = await signUp(commitInfo);
+            if (data.status === 200) {
                 message.success('注册成功！欢迎加入我们！')
-                router.push('/home');
+                router.push('/');
+                loading.value = false
+                return
+            } else if (data.status === 777) {
+                message.error('验证码错误！')
+                loading.value = false
+                return
+            } else if (data.status === 400) {
+                message.warning('用户名已存在！')
+                loading.value = false
+                return
+            } else if (data.status === 500) {
+                message.error('服务端错误！')
+                loading.value = false
                 return
             }
-            message.error('抱歉，出了一点问题~')
         }
     })
 

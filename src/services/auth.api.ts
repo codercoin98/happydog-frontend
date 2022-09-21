@@ -1,6 +1,17 @@
 // 导入axios实例
 import httpRequest from '@/request/index'
 //注册
+export function signin(info: USER_API.SignInParams) {
+  return httpRequest({
+    url: '/api/auth/signin',
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: info,
+  })
+}
+//注册
 export function signUp(info: USER_API.SignUpParams) {
   return httpRequest({
     url: '/api/auth/signup',
