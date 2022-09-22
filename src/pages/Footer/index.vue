@@ -1,0 +1,57 @@
+<template>
+    <div class="flex flex-col pt-3 ">
+        <div class="mb-2">
+            <n-input round placeholder="搜索">
+                <template #prefix>
+                    <n-icon>
+                        <Search />
+                    </n-icon>
+                </template>
+            </n-input>
+        </div>
+        <div class="flex flex-col p-2 border rounded-lg mb-2">
+            <n-list>
+                <template #header>
+                    <div class="font-semibold">当前热帖：</div>
+                </template>
+                <n-list-item v-for="(item,index) in hot_post">
+                    <template #prefix>
+                        {{index+1}}.
+                    </template>
+                    {{item}}
+                </n-list-item>
+            </n-list>
+        </div>
+        <div class=" border rounded-lg p-2 flex flex-col justify-center items-center cursor-pointer mb-2">
+            <a href="https://github.com/coderlcb" class="no-underline text-black">
+                <n-space class="flex items-center">
+                    <n-icon size="20">
+                        <Github />
+                    </n-icon>
+                    Codercoin
+                </n-space>
+            </a>
+            <div class="mt-2">{{ moment().format('dddd') }}</div>
+        </div>
+        <div class="flex justify-center">
+            <router-link to="/help" class="text-gray-400 hover:text-gray-500">关于本站</router-link>·<router-link to="#"
+                class="text-gray-400 hover:text-gray-500">用户协议</router-link>·<router-link to="#"
+                class="text-gray-400 hover:text-gray-500">联系方式</router-link>
+        </div>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { Github, Search } from '@vicons/fa'
+import moment from "moment";
+moment.locale('zh-cn', {
+    weekdays: '星期天_星期一_星期二_星期三_星期四_星期五_星期六'.split('_')
+})
+const hot_post: string[] = [
+    'test', 'test', 'test', 'test', 'test', 'test'
+]
+</script>
+
+<style scoped>
+
+</style>

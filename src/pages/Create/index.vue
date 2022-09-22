@@ -1,6 +1,6 @@
 <template>
     <div class="space-y-2">
-        <div class="flex justify-between items-center p-2">
+        <div class="flex justify-between items-center">
             <span
                 class="flex items-center justify-center p-1 rounded hover:cursor-pointer hover:bg-gray-200  hover:text-purple-400"
                 @click="router.back()">

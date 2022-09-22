@@ -67,6 +67,8 @@ import {
 } from 'naive-ui'
 import { Github, Weixin, ArrowRight } from '@vicons/fa'
 import { signin } from '@/services/auth.api';
+import { useUserStore } from '@/store';
+const userStore = useUserStore()
 const router = useRouter()
 const formRef = ref<FormInst | null>(null)
 const agree = ref(false)
@@ -117,7 +119,10 @@ const submit = (e: MouseEvent) => {
             loading.value = true
             await signin(authInfo).then(({ data }) => {
                 if (data.access_token) {
+                    //持久化
                     localStorage.setItem('token', data.access_token);
+                    //保存到pinia
+                    userStore.access_token = data.access_token;
                     message.success('登录成功');
                     loading.value = false
                     router.push('/')

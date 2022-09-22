@@ -1,33 +1,34 @@
 const SignIn = () => import('@/pages/SignIn/index.vue')
 const SignUp = () => import('@/pages/SignUp/index.vue')
 const Home = () => import('@/pages/Home/index.vue')
-const PaperPlane = () => import('@/pages/PaperPlane/index.vue')
-const Friends = () => import('@/pages/Friends/index.vue')
-const FunnyTools = () => import('@/pages/FunnyTools/index.vue')
+const Games = () => import('@/pages/Games/index.vue')
+const Forums = () => import('@/pages/Forums/index.vue')
+const Profile = () => import('@/pages/Profile/index.vue')
 const Help = () => import('@/pages/Help/index.vue')
 const Create = () => import('@/pages/Create/index.vue')
+import { useUserStore } from '@/store'
 import { RouteRecordRaw } from 'vue-router'
 //路由配置表
 const routes: RouteRecordRaw[] = [
   {
     name: 'home',
-    path: '/',
+    path: '/home',
     component: Home,
   },
   {
-    name: 'paper-plane',
-    path: '/paper-plane',
-    component: PaperPlane,
+    name: 'games',
+    path: '/games',
+    component: Games,
   },
   {
-    name: 'friends',
-    path: '/friends',
-    component: Friends,
+    name: 'forums',
+    path: '/forums',
+    component: Forums,
   },
   {
-    name: 'funny-tools',
-    path: '/funny-tools',
-    component: FunnyTools,
+    name: 'profile',
+    path: '/profile',
+    component: Profile,
   },
   {
     name: 'sign_in',
@@ -45,9 +46,20 @@ const routes: RouteRecordRaw[] = [
     component: Help,
   },
   {
-    name:'create',
-    path:'/create',
+    name: 'create',
+    path: '/create',
     component: Create,
-  }
+    beforeEnter: (to, from): boolean => {
+      const userStore = useUserStore()
+      if (userStore.access_token === '') {
+        return false
+      }
+      return true
+    },
+  },
+  {
+    path: '/',
+    redirect: '/home',
+  },
 ]
 export default routes
