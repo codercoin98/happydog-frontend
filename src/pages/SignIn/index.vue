@@ -60,14 +60,16 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { signin } from '@/services/auth.api';
+import { useUserStore } from '@/store';
+import jwt_decode from 'jwt-decode';
 import {
     FormInst,
     FormRules,
     useMessage,
 } from 'naive-ui'
 import { Github, Weixin, ArrowRight } from '@vicons/fa'
-import { signin } from '@/services/auth.api';
-import { useUserStore } from '@/store';
+import { Token } from './types';
 const userStore = useUserStore()
 const router = useRouter()
 const formRef = ref<FormInst | null>(null)
@@ -119,10 +121,12 @@ const submit = (e: MouseEvent) => {
             loading.value = true
             await signin(authInfo).then(({ data }) => {
                 if (data.access_token) {
+                    const decode: Token = jwt_decode(data.access_token)
                     //持久化
                     localStorage.setItem('token', data.access_token);
-                    //保存到pinia
+                    //保存token,username到pinia
                     userStore.access_token = data.access_token;
+                    userStore.username = decode.username;
                     message.success('登录成功');
                     loading.value = false
                     router.push('/')

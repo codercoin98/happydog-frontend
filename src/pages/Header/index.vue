@@ -46,7 +46,7 @@
           class="absolute inset-x-0 bottom-3 mx-auto px-4 py-2 flex justify-between items-center cursor-pointer hover:bg-gray-200 hover:rounded-lg">
           <div class="flex items-center">
             <n-avatar size="large" src="http://124.220.47.26:7777/images/dog.jpg" />
-            <span class="ml-2">用户名</span>
+            <span class="ml-2">{{getUsername()}}</span>
           </div>
           <n-icon>
             <EllipsisH />
@@ -55,7 +55,7 @@
       </template>
       <ul class="space-y-2">
         <li class="flex justify-center p-2">
-          <n-switch v-model:value="active" size="large">
+          <n-switch size="large" unchecked-value="light" checked-value="dark" :on-update:value="onModeSelect">
             <template #checked-icon>
               <n-icon color="#1F2937">
                 <Moon />
@@ -76,7 +76,6 @@
         </li>
       </ul>
     </n-popover>
-
   </header>
 
 </template>
@@ -84,9 +83,10 @@
 // This starter template is using Vue 3 <script setup> SFCs
 import { useUserStore } from '@/store';
 import { useRoute, useRouter } from 'vue-router';
-import type { Component } from 'vue'
-import { NIcon } from 'naive-ui'
-import { Github, Home, Gamepad, FacebookMessenger, User, ChevronRight, EllipsisH, PowerOff, Sun, Moon } from '@vicons/fa'
+import jwt_decode from 'jwt-decode';
+import { NIcon, useMessage } from 'naive-ui'
+import { Home, Gamepad, FacebookMessenger, User, ChevronRight, EllipsisH, PowerOff, Sun, Moon } from '@vicons/fa'
+import { Token } from '../SignIn/types';
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
@@ -97,6 +97,17 @@ const leftList = [
   { key: 3, title: "讨论", path: '/forums' },
   { key: 4, title: "个人", path: '/profile' },
 ];
+const getUsername = () => {
+  if (userStore.getToken !== '') {
+    const decode: Token = jwt_decode(userStore.getToken)
+    return decode.username
+  }
+}
+//主题切换
+const onModeSelect = (value: string): void => {
+  message.info(value)
+}
+//退出登录
 const logout = (): void => {
   localStorage.removeItem('token');
   message.success('注销成功！')

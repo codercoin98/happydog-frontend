@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 const useUserStore = defineStore('user', {
   state: () => ({
     access_token: '',
+    username: ''
   }),
   getters: {
     //获取token，先检查pinia中的token，再检查本地的token

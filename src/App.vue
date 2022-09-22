@@ -3,7 +3,6 @@
     <n-loading-bar-provider>
       <n-message-provider>
         <div class="lg:container lg:mx-auto lg:w-2/3 flex min-h-screen">
-
           <div class="flex-1 grid grid-flow-col grid-cols-5 gap-6">
             <Header />
             <div class="col-span-3 pt-3">
@@ -22,7 +21,6 @@
 import Header from './pages/Header/index.vue'
 import { NConfigProvider, GlobalThemeOverrides } from 'naive-ui'
 import Footer from './pages/Footer/index.vue';
-
 const themeOverrides: GlobalThemeOverrides = {
   common: {
     primaryColor: '#8a2be2'

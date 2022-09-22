@@ -13,14 +13,14 @@
                     最新
                 </n-tab>
             </n-tabs>
-           
+
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
-const router = useRouter();
+import { useUserStore } from '@/store';
+const userStore = useUserStore();
 const onChange = (value: string) => {
     console.log(value);
 
