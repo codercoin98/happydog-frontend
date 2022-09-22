@@ -40,37 +40,74 @@
           @click="router.push('/create')">发帖子</button>
       </li>
     </ul>
-    <div
-      class="absolute inset-x-0 bottom-3 mx-auto px-4 py-2 flex justify-between items-center cursor-pointer hover:bg-gray-200 hover:rounded-lg">
-      <div class="flex items-center">
-        <n-avatar size="large" src="http://124.220.47.26:7777/images/dog.jpg" />
-        <span class="ml-2">用户名</span>
-      </div>
-      <n-icon>
-        <EllipsisH />
-      </n-icon>
-    </div>
+    <n-popover v-if="userStore.getToken !== '' " width="trigger" trigger="click">
+      <template #trigger>
+        <div
+          class="absolute inset-x-0 bottom-3 mx-auto px-4 py-2 flex justify-between items-center cursor-pointer hover:bg-gray-200 hover:rounded-lg">
+          <div class="flex items-center">
+            <n-avatar size="large" src="http://124.220.47.26:7777/images/dog.jpg" />
+            <span class="ml-2">用户名</span>
+          </div>
+          <n-icon>
+            <EllipsisH />
+          </n-icon>
+        </div>
+      </template>
+      <ul class="space-y-2">
+        <li class="flex justify-center p-2">
+          <n-switch v-model:value="active" size="large">
+            <template #checked-icon>
+              <n-icon color="#1F2937">
+                <Moon />
+              </n-icon>
+            </template>
+            <template #unchecked-icon>
+              <n-icon color="#F59E0B">
+                <Sun />
+              </n-icon>
+            </template>
+          </n-switch>
+        </li>
+        <li class="flex justify-center items-center cursor-pointer p-2 hover:bg-gray-100" @click="logout">
+          <n-icon>
+            <PowerOff />
+          </n-icon>
+          退出登录
+        </li>
+      </ul>
+    </n-popover>
+
   </header>
 
 </template>
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 import { useUserStore } from '@/store';
-import { Github, Home, Gamepad, FacebookMessenger, User, ChevronRight, EllipsisH } from '@vicons/fa'
 import { useRoute, useRouter } from 'vue-router';
+import type { Component } from 'vue'
+import { NIcon } from 'naive-ui'
+import { Github, Home, Gamepad, FacebookMessenger, User, ChevronRight, EllipsisH, PowerOff, Sun, Moon } from '@vicons/fa'
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
+const message = useMessage()
 const leftList = [
   { key: 1, title: "主页", path: '/home' },
   { key: 2, title: "游戏库", path: '/games' },
   { key: 3, title: "讨论", path: '/forums' },
   { key: 4, title: "个人", path: '/profile' },
 ];
-</script>
-
-  
-<style scoped>
-
+const logout = (): void => {
+  localStorage.removeItem('token');
+  message.success('注销成功！')
+  router.push('/home')
+  window.location.reload()
+}
+</script> 
+<style>
+.n-popover {
+  padding: 10px 0 !important;
+  border-radius: 0.5rem !important;
+}
 </style>
   
