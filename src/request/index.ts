@@ -1,7 +1,9 @@
 import axios from 'axios'
 
 // 创建一个 axios 实例
-const service = axios.create()
+const service = axios.create({
+  withCredentials: true,
+})
 
 // 添加请求拦截器
 service.interceptors.request.use(
