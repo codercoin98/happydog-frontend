@@ -87,15 +87,10 @@ import { NIcon } from 'naive-ui'
 import { Home, Gamepad, FacebookMessenger, User, ChevronRight, EllipsisH, PowerOff, Sun, Moon } from '@vicons/fa'
 import { onMounted } from 'vue';
 import { getUserByUsername } from '@/services/user.api';
+import { leftList } from '@/constants/system'
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
-const leftList = [
-  { key: 1, title: "主页", path: '/home' },
-  { key: 2, title: "游戏库", path: '/games' },
-  { key: 3, title: "讨论", path: '/forums' },
-  { key: 4, title: "个人", path: '/profile' },
-];
 onMounted(() => {
   if (userStore.getUsername === '') {
     return

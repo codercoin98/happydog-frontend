@@ -3,7 +3,7 @@ import {
   CAPTCHA_NOT_MATCH,
   USERNAME_ALREADY_EXISTS,
   USERNAME_OR_PASSWORD_NOT_MATCH,
-} from '@/constans/error'
+} from '@/constants/error'
 
 // 创建一个 axios 实例
 const service = axios.create({
