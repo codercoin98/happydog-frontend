@@ -29,6 +29,14 @@ const routes: RouteRecordRaw[] = [
     name: 'profile',
     path: '/profile',
     component: Profile,
+    beforeEnter: (to, from): boolean => {
+      const userStore = useUserStore()
+      if (userStore.getToken === '') {
+        window.$message.warning('请先登录')
+        return false
+      }
+      return true
+    },
   },
   {
     name: 'sign_in',

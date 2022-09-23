@@ -71,7 +71,7 @@ import {
 import { Github, Weixin, ArrowRight } from '@vicons/fa'
 import { Token } from './types';
 import { md5 } from '@/utils/crypt';
-import { log } from 'console';
+import { getUserByUsername } from '@/services/user.api';
 const userStore = useUserStore()
 const router = useRouter()
 const formRef = ref<FormInst | null>(null)
@@ -132,6 +132,11 @@ const submit = (e: MouseEvent) => {
                     //保存token,username到pinia
                     userStore.access_token = data.access_token;
                     userStore.username = decode.username;
+                    getUserByUsername(userStore.getUsername).then(({ data }) => {
+                        if (data) {
+                            userStore.avatar_url = data.avatar_url;
+                        }
+                    })
                     message.success('登录成功');
                     loading.value = false
                     router.push('/')

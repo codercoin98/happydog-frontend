@@ -2,7 +2,7 @@
   <n-config-provider :theme-overrides="themeOverrides" class="m-0">
     <n-loading-bar-provider>
       <n-message-provider>
-        <Message />
+        <message />
         <div class="lg:container lg:mx-auto lg:w-2/3 flex min-h-screen">
           <div class="flex-1 grid grid-flow-col grid-cols-5 gap-6">
             <Header />
@@ -15,14 +15,16 @@
       </n-message-provider>
     </n-loading-bar-provider>
   </n-config-provider>
-
-
 </template>
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import Header from './pages/Header/index.vue'
 import { NConfigProvider, GlobalThemeOverrides } from 'naive-ui'
 import Footer from './pages/Footer/index.vue';
-import Message from './components/Message/index.vue';
+import Message from './components/Message/index.vue'
+import { getUserByUsername } from './services/user.api';
+import { useUserStore } from './store';
+const userStore = useUserStore()
 const themeOverrides: GlobalThemeOverrides = {
   common: {
     primaryColor: '#8a2be2'
