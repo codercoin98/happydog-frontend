@@ -17,14 +17,11 @@
   </n-config-provider>
 </template>
 <script setup lang="ts">
-import { onMounted } from 'vue';
 import Header from './pages/Header/index.vue'
 import { NConfigProvider, GlobalThemeOverrides } from 'naive-ui'
 import Footer from './pages/Footer/index.vue';
 import Message from './components/Message/index.vue'
-import { getUserByUsername } from './services/user.api';
 import { useUserStore } from './store';
-const userStore = useUserStore()
 const themeOverrides: GlobalThemeOverrides = {
   common: {
     primaryColor: '#8a2be2'

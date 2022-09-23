@@ -46,7 +46,7 @@
           class="absolute inset-x-0 bottom-3 mx-auto px-4 py-2 flex justify-between items-center cursor-pointer hover:bg-gray-200 hover:rounded-lg">
           <div class="flex items-center">
             <n-avatar size="large" :src="userStore.avatar_url" />
-            <span class="ml-2">{{userStore.username}}</span>
+            <span class="ml-2">{{userStore.getUsername}}</span>
           </div>
           <n-icon>
             <EllipsisH />
@@ -85,6 +85,8 @@ import { useUserStore } from '@/store';
 import { useRoute, useRouter } from 'vue-router';
 import { NIcon } from 'naive-ui'
 import { Home, Gamepad, FacebookMessenger, User, ChevronRight, EllipsisH, PowerOff, Sun, Moon } from '@vicons/fa'
+import { onMounted } from 'vue';
+import { getUserByUsername } from '@/services/user.api';
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
@@ -94,6 +96,16 @@ const leftList = [
   { key: 3, title: "讨论", path: '/forums' },
   { key: 4, title: "个人", path: '/profile' },
 ];
+onMounted(() => {
+  if (userStore.getUsername === '') {
+    return
+  }
+  getUserByUsername(userStore.getUsername).then(({ data }) => {
+    if (data) {
+      userStore.avatar_url = data.avatar_url;
+    }
+  })
+})
 //主题切换
 const onModeSelect = (value: string): void => {
   window.$message.info(value)
