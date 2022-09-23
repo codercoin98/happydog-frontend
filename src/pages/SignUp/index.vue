@@ -19,12 +19,13 @@
                     <n-input v-model:value="state.formModel.username" placeholder="用户名" />
                 </n-form-item>
                 <n-form-item path="password">
-                    <n-input type="password" show-password-on="mousedown" v-model:value="state.formModel.password"
-                        placeholder="密码" />
+                    <n-input type="password" :input-props="{ autocomplete: 'off' }" show-password-on="mousedown"
+                        v-model:value="state.formModel.password" placeholder="密码" />
                 </n-form-item>
                 <n-form-item path="rePassword">
-                    <n-input type="password" show-password-on="mousedown" :disabled="state.formModel.password === '' "
-                        v-model:value="state.formModel.rePassword" placeholder="重复密码" />
+                    <n-input type="password" :input-props="{ autocomplete: 'off' }" show-password-on="mousedown"
+                        :disabled="state.formModel.password === '' " v-model:value="state.formModel.rePassword"
+                        placeholder="重复密码" />
                 </n-form-item>
                 <n-form-item path="captcha">
                     <div class="flex flex-1">
@@ -54,12 +55,17 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, computed, ComputedRef } from 'vue';
+import { useUserStore } from '@/store';
 import { useRouter } from 'vue-router';
+import jwt_decode from 'jwt-decode';
 import { getCaptcha, signUp } from '@/services/auth.api';
 import { getAllUser } from '@/services/user.api';
 import { Users, ArrowLeft } from '@vicons/fa'
 import { FormInst, FormItemRule, FormRules, useMessage } from 'naive-ui';
+import { Token } from '../SignIn/types';
+import { md5 } from '@/utils/crypt';
 const router = useRouter()
+const userStore = useUserStore()
 const message = useMessage()
 const formRef = ref<FormInst | null>(null)
 const agree = ref<boolean>(false);
@@ -153,29 +159,27 @@ const submit = async () => {
         if (!errors) {
             const commitInfo = {
                 username: state.formModel.username!,
-                password: state.formModel.password!,
+                password: md5(state.formModel.password!),
                 captcha: state.formModel.captcha!,
             }
             loading.value = true
-            const { data } = await signUp(commitInfo);
-            if (data.status === 200) {
-                message.success('注册成功！欢迎加入我们！')
-                router.push('/');
+            signUp(commitInfo).then(({ data }) => {
+                if (data && data.access_token) {
+                    message.success('注册成功！欢迎加入我们！')
+                    const decode: Token = jwt_decode(data.access_token)
+                    //持久化
+                    localStorage.setItem('token', data.access_token);
+                    //保存token,username到pinia
+                    userStore.access_token = data.access_token;
+                    userStore.username = decode.username;
+                    router.push('/');
+                    loading.value = false
+                    return
+                }
                 loading.value = false
-                return
-            } else if (data.status === 777) {
-                message.error('验证码错误！')
+            }).catch(() => {
                 loading.value = false
-                return
-            } else if (data.status === 400) {
-                message.warning('用户名已存在！')
-                loading.value = false
-                return
-            } else if (data.status === 500) {
-                message.error('服务端错误！')
-                loading.value = false
-                return
-            }
+            })
         }
     })
 

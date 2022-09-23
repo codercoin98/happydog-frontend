@@ -6,8 +6,8 @@
                     <n-input v-model:value="authInfo.username" placeholder="用户名" />
                 </n-form-item>
                 <n-form-item path="password">
-                    <n-input type="password" show-password-on="mousedown" autocomplete v-model:value="authInfo.password"
-                        placeholder="密码" />
+                    <n-input type="password" :input-props="{ autocomplete: 'off' }" show-password-on="mousedown"
+                        v-model:value="authInfo.password" placeholder="密码" />
                 </n-form-item>
                 <n-form-item>
                     <div class="flex justify-between w-full">
@@ -70,6 +70,8 @@ import {
 } from 'naive-ui'
 import { Github, Weixin, ArrowRight } from '@vicons/fa'
 import { Token } from './types';
+import { md5 } from '@/utils/crypt';
+import { log } from 'console';
 const userStore = useUserStore()
 const router = useRouter()
 const formRef = ref<FormInst | null>(null)
@@ -119,8 +121,11 @@ const submit = (e: MouseEvent) => {
                 return
             }
             loading.value = true
-            await signin(authInfo).then(({ data }) => {
-                if (data.access_token) {
+            await signin({
+                username: authInfo.username,
+                password: md5(authInfo.password)
+            }).then(({ data }) => {
+                if (data && data.access_token) {
                     const decode: Token = jwt_decode(data.access_token)
                     //持久化
                     localStorage.setItem('token', data.access_token);
@@ -133,6 +138,9 @@ const submit = (e: MouseEvent) => {
                     return
                 }
                 message.success('失败');
+                loading.value = false
+            }).catch((err) => {
+                console.log(err)
                 loading.value = false
             })
         }

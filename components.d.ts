@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BaseEditor: typeof import('./src/components/BaseEditor/index.vue')['default']
+    Message: typeof import('./src/components/Message/index.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NAvater: typeof import('naive-ui')['NAvater']
     NButton: typeof import('naive-ui')['NButton']
