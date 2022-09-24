@@ -6,8 +6,8 @@ const Forums = () => import('@/pages/Forums/index.vue')
 const Profile = () => import('@/pages/Profile/index.vue')
 const Help = () => import('@/pages/Help/index.vue')
 const Create = () => import('@/pages/Create/index.vue')
-import { useUserStore } from '@/store'
 import { RouteRecordRaw } from 'vue-router'
+import { useUserStore } from '@/store'
 //路由配置表
 const routes: RouteRecordRaw[] = [
   {
@@ -60,6 +60,7 @@ const routes: RouteRecordRaw[] = [
     beforeEnter: (to, from): boolean => {
       const userStore = useUserStore()
       if (userStore.access_token === '') {
+        window.$message.warning('请先登录')
         return false
       }
       return true

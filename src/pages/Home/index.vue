@@ -1,16 +1,16 @@
 <template>
     <div class="container h-full flex flex-col">
-        <div class="relative border rounded-lg p-2">
-            <n-tabs default-value="recommand" justify-content="center" animated tab-style="margin-right: 2rem"
-                :on-update:value="onChange">
-                <n-tab name="recommand" class="mr-2">
-                    推荐
+        <div class="p-2">
+            <n-tabs type="line" default-value="recommand" justify-content="center" animated
+                tab-style="margin-right: 2rem" :on-update:value="onChange">
+                <n-tab name="recommand">
+                    <p class="lg:text-lg">推荐</p>
                 </n-tab>
                 <n-tab name="hot">
-                    热门
+                    <p class="lg:text-lg">热门</p>
                 </n-tab>
                 <n-tab name="latest">
-                    最新
+                    <p class="lg:text-lg">最新</p>
                 </n-tab>
             </n-tabs>
 
@@ -19,14 +19,11 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from '@/store';
-const userStore = useUserStore();
 const onChange = (value: string) => {
     console.log(value);
-
 }
 </script>
 
-<style lang="scss" scoped>
+<style>
 
 </style>

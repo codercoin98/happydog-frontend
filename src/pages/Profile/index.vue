@@ -21,19 +21,16 @@ const state = reactive({
     avatar_url: '',
     mood: ''
 })
-onMounted(() => {
+onMounted(async () => {
     if (userStore.getUsername === '') {
         return
     }
-    getUserByUsername(userStore.getUsername).then(({ data }) => {
-        if (data) {
-            console.log(data);
-
-            state.username = data.username;
-            state.nickname = data.nickname;
-            state.avatar_url = data.avatar_url;
-            state.mood = data.mood
-        }
-    })
+    const { data } = await getUserByUsername(userStore.getUsername)
+    if (data) {
+        state.username = data.username;
+        state.nickname = data.nickname;
+        state.avatar_url = data.avatar_url;
+        state.mood = data.mood
+    }
 })
 </script>

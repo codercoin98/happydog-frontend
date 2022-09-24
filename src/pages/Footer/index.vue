@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col pt-3 ">
+    <div class="fixed flex flex-col pt-3 w-64">
         <div class="mb-2">
             <n-input round placeholder="搜索">
                 <template #prefix>
@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { Github, Search } from '@vicons/fa'
 import moment from "moment";
-moment.locale('zh-cn', {
+moment.updateLocale('zh-cn', {
     weekdays: '星期天_星期一_星期二_星期三_星期四_星期五_星期六'.split('_')
 })
 const hot_post: string[] = [

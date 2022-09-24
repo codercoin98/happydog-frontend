@@ -1,8 +1,8 @@
 <template>
   <!--网站左侧-->
-  <header class="flex flex-col relative py-3">
+  <header class="fixed flex flex-col py-3 h-screen lg:w-56">
     <!--logo以及网站名-->
-    <div class="flex justify-center">
+    <div class="flex justify-start pl-2">
       <router-link to="/" class="text-black">
         <n-space class="flex items-center ">
           <n-avatar :size="48" round src="http://124.220.47.26:7777/images/dog.jpg" />
@@ -21,7 +21,7 @@
       </li>
       <li v-for="item in leftList" :key="item.title"
         :class="route.path === item.path ? 'rounded-lg text-purple-400' : null"
-        class="relative flex items-center px-4 py-2 cursor-pointer text-black font-semibold hover:bg-gray-200 hover:rounded-lg group"
+        class="relative flex items-center pl-2 pr-4 py-2 cursor-pointer text-black font-semibold hover:bg-gray-200 hover:rounded-lg group"
         @click="router.push({path:item.path}) ">
         <n-icon size="20" class="mr-4">
           <Home v-if="item.key === 1" />
@@ -36,7 +36,7 @@
       </li>
       <li v-if="route.path !== '/create'">
         <button
-          class="w-full rounded-lg bg-purple-400 text-white border-none hover:bg-purple-500 active:bg-purple-400 focus:outline-none"
+          class="w-full rounded-lg bg-purple-500 text-white border-none hover:bg-purple-400 active:bg-purple-600 focus:outline-none"
           @click="post">发帖子</button>
       </li>
     </ul>
@@ -80,32 +80,31 @@
 
 </template>
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
+import { onMounted } from 'vue';
 import { useUserStore } from '@/store';
 import { useRoute, useRouter } from 'vue-router';
 import { NIcon } from 'naive-ui'
 import { Home, Gamepad, FacebookMessenger, User, ChevronRight, EllipsisH, PowerOff, Sun, Moon } from '@vicons/fa'
-import { onMounted } from 'vue';
 import { getUserByUsername } from '@/services/user.api';
 import { leftList } from '@/constants/system'
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
-onMounted(() => {
+onMounted(async (): Promise<void> => {
+  console.log('store:', userStore.getUsername)
   if (userStore.getUsername === '') {
     return
   }
-  getUserByUsername(userStore.getUsername).then(({ data }) => {
-    if (data) {
-      userStore.avatar_url = data.avatar_url;
-    }
-  })
+  const { data } = await getUserByUsername(userStore.getUsername)
+  if (data && data.avatar_url) {
+    userStore.avatar_url = data.avatar_url;
+  }
 })
 //主题切换
 const onModeSelect = (value: string): void => {
   window.$message.info(value)
 }
-const post = () => {
+const post = (): void => {
   if (userStore.getToken === '') {
     window.$message.warning('请先登录')
     router.push('/sign-in')

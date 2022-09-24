@@ -13,9 +13,8 @@
                     <div class="flex justify-between w-full">
                         <n-spin :show="loading" class="w-full">
                             <button :disabled="authInfo.username === null && authInfo.password === null" @click="submit"
-                                class="w-full bg-purple-400 text-white border-none hover:bg-purple-500 focus:outline-none">登录</button>
+                                class="w-full bg-purple-500 text-white border-none hover:bg-purple-400 active:bg-purple-600 focus:outline-none">登录</button>
                         </n-spin>
-
                     </div>
                 </n-form-item>
                 <n-form-item>
@@ -60,28 +59,22 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { signin } from '@/services/auth.api';
 import { useUserStore } from '@/store';
-import jwt_decode from 'jwt-decode';
 import {
     FormInst,
     FormRules,
-    useMessage,
 } from 'naive-ui'
 import { Github, Weixin, ArrowRight } from '@vicons/fa'
-import { Token } from './types';
+import { Form, Token } from './types';
+import jwt_decode from 'jwt-decode';
 import { md5 } from '@/utils/crypt';
+import { signin } from '@/services/auth.api';
 import { getUserByUsername } from '@/services/user.api';
 const userStore = useUserStore()
 const router = useRouter()
 const formRef = ref<FormInst | null>(null)
 const agree = ref(false)
 const loading = ref(false)
-const message = useMessage()
-interface Form {
-    username: string;
-    password: string;
-}
 const authInfo = reactive<Form>({
     username: '',
     password: ''
@@ -112,42 +105,38 @@ const rules: FormRules = {
     ],
 }
 //登录
-const submit = (e: MouseEvent) => {
-
+const submit = (e: MouseEvent):void => {
     formRef.value?.validate(async errors => {
         if (!errors) {
             if (agree.value === false) {
-                message.warning('请勾选用户协议，你可以把这看作是一个象征性的流程。');
+                window.$message.warning('请勾选用户协议，你可以把这看作是一个象征性的流程。');
                 return
             }
             loading.value = true
-            await signin({
+            const { data } = await signin({
                 username: authInfo.username,
                 password: md5(authInfo.password)
-            }).then(({ data }) => {
-                if (data && data.access_token) {
-                    const decode: Token = jwt_decode(data.access_token)
-                    //持久化
-                    localStorage.setItem('token', data.access_token);
-                    //保存token,username到pinia
-                    userStore.access_token = data.access_token;
-                    userStore.username = decode.username;
-                    getUserByUsername(userStore.getUsername).then(({ data }) => {
-                        if (data) {
-                            userStore.avatar_url = data.avatar_url;
-                        }
-                    })
-                    message.success('登录成功');
-                    loading.value = false
-                    router.push('/')
-                    return
-                }
-                message.success('失败');
-                loading.value = false
-            }).catch((err) => {
-                console.log(err)
-                loading.value = false
             })
+            //登录成功
+            if (data && data.access_token) {
+                const decode: Token = jwt_decode(data.access_token)
+                //持久化
+                localStorage.setItem('token', data.access_token);
+                //保存token,username到pinia
+                userStore.access_token = data.access_token;
+                userStore.username = decode.username;
+                getUserByUsername(userStore.getUsername).then(({ data }) => {
+                    if (data) {
+                        userStore.avatar_url = data.avatar_url;
+                    }
+                })
+                window.$message.success('登录成功');
+                loading.value = false
+                router.push('/')
+                return
+            }
+            //登录不成功
+            loading.value = false
         }
 
     })

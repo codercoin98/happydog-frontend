@@ -16,7 +16,6 @@
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
     "pinia": "^2.0.22",
-    "tinymce": "^6.2.0",
     "vue": "^3.2.37",
     "vue-router": "4"
   },

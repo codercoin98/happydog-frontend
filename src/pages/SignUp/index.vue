@@ -37,7 +37,7 @@
                     <n-spin :show="loading" class="w-full">
                         <button @click="submit" class="w-full  text-white border-none  focus:outline-none"
                             :disabled="!noNull"
-                            :class="{'bg-purple-400 hover:bg-purple-500': noNull,' bg-gray-400  hover:cursor-not-allowed': !noNull}">注册
+                            :class="{'bg-purple-500 hover:bg-purple-400 active:bg-purple-600': noNull,' bg-gray-400  hover:cursor-not-allowed': !noNull}">注册
                         </button>
                     </n-spin>
 
@@ -57,16 +57,15 @@
 import { ref, reactive, onMounted, computed, ComputedRef } from 'vue';
 import { useUserStore } from '@/store';
 import { useRouter } from 'vue-router';
-import jwt_decode from 'jwt-decode';
 import { getCaptcha, signUp } from '@/services/auth.api';
 import { getAllUser } from '@/services/user.api';
-import { Users, ArrowLeft } from '@vicons/fa'
 import { FormInst, FormItemRule, FormRules, useMessage } from 'naive-ui';
+import { Users, ArrowLeft } from '@vicons/fa'
 import { Token } from '../SignIn/types';
+import jwt_decode from 'jwt-decode';
 import { md5 } from '@/utils/crypt';
 const router = useRouter()
 const userStore = useUserStore()
-const message = useMessage()
 const formRef = ref<FormInst | null>(null)
 const agree = ref<boolean>(false);
 const loading = ref<boolean>(false);
@@ -139,22 +138,23 @@ const rules: FormRules = {
         }
     ]
 }
-const refreshCaptcha = () => {
-    getCaptcha().then(({ data }) => {
-        if (data) {
-            state.captcha = data;
-        }
-    })
+const refreshCaptcha = async (): Promise<void> => {
+    const { data } = await getCaptcha()
+    if (data) {
+        state.captcha = data;
+        return
+    }
+    return
 }
 //初始化界面信息
-const init = () => {
-    Promise.all([getCaptcha(), getAllUser()]).then((values) => {
+const init = async (): Promise<void> => {
+    await Promise.all([getCaptcha(), getAllUser()]).then((values) => {
         state.captcha = values[0].data;
         state.userNumber = values[1].data.length;
     })
 }
 // 提交注册
-const submit = async () => {
+const submit = (): void => {
     formRef.value?.validate(async errors => {
         if (!errors) {
             const commitInfo = {
@@ -163,29 +163,28 @@ const submit = async () => {
                 captcha: state.formModel.captcha!,
             }
             loading.value = true
-            signUp(commitInfo).then(({ data }) => {
-                if (data && data.access_token) {
-                    message.success('注册成功！欢迎加入我们！')
-                    const decode: Token = jwt_decode(data.access_token)
-                    //持久化
-                    localStorage.setItem('token', data.access_token);
-                    //保存token,username到pinia
-                    userStore.access_token = data.access_token;
-                    userStore.username = decode.username;
-                    router.push('/');
-                    loading.value = false
-                    return
-                }
+            const { data } = await signUp(commitInfo)
+            //注册成功
+            if (data && data.access_token) {
+                window.$message.success('注册成功！欢迎加入我们！')
+                const decode: Token = jwt_decode(data.access_token)
+                //持久化
+                localStorage.setItem('token', data.access_token);
+                //保存token,username到pinia
+                userStore.access_token = data.access_token;
+                userStore.username = decode.username;
                 loading.value = false
-            }).catch(() => {
-                loading.value = false
-            })
+                router.push('/');
+                return
+            }
+            //注册失败
+            loading.value = false
         }
     })
 
 }
 onMounted(async () => {
-    init();
+    await init();
 })
 const noNull: ComputedRef<boolean> = computed(() => {
     return state.formModel.username !== '' && state.formModel.password !== '' && state.formModel.captcha !== '' && agree.value === true

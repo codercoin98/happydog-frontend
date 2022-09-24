@@ -1,5 +1,5 @@
 import { Token } from '@/pages/SignIn/types'
-import jwtDecode from 'jwt-decode'
+import jwt_decode from 'jwt-decode'
 import { defineStore } from 'pinia'
 const useUserStore = defineStore('user', {
   state: () => ({
@@ -30,7 +30,7 @@ const useUserStore = defineStore('user', {
       if (state.username !== '') {
         return state.username
       }
-      const decode: Token = jwtDecode(this.getToken)
+      const decode: Token = jwt_decode(this.getToken)
       return decode.username
     },
   },
