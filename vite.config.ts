@@ -7,7 +7,6 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    open: true,
     port: 3001,
     proxy: {
       '/api': {
