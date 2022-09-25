@@ -163,22 +163,27 @@ const submit = (): void => {
                 captcha: state.formModel.captcha!,
             }
             loading.value = true
-            const { data } = await signUp(commitInfo)
-            //注册成功
-            if (data && data.access_token) {
-                window.$message.success('注册成功！欢迎加入我们！')
-                const decode: Token = jwt_decode(data.access_token)
-                //持久化
-                localStorage.setItem('token', data.access_token);
-                //保存token,username到pinia
-                userStore.access_token = data.access_token;
-                userStore.username = decode.username;
+            try {
+                const { data } = await signUp(commitInfo)
+                //注册成功
+                if (data && data.access_token) {
+                    window.$message.success('注册成功！欢迎加入我们！')
+                    const decode: Token = jwt_decode(data.access_token)
+                    //持久化
+                    localStorage.setItem('token', data.access_token);
+                    //保存token,username到pinia
+                    userStore.access_token = data.access_token;
+                    userStore.username = decode.username;
+                    loading.value = false
+                    router.push('/');
+                    return
+                }
+            } catch (error) {
+                //注册失败
                 loading.value = false
-                router.push('/');
-                return
             }
-            //注册失败
-            loading.value = false
+
+
         }
     })
 
