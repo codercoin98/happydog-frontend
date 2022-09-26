@@ -85,7 +85,7 @@ import { useUserStore } from '@/store';
 import { useRoute, useRouter } from 'vue-router';
 import { NIcon } from 'naive-ui'
 import { Home, Gamepad, FacebookMessenger, User, ChevronRight, EllipsisH, PowerOff, Sun, Moon } from '@vicons/fa'
-import { getUserByUsername } from '@/services/user.api';
+import { getUserByUsername } from '@/services/user/user.api';
 import { leftList } from '@/constants/system'
 const userStore = useUserStore()
 const router = useRouter()

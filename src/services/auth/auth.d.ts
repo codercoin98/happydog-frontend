@@ -1,4 +1,4 @@
-declare namespace USER_API {
+declare namespace AUTH_API {
   interface SignInParams {
     username: string
     password: string

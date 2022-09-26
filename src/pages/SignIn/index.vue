@@ -68,8 +68,8 @@ import { Github, Weixin, ArrowRight } from '@vicons/fa'
 import { Form, Token } from './types';
 import jwt_decode from 'jwt-decode';
 import { md5 } from '@/utils/crypt';
-import { signin } from '@/services/auth.api';
-import { getUserByUsername } from '@/services/user.api';
+import { signin } from '@/services/auth/auth.api';
+import { getUserByUsername } from '@/services/user/user.api';
 const userStore = useUserStore()
 const router = useRouter()
 const formRef = ref<FormInst | null>(null)

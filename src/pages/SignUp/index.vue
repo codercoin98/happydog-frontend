@@ -57,8 +57,8 @@
 import { ref, reactive, onMounted, computed, ComputedRef } from 'vue';
 import { useUserStore } from '@/store';
 import { useRouter } from 'vue-router';
-import { getCaptcha, signUp } from '@/services/auth.api';
-import { getAllUser } from '@/services/user.api';
+import { getCaptcha, signUp } from '@/services/auth/auth.api';
+import { getAllUser } from '@/services/user/user.api';
 import { FormInst, FormItemRule, FormRules, useMessage } from 'naive-ui';
 import { Users, ArrowLeft } from '@vicons/fa'
 import { Token } from '../SignIn/types';

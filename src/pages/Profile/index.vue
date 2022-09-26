@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { getUserByUsername } from '@/services/user.api';
+import { getUserByUsername } from '@/services/user/user.api';
 import { useUserStore } from '@/store';
 import { onMounted, reactive } from 'vue';
 const userStore = useUserStore()

@@ -13,7 +13,7 @@ import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { IToolbarConfig, IEditorConfig } from '@wangeditor/editor'
 import { ImageElement, InsertFnType } from './types'
 import { useLoadingBar, useMessage } from 'naive-ui'
-import { uploadImage } from '@/services/upload.api'
+import { uploadImage } from '@/services/upload/upload.api'
 const loadingBar = useLoadingBar()
 const message = useMessage()
 // 编辑器实例，必须用 shallowRef
