@@ -10,6 +10,7 @@ declare module '@vue/runtime-core' {
     BaseEditor: typeof import('./src/components/BaseEditor/index.vue')['default']
     Message: typeof import('./src/components/Message/index.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
+    NDivider: typeof import('naive-ui')['NDivider']
     NIcon: typeof import('naive-ui')['NIcon']
     NInput: typeof import('naive-ui')['NInput']
     NList: typeof import('naive-ui')['NList']

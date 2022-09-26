@@ -1,8 +1,9 @@
 // 导入axios实例
+import { Post, PostFull } from '@/pages/Home/types'
 import httpRequest from '@/request/index'
 import { AxiosPromise } from 'axios'
 //创建帖子
-export function createPost(post: POST_API.CreatePostParams): AxiosPromise<POST_API.Post> {
+export function createPost(post: POST_API.CreatePostParams): AxiosPromise<Post> {
   return httpRequest({
     url: '/api/post/create',
     method: 'post',
@@ -13,7 +14,7 @@ export function createPost(post: POST_API.CreatePostParams): AxiosPromise<POST_A
   })
 }
 //获取所有的帖子
-export function getAllPost(): AxiosPromise<POST_API.PostFull[]> {
+export function getAllPost(): AxiosPromise<PostFull[]> {
   return httpRequest({
     url: '/api/post/findAll',
     method: 'get',
@@ -23,7 +24,7 @@ export function getAllPost(): AxiosPromise<POST_API.PostFull[]> {
   })
 }
 //根据id获取帖子的详情
-export function getPostById(post_id: string): AxiosPromise<POST_API.Post> {
+export function getPostById(post_id: string): AxiosPromise<Post> {
   return httpRequest({
     url: `/api/post/findOne?post_id=${post_id}`,
     method: 'get',
