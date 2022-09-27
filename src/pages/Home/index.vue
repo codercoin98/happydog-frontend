@@ -13,35 +13,58 @@
                     <p class="lg:text-lg">最新</p>
                 </n-tab>
             </n-tabs>
-            <ul class="space-y-4">
-                <li v-for="item in state.posts" :key="item._id" class="border rounded-lg px-4">
-                    <div class="flex items-center border-bottom border-b-2 py-2">
-                        <n-avatar :src="item.author.avatar_url" />
-                        <p>{{item.author.nickname}}</p>
-                        <p>{{moment(item.created_at).format('YYYY-MM-DD H:mm:ss')}}</p>
+            <div v-if="state.loading" class="container flex justify-center">
+                <n-spin :show="state.loading">
+                    <template #icon>
+                        <n-icon>
+                            <Spinner />
+                        </n-icon>
+                    </template>
+                </n-spin>
+            </div>
+            <ul v-else class="space-y-4">
+                <li v-for="item in state.posts" :key="item._id" class="cursor-pointer border rounded-lg px-4">
+                    <div class="flex justify-between items-center py-4">
+                        <div class="flex items-center space-x-2">
+                            <n-avatar round :src="item.author[0].avatar_url" :size="48" />
+                            <div class="">
+                                <p class="lg:text-lg">{{item.author[0].nickname}}</p>
+                                <p class="text-gray-400">{{moment(item.created_at).fromNow()}}</p>
+                            </div>
+                        </div>
+                        <n-popover trigger="click" placement="bottom-center">
+                            <template #trigger>
+                                <n-icon size="18" class="cursor-pointer hover:text-purple-400">
+                                    <EllipsisH />
+                                </n-icon>
+                            </template>
+                            <div class="w-32 py-2">
+                                <p class="py-2 w-full text-center cursor-pointer hover:bg-gray-100">举报</p>
+                            </div>
+                        </n-popover>
                     </div>
-                    <div>
+                    <!--标题-->
+                    <div class="lg:text-lg">
                         {{item.title}}
                     </div>
-                    <div class="h-20">
+                    <!--内容-->
+                    <div class="max-h-20 py-2">
                         {{item.content}}
                     </div>
-                    <div class="flex border-top border-t-2 py-4">
-                        <span class="flex-1 flex justify-center items-center cursor-pointer">
+                    <div class="flex border-t divide-x py-4">
+                        <span class="flex-1 flex justify-center items-center cursor-pointer hover:text-purple-400">
                             <n-icon size="18">
-                                <Heart />
+                                <HeartRegular />
                             </n-icon>
                         </span>
-                        <n-divider vertical />
-                        <span class="flex-1 flex justify-center items-center cursor-pointer">
+                        <span class="flex-1 flex justify-center items-center cursor-pointer hover:text-purple-400">
                             <n-icon size="18">
-                                <Comment />
+                                <CommentDotsRegular />
                             </n-icon>
                         </span>
-                        <n-divider vertical />
-                        <span class="flex-1 flex justify-center items-center cursor-pointer">
+                        <span class="flex-1 flex justify-center items-center cursor-pointer hover:text-purple-400">
                             <n-icon size="18">
-                                <Share />
+                                <ShareSquareRegular />
                             </n-icon>
                         </span>
                     </div>
@@ -54,22 +77,26 @@
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue';
 import { getAllPost } from '@/services/post/post.api';
-import moment from 'moment';
-import { Heart, Comment, Share } from '@vicons/fa'
+import moment from '@/utils/moment';
+import { HeartRegular, CommentDotsRegular, ShareSquareRegular, Spinner, EllipsisH } from '@vicons/fa'
 import { PostFull } from './types';
 interface State {
     posts: PostFull[];
+    loading: boolean;
 }
 const state = reactive<State>({
-    posts: []
+    posts: [],
+    loading: false
 })
 const onChange = (value: string) => {
     console.log(value);
 }
 onMounted(async () => {
+    state.loading = true;
     const { data } = await getAllPost()
     if (data) {
         state.posts = data
+        state.loading = false
     }
 })
 </script>
