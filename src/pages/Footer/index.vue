@@ -43,10 +43,7 @@
 
 <script setup lang="ts">
 import { Github, Search } from '@vicons/fa'
-import moment from "moment";
-moment.updateLocale('zh-cn', {
-    weekdays: '星期天_星期一_星期二_星期三_星期四_星期五_星期六'.split('_')
-})
+import moment from "@/utils/moment";
 const hot_post: string[] = [
     'test', 'test', 'test', 'test', 'test', 'test'
 ]
