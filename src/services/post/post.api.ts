@@ -24,7 +24,7 @@ export function getAllPost(): AxiosPromise<PostFull[]> {
   })
 }
 //根据id获取帖子的详情
-export function getPostById(post_id: string): AxiosPromise<Post> {
+export function getPostById(post_id: string): AxiosPromise<PostFull[]> {
   return httpRequest({
     url: `/api/post/findOne?post_id=${post_id}`,
     method: 'get',
