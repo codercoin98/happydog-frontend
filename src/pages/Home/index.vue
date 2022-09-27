@@ -23,10 +23,11 @@
                 </n-spin>
             </div>
             <ul v-else class="space-y-4">
-                <li v-for="item in state.posts" :key="item._id" class="cursor-pointer border rounded-lg px-4">
+                <li v-for="item in state.posts" :key="item._id" class="cursor-pointer border rounded-lg px-4"
+                    @click="router.push(`/post/${item._id}`)">
                     <div class="flex justify-between items-center py-4">
                         <div class="flex items-center space-x-2">
-                            <n-avatar round :src="item.author[0].avatar_url" :size="48" />
+                            <n-avatar round :src="item.author[0].avatar_url" :size="50" />
                             <div class="">
                                 <p class="lg:text-lg">{{item.author[0].nickname}}</p>
                                 <p class="text-gray-400">{{moment(item.created_at).fromNow()}}</p>
@@ -44,7 +45,7 @@
                         </n-popover>
                     </div>
                     <!--标题-->
-                    <div class="lg:text-lg">
+                    <div class="lg:text-lg border-l-4 border-gray-300 pl-2 font-semibold">
                         {{item.title}}
                     </div>
                     <!--内容-->
@@ -80,6 +81,8 @@ import { getAllPost } from '@/services/post/post.api';
 import moment from '@/utils/moment';
 import { HeartRegular, CommentDotsRegular, ShareSquareRegular, Spinner, EllipsisH } from '@vicons/fa'
 import { PostFull } from './types';
+import { useRouter } from 'vue-router';
+const router = useRouter()
 interface State {
     posts: PostFull[];
     loading: boolean;

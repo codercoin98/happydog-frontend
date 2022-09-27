@@ -6,6 +6,7 @@ const Forums = () => import('@/pages/Forums/index.vue')
 const Profile = () => import('@/pages/Profile/index.vue')
 const Help = () => import('@/pages/Help/index.vue')
 const Create = () => import('@/pages/Create/index.vue')
+const Post = () => import('@/pages/Post/index.vue')
 import { RouteRecordRaw } from 'vue-router'
 import { useUserStore } from '@/store'
 //路由配置表
@@ -65,6 +66,11 @@ const routes: RouteRecordRaw[] = [
       }
       return true
     },
+  },
+  {
+    name: 'post',
+    path: '/post/:post_id',
+    component: Post,
   },
   {
     path: '/',
