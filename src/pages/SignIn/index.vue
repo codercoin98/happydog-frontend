@@ -105,7 +105,7 @@ const rules: FormRules = {
     ],
 }
 //登录
-const submit = (e: MouseEvent):void => {
+const submit = (e: MouseEvent): void => {
     formRef.value?.validate(async errors => {
         if (!errors) {
             if (agree.value === false) {
@@ -113,30 +113,35 @@ const submit = (e: MouseEvent):void => {
                 return
             }
             loading.value = true
-            const { data } = await signin({
-                username: authInfo.username,
-                password: md5(authInfo.password)
-            })
-            //登录成功
-            if (data && data.access_token) {
-                const decode: Token = jwt_decode(data.access_token)
-                //持久化
-                localStorage.setItem('token', data.access_token);
-                //保存token,username到pinia
-                userStore.access_token = data.access_token;
-                userStore.username = decode.username;
-                getUserByUsername(userStore.getUsername).then(({ data }) => {
-                    if (data) {
-                        userStore.avatar_url = data.avatar_url;
-                    }
+            try {
+                const { data } = await signin({
+                    username: authInfo.username,
+                    password: md5(authInfo.password)
                 })
-                window.$message.success('登录成功');
+                //登录成功
+                if (data && data.access_token) {
+                    const decode: Token = jwt_decode(data.access_token)
+                    //持久化
+                    localStorage.setItem('token', data.access_token);
+                    //保存token,username到pinia
+                    userStore.access_token = data.access_token;
+                    userStore.username = decode.username;
+                    getUserByUsername(userStore.getUsername).then(({ data }) => {
+                        if (data) {
+                            userStore.avatar_url = data.avatar_url;
+                        }
+                    })
+                    window.$message.success('登录成功');
+                    loading.value = false
+                    router.push('/')
+                    return
+                }
+            } catch (error) {
+                //登录不成功
                 loading.value = false
-                router.push('/')
-                return
             }
-            //登录不成功
-            loading.value = false
+
+
         }
 
     })
