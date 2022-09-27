@@ -11,11 +11,13 @@ export interface PostFull {
   title: string
   content: string
   images_urls: string[]
-  author: {
-    _id: string
-    username: string
-    nickname: string
-    avatar_url: string
-  }
+  author: [
+    {
+      _id: string
+      username: string
+      nickname: string
+      avatar_url: string
+    }
+  ]
   created_at: string
 }
