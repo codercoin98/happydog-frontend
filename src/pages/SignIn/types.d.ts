@@ -1,6 +1,5 @@
 export interface Token {
-  username: string
-  sub: string
+  uid: string
   iat: number
   exp: number
 }

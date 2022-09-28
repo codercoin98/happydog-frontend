@@ -59,10 +59,9 @@ import { useUserStore } from '@/store';
 import { useRouter } from 'vue-router';
 import { getCaptcha, signUp } from '@/services/auth/auth.api';
 import { getAllUser } from '@/services/user/user.api';
-import { FormInst, FormItemRule, FormRules, useMessage } from 'naive-ui';
+import { FormInst, FormItemRule, FormRules } from 'naive-ui';
 import { Users, ArrowLeft } from '@vicons/fa'
 import { Token } from '../SignIn/types';
-import jwt_decode from 'jwt-decode';
 import { md5 } from '@/utils/crypt';
 const router = useRouter()
 const userStore = useUserStore()
@@ -167,13 +166,11 @@ const submit = (): void => {
                 const { data } = await signUp(commitInfo)
                 //注册成功
                 if (data && data.access_token) {
-                    window.$message.success('注册成功！欢迎加入我们！')
-                    const decode: Token = jwt_decode(data.access_token)
-                    //持久化
-                    localStorage.setItem('token', data.access_token);
-                    //保存token,username到pinia
+                    //保存access_token到pinia
                     userStore.access_token = data.access_token;
-                    userStore.username = decode.username;
+                    //获取用户信息
+                    userStore.getUser()
+                    window.$message.success('注册成功！欢迎加入我们！')
                     loading.value = false
                     router.push('/');
                     return

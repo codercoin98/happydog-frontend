@@ -62,7 +62,7 @@
             </div>
         </div>
         <!--评论区-->
-        <div v-if="userStore.getToken" class="space-y-4">
+        <div v-if="userStore.access_token !== '' " class="space-y-4">
             <p class="lg:text-lg font-semibold">评论(
                 <n-number-animation ref="numberAnimationInstRef" :from="0" :to="9999" />+)
             </p>

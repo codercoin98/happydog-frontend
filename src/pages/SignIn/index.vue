@@ -65,11 +65,9 @@ import {
     FormRules,
 } from 'naive-ui'
 import { Github, Weixin, ArrowRight } from '@vicons/fa'
-import { Form, Token } from './types';
-import jwt_decode from 'jwt-decode';
+import { Form } from './types';
 import { md5 } from '@/utils/crypt';
 import { signin } from '@/services/auth/auth.api';
-import { getUserByUsername } from '@/services/user/user.api';
 const userStore = useUserStore()
 const router = useRouter()
 const formRef = ref<FormInst | null>(null)
@@ -120,17 +118,10 @@ const submit = (e: MouseEvent): void => {
                 })
                 //登录成功
                 if (data && data.access_token) {
-                    const decode: Token = jwt_decode(data.access_token)
-                    //持久化
-                    localStorage.setItem('token', data.access_token);
-                    //保存token,username到pinia
+                    //保存access_token到pinia
                     userStore.access_token = data.access_token;
-                    userStore.username = decode.username;
-                    getUserByUsername(userStore.getUsername).then(({ data }) => {
-                        if (data) {
-                            userStore.avatar_url = data.avatar_url;
-                        }
-                    })
+                    //获取用户信息
+                    userStore.getUser()
                     window.$message.success('登录成功');
                     loading.value = false
                     router.push('/')

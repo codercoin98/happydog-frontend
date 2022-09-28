@@ -13,7 +13,7 @@
     <ul class="space-y-2">
       <li>
         <router-link to="/sign-in">
-          <div v-if="userStore.getToken === '' "
+          <div v-if="!userStore.access_token"
             class="rounded-lg text-center border border-purple-400 w-full px-4 py-2 mb-2 cursor-pointer text-purple-400 font-semibold hover:border-purple-500 hover:text-white hover:bg-purple-500 active:bg-purple-400 active:text-white active:border-opacity-0">
             登录
           </div>
@@ -40,13 +40,13 @@
           @click="post">发帖子</button>
       </li>
     </ul>
-    <n-popover v-if="userStore.getToken !== '' " width="trigger" trigger="click">
+    <n-popover v-if="userStore.userInfo" width="trigger" trigger="click">
       <template #trigger>
         <div
           class="absolute inset-x-0 bottom-3 mx-auto px-4 py-2 flex justify-between items-center cursor-pointer hover:bg-gray-200 hover:rounded-lg">
           <div class="flex items-center">
-            <n-avatar size="large" :src="userStore.avatar_url" />
-            <span class="ml-2">{{userStore.getUsername}}</span>
+            <n-avatar size="large" :src="userStore.userInfo?.avatar_url" />
+            <span class="ml-2 overflow-ellipsis">{{userStore.userInfo?.username}}</span>
           </div>
           <n-icon>
             <EllipsisH />
@@ -85,27 +85,22 @@ import { useUserStore } from '@/store';
 import { useRoute, useRouter } from 'vue-router';
 import { NIcon } from 'naive-ui'
 import { Home, Gamepad, FacebookMessenger, User, ChevronRight, EllipsisH, PowerOff, Sun, Moon } from '@vicons/fa'
-import { getUserByUsername } from '@/services/user/user.api';
 import { leftList } from '@/constants/system'
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
-onMounted(async (): Promise<void> => {
-  console.log('store:', userStore.getUsername)
-  if (userStore.getUsername === '') {
-    return
+onMounted(() => {
+  if (userStore.access_token) {
+    userStore.getUser()
   }
-  const { data } = await getUserByUsername(userStore.getUsername)
-  if (data && data.avatar_url) {
-    userStore.avatar_url = data.avatar_url;
-  }
+
 })
 //主题切换
 const onModeSelect = (value: string): void => {
   window.$message.info(value)
 }
 const post = (): void => {
-  if (userStore.getToken === '') {
+  if (!userStore.access_token) {
     window.$message.warning('请先登录')
     router.push('/sign-in')
     return
@@ -114,8 +109,9 @@ const post = (): void => {
 }
 //退出登录
 const logout = (): void => {
+  userStore.access_token = null
+  userStore.userInfo = null
   localStorage.removeItem('token');
-  userStore.access_token = ''
   window.$message.success('注销成功！')
   router.push('/home')
 }
