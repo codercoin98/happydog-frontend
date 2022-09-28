@@ -10,10 +10,10 @@ export function getAllUser() {
     },
   })
 }
-//根据用户名获取用户
-export function getUserByUsername(username: string) {
+//根据ID获取用户
+export function getUserById(uid: string) {
   return httpRequest({
-    url: `api/user/findOne?username=${username}`,
+    url: `api/user/findOne?uid=${uid}`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json',
