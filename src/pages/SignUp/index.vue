@@ -149,7 +149,7 @@ const refreshCaptcha = async (): Promise<void> => {
 const init = async (): Promise<void> => {
     await Promise.all([getCaptcha(), getAllUser()]).then((values) => {
         state.captcha = values[0].data;
-        state.userNumber = values[1].data.length;
+        state.userNumber = values[1].data.num;
     })
 }
 // 提交注册
