@@ -8,7 +8,6 @@ const Help = () => import('@/pages/Help/index.vue')
 const Create = () => import('@/pages/Create/index.vue')
 const Post = () => import('@/pages/Post/index.vue')
 import { RouteRecordRaw } from 'vue-router'
-import { useUserStore } from '@/store'
 //路由配置表
 const routes: RouteRecordRaw[] = [
   {
@@ -30,14 +29,6 @@ const routes: RouteRecordRaw[] = [
     name: 'profile',
     path: '/profile',
     component: Profile,
-    beforeEnter: (to, from): boolean => {
-      const userStore = useUserStore()
-      if (userStore.getToken === '') {
-        window.$message.warning('请先登录')
-        return false
-      }
-      return true
-    },
   },
   {
     name: 'sign_in',
@@ -58,14 +49,6 @@ const routes: RouteRecordRaw[] = [
     name: 'create',
     path: '/create',
     component: Create,
-    beforeEnter: (to, from): boolean => {
-      const userStore = useUserStore()
-      if (userStore.access_token === '') {
-        window.$message.warning('请先登录')
-        return false
-      }
-      return true
-    },
   },
   {
     name: 'post',
