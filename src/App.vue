@@ -4,13 +4,13 @@
       <n-message-provider>
         <message />
         <div class="flex flex-row">
-          <div class="flex justify-end lg:flex-grow-0 h-screen w-1/4 pr-4">
+          <div class="flex justify-end lg:flex-grow-0 h-screen w-1/4">
             <header-component />
           </div>
-          <main class="flex lg:flex-grow py-3">
+          <main class="flex w-1/2 lg:flex-grow py-3 px-4">
             <router-view />
           </main>
-          <div class="flex lg:flex-grow-0 w-1/4 pl-4">
+          <div class="flex lg:flex-grow-0 w-1/4">
             <footer-component />
           </div>
         </div>

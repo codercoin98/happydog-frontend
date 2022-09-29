@@ -1,6 +1,6 @@
 <template>
     <div class="container h-full flex flex-col">
-        <div class="p-2 space-y-4">
+        <div class="space-y-4">
             <n-tabs type="line" default-value="recommand" justify-content="center" animated
                 tab-style="margin-right: 2rem" :on-update:value="onChange">
                 <n-tab name="recommand">
