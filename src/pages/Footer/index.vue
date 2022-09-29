@@ -31,7 +31,7 @@
                     Codercoin
                 </n-space>
             </a>
-            <div class="mt-2">{{ moment().format('dddd') }}</div>
+            <div class="mt-2">{{ dayjs().format('dddd') }}</div>
         </div>
         <div class="flex justify-center">
             <router-link to="/help" class="text-gray-400 hover:text-gray-500">关于本站</router-link>·<router-link to="#"
@@ -43,7 +43,7 @@
 
 <script setup lang="ts">
 import { Github, Search } from '@vicons/fa'
-import moment from "@/utils/moment";
+import dayjs from "@/utils/day";
 const hot_post: string[] = [
     'test', 'test', 'test', 'test', 'test', 'test'
 ]

@@ -31,7 +31,7 @@
                     <n-avatar round :src="state.post?.author[0].avatar_url" :size="50" />
                     <div class="">
                         <p class="lg:text-lg">{{state.post?.author[0].nickname}}</p>
-                        <p class="text-gray-400">发布于{{moment(state.post?.created_at).fromNow()}}</p>
+                        <p class="text-gray-400">发布于{{dayjs(state.post?.created_at).fromNow()}}</p>
                     </div>
                 </div>
             </div>
@@ -87,7 +87,7 @@
                         <!--操作-->
                         <div class="flex justify-between items-center h-10">
                             <div class="flex items-center space-x-4">
-                                <p>{{moment(item.created_at).fromNow()}}</p>
+                                <p>{{dayjs(item.created_at).fromNow()}}</p>
                                 <span class="flex items-center space-x-1">
                                     <n-icon class=" cursor-pointer hover:text-purple-500">
                                         <HeartRegular />
@@ -126,7 +126,7 @@ import { onMounted, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ChevronLeft, EllipsisH, HeartRegular, CommentDotsRegular, ShareSquareRegular } from '@vicons/fa'
 import { PostFull } from '../Home/types';
-import moment from '@/utils/moment'
+import dayjs from '@/utils/day'
 import { useUserStore } from '@/store';
 const router = useRouter()
 const route = useRoute()

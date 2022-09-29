@@ -30,7 +30,7 @@
                             <n-avatar round :src="item.author[0].avatar_url" :size="50" />
                             <div class="">
                                 <p class="lg:text-lg">{{item.author[0].nickname}}</p>
-                                <p class="text-gray-400">{{moment(item.created_at).fromNow()}}</p>
+                                <p class="text-gray-400">{{dayjs(item.created_at).fromNow()}}</p>
                             </div>
                         </div>
                         <n-popover trigger="click" placement="bottom-center">
@@ -78,7 +78,7 @@
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue';
 import { getAllPost } from '@/services/post/post.api';
-import moment from '@/utils/moment';
+import dayjs from '@/utils/day';
 import { HeartRegular, CommentDotsRegular, ShareSquareRegular, Spinner, EllipsisH } from '@vicons/fa'
 import { PostFull } from './types';
 import { useRouter } from 'vue-router';
