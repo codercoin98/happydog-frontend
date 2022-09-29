@@ -2,7 +2,6 @@ declare namespace POST_API {
   interface CreatePostParams {
     title: string
     content: string
-    image_urls: string[]
     author_id: string
   }
   interface UpdatePostParams {

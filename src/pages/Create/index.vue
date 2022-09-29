@@ -37,22 +37,37 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/store';
 import { useMessage } from 'naive-ui';
 import Editor from '@/components/BaseEditor/index.vue'
 import { ChevronLeft } from '@vicons/fa'
-import { rules} from '@/constants/system'
+import { rules } from '@/constants/system'
+import { createPost } from '@/services/post/post.api';
 const router = useRouter()
+const userStore = useUserStore()
 const message = useMessage()
 const editorRef = ref()
 const title = ref<string>('')
 
 //提交表单
-const submit = () => {
+const submit = async () => {
     if (!title.value) {
         message.warning('标题不能为空')
         return
     }
-    message.info(editorRef?.value?.content);
+    if (userStore.userInfo?._id) {
+        const { data } = await createPost({
+            title: title.value,
+            content: editorRef?.value?.content,
+            author_id: userStore.userInfo?._id
+        })
+        if (data) {
+            window.$message.success('发布成功~')
+            router.push(`/post/:${data._id}`)
+        }
+    }
+
+
 }
 </script>
 

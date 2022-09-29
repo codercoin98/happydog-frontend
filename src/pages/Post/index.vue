@@ -40,8 +40,7 @@
                 {{state.post?.title}}
             </p>
             <!--内容-->
-            <div class="max-h-20 py-2">
-                {{state.post?.content}}
+            <div class="py-2" v-html="state.post?.content">
             </div>
             <div class="flex border-t divide-x py-4">
                 <span class="flex-1 flex justify-center items-center cursor-pointer hover:text-purple-400">

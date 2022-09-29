@@ -49,8 +49,7 @@
                         {{item.title}}
                     </div>
                     <!--内容-->
-                    <div class="max-h-20 py-2">
-                        {{item.content}}
+                    <div class="max-h-40 py-2 overflow-y-clip text-ellipsis" v-html="item.content">
                     </div>
                     <div class="flex border-t divide-x py-4">
                         <span class="flex-1 flex justify-center items-center cursor-pointer hover:text-purple-400">
