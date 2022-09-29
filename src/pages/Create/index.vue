@@ -35,18 +35,17 @@
 </template>
 
 <script setup lang="ts">
-import Editor from '@/components/BaseEditor/index.vue'
-import { ChevronLeft } from '@vicons/fa'
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMessage } from 'naive-ui';
-import { ref } from 'vue';
+import Editor from '@/components/BaseEditor/index.vue'
+import { ChevronLeft } from '@vicons/fa'
+import { rules} from '@/constants/system'
 const router = useRouter()
 const message = useMessage()
 const editorRef = ref()
 const title = ref<string>('')
-const rules: string[] = [
-    '注意文明礼仪，勿含有辱骂、引战、仇恨、涉政等内容。', '单个图片大小不要超过1MB。', '后续功能正在填充当中，敬请期待。'
-]
+
 //提交表单
 const submit = () => {
     if (!title.value) {
