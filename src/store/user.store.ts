@@ -4,17 +4,7 @@ import jwt_decode from 'jwt-decode'
 import { Token } from '@/pages/SignIn/types'
 interface UserState {
   access_token: string | null
-  userInfo: {
-    _id: string
-    username: string
-    nickname: string
-    avatar_url: string
-    mood: string
-    bio: string
-    following: number
-    follower: number
-    created_at: string
-  } | null
+  userInfo: USER_API.User | null
 }
 const useUserStore = defineStore('user', {
   state: (): UserState => ({

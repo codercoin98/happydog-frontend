@@ -17,20 +17,26 @@
                     <n-card style="width: 600px" title="编辑信息" :bordered="false" size="huge" role="dialog"
                         aria-modal="true">
                         <template #header-extra>
-                            <button class="rounded-full bg-black text-white w-20">确认</button>
+                            <button class="rounded-full bg-black text-white w-20" @click="confirm">确认</button>
                         </template>
-                        <div class="space-y-4">
-                            <!--头像上传-->
-                            <n-upload :show-file-list="false" :custom-request="customUpload">
-                                <n-image :src="userStore.userInfo?.avatar_url" width="100" preview-disabled
-                                    class=" border-4 border-purple-200" />
-                            </n-upload>
-                            <!--其他修改-->
-                            <n-input round placeholder="昵称" show-count maxlength="18"
-                                :default-value="userStore.userInfo?.nickname" :v-model:value="editModalForm.nickname" />
-                            <n-input round placeholder="自我介绍" show-count maxlength="50"
-                                :v-model:value="editModalForm.bio" />
-                        </div>
+                        <n-form ref="formRef" :model="editModalForm" :rules="rules">
+                            <n-form-item path="avatar_url" label="头像">
+                                <!--头像上传-->
+                                <n-upload :show-file-list="false" :custom-request="customUpload" class="relative">
+                                    <n-image v-model:src="editModalForm.avatar_url" width="100" preview-disabled
+                                        class=" border-4 border-purple-200 cursor-pointer" />
+                                </n-upload>
+                            </n-form-item>
+                            <n-form-item path="nickname" label="昵称">
+                                <n-input round placeholder="起个很酷的名字吧！" show-count maxlength="18"
+                                    v-model:value="editModalForm.nickname" />
+                            </n-form-item>
+                            <n-form-item path="bio" label="简介">
+                                <n-input round placeholder="这家伙什么都没有写~" show-count maxlength="50"
+                                    v-model:value="editModalForm.bio" />
+                            </n-form-item>
+
+                        </n-form>
                     </n-card>
                 </n-modal>
                 <button
@@ -52,18 +58,64 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import { useUserStore } from '@/store';
 import { UploadCustomRequestOptions } from 'naive-ui/es/upload';
+import { uploadImage } from '@/services/upload/upload.api';
+import { FormInst, FormRules, useLoadingBar } from 'naive-ui';
+import { updateUserById } from '@/services/user/user.api';
 const userStore = useUserStore()
-const isShow = ref<boolean>(false)
-const editModalForm = reactive({
-    avatar_url: '',
-    nickname: userStore.userInfo?.nickname,
-    bio: ''
+const loadingBar = useLoadingBar()
+const formRef = ref<FormInst | null>(null)
+let isShow = ref<boolean>(false)
+const rules: FormRules = {
+    nickname: [
+        {
+            required: true, message: '昵称不能为空',
+        }
+
+    ]
+}
+const editModalForm = ref<USER_API.UpdateData>({
+    avatar_url: userStore.userInfo?.avatar_url!,
+    nickname: userStore.userInfo?.nickname!,
+    bio: userStore.userInfo?.bio!
 })
-const customUpload = (options: UploadCustomRequestOptions) => {
-    console.log(options.file.file);
+//上传头像
+const customUpload = async (options: UploadCustomRequestOptions) => {
+    if (options.file.file) {
+        const formdata = new FormData()
+        formdata.append('file', options.file.file)
+        try {
+            loadingBar.start()
+            const { data } = await uploadImage(formdata)
+            if (data && data.status === 201) {
+                editModalForm.value.avatar_url = data.url
+                loadingBar.finish()
+                window.$message.success('头像上传成功！')
+            }
+        } catch (error) {
+            loadingBar.error()
+        }
+    }
+}
+const confirm = async () => {
+    formRef.value?.validate(async error => {
+        if (!error) {
+            try {
+                loadingBar.start()
+                const { data } = await updateUserById(userStore.userInfo?._id!, editModalForm.value)
+                if (data) {
+                    userStore.userInfo = data
+                    loadingBar.finish()
+                    isShow.value = false
+                    window.$message.success('更新信息成功！')
+                }
+            } catch (error) {
+                loadingBar.error()
+            }
+        }
+    })
 
 }
 </script>
