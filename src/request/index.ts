@@ -14,6 +14,13 @@ const service = axios.create({
 service.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
+    if (localStorage.getItem('token')) {
+      if (config.url !== 'api/auth/signin' && config.url !== 'api/auth/signup') {
+        config.headers.Authorization =
+          'Bearer ' + JSON.parse(localStorage.getItem('token')).access_token
+        return config
+      }
+    }
     return config
   },
   function (error) {
@@ -40,6 +47,8 @@ service.interceptors.response.use(
         }
         break
       case 401:
+        //身份信息过期
+        localStorage.removeItem('token')
         window.$message.error('请先登录！')
         break
       case 403:
