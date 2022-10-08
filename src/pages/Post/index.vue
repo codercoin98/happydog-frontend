@@ -42,22 +42,25 @@
             <!--内容-->
             <div class="py-2" v-html="state.post?.content">
             </div>
-            <div class="flex border-t divide-x py-4">
-                <span class="flex-1 flex justify-center items-center cursor-pointer hover:text-purple-400">
+            <div class="flex justify-between border-t py-1">
+                <button @click.stop=""
+                    class="flex-1 flex justify-center items-center py-2 border-none bg-transparent   hover:border-none hover:bg-gray-100 hover:text-purple-400 focus:outline-none">
                     <n-icon size="18">
                         <HeartRegular />
                     </n-icon>
-                </span>
-                <span class="flex-1 flex justify-center items-center cursor-pointer hover:text-purple-400">
+                </button>
+                <button @click.stop=""
+                    class="flex-1 flex justify-center items-center py-2  border-none bg-transparent hover:border-none hover:bg-gray-100 hover:text-purple-400 focus:outline-none">
                     <n-icon size="18">
                         <CommentDotsRegular />
                     </n-icon>
-                </span>
-                <span class="flex-1 flex justify-center items-center cursor-pointer hover:text-purple-400">
+                </button>
+                <button @click.stop=""
+                    class="flex-1 flex justify-center items-center py-2 border-none bg-transparent hover:border-none hover:bg-gray-100 hover:text-purple-400 focus:outline-none">
                     <n-icon size="18">
                         <ShareSquareRegular />
                     </n-icon>
-                </span>
+                </button>
             </div>
         </div>
         <!--评论区-->

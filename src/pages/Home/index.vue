@@ -33,11 +33,13 @@
                                 <p class="text-gray-400">{{dayjs(item.created_at).fromNow()}}</p>
                             </div>
                         </div>
-                        <n-popover trigger="click" placement="bottom-center">
+                        <n-popover trigger="hover" placement="bottom-center">
                             <template #trigger>
-                                <n-icon size="18" class="cursor-pointer hover:text-purple-400">
-                                    <EllipsisH />
-                                </n-icon>
+                                <div class="flex items-center p-2 rounded-lg group hover:bg-gray-100">
+                                    <n-icon size="18" class="cursor-pointer group-hover:text-purple-400">
+                                        <EllipsisH />
+                                    </n-icon>
+                                </div>
                             </template>
                             <div class="w-32 py-2">
                                 <p class="py-2 w-full text-center cursor-pointer hover:bg-gray-100">举报</p>
@@ -51,22 +53,25 @@
                     <!--内容-->
                     <div class="max-h-40 py-2 overflow-y-clip text-ellipsis" v-html="item.content">
                     </div>
-                    <div class="flex border-t divide-x py-4">
-                        <span class="flex-1 flex justify-center items-center cursor-pointer hover:text-purple-400">
+                    <div class="flex justify-between border-t py-1">
+                        <button @click.stop=""
+                            class="flex-1 flex justify-center items-center py-2 border-none bg-transparent   hover:border-none hover:bg-gray-100 hover:text-purple-400 focus:outline-none">
                             <n-icon size="18">
                                 <HeartRegular />
                             </n-icon>
-                        </span>
-                        <span class="flex-1 flex justify-center items-center cursor-pointer hover:text-purple-400">
+                        </button>
+                        <button @click.stop=""
+                            class="flex-1 flex justify-center items-center py-2  border-none bg-transparent hover:border-none hover:bg-gray-100 hover:text-purple-400 focus:outline-none">
                             <n-icon size="18">
                                 <CommentDotsRegular />
                             </n-icon>
-                        </span>
-                        <span class="flex-1 flex justify-center items-center cursor-pointer hover:text-purple-400">
+                        </button>
+                        <button @click.stop=""
+                            class="flex-1 flex justify-center items-center py-2 border-none bg-transparent hover:border-none hover:bg-gray-100 hover:text-purple-400 focus:outline-none">
                             <n-icon size="18">
                                 <ShareSquareRegular />
                             </n-icon>
-                        </span>
+                        </button>
                     </div>
                 </li>
             </ul>
