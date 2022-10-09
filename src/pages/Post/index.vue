@@ -66,7 +66,7 @@
         <!--评论区-->
         <div v-if="userStore.access_token !== '' " class="space-y-4">
             <p class="lg:text-lg font-semibold">评论(
-                <n-number-animation ref="numberAnimationInstRef" :from="0" :to="9999" />+)
+                <n-number-animation ref="numberAnimationInstRef" :from="0" :to="state.comments.length" />)
             </p>
             <div class="flex space-x-2">
                 <n-input round autosize maxlength="100" show-count clearable placeholder="贴主期待你的评论~" class="flex-1" />
@@ -74,44 +74,83 @@
             </div>
             <div class="border rounded-lg p-4">
                 <ul class="flex flex-col space-y-2 divide-y">
-                    <li v-for="item in comment" :key="item._id" class="relative pl-14 pt-4 group">
-                        <div class="absolute left-0">
-                            <n-avatar round :src="item.from_user.avatar_url" :size="50" />
-                        </div>
-                        <!--用户信息-->
-                        <div class="py-3">
-                            <a href="/#" class="text-black">{{item.from_user.nickname}}</a>
-                        </div>
-                        <!--内容-->
-                        <div class="py-2 ">
-                            {{item.comment}}
-                        </div>
-                        <!--操作-->
-                        <div class="flex justify-between items-center h-10">
-                            <div class="flex items-center space-x-4">
-                                <p>{{dayjs(item.created_at).fromNow()}}</p>
-                                <span class="flex items-center space-x-1">
-                                    <n-icon class=" cursor-pointer hover:text-purple-500">
-                                        <HeartRegular />
-                                    </n-icon>
-                                    <p>{{item.like}}</p>
-                                </span>
-                                <p class="text-gray-500 cursor-pointer">回复</p>
+                    <li v-for="item in state.comments" :key="item._id">
+                        <!--根评论-->
+                        <div class="relative pl-14 pt-4 mb-2 group">
+                            <div class="absolute left-0">
+                                <n-avatar round :src="item.user[0].avatar_url" :size="50" />
                             </div>
-                            <n-popover trigger="click" placement="bottom-center">
-                                <template #trigger>
-                                    <span
-                                        class="invisible group-hover:visible flex items-center justify-center p-1 rounded hover:cursor-pointer hover:bg-gray-200  hover:text-purple-400 ">
-                                        <n-icon size="18" class="cursor-pointer hover:text-purple-400">
-                                            <EllipsisH />
+                            <!--用户信息-->
+                            <div class="py-3">
+                                <a href="/#" class="text-black">{{item.user[0].nickname}}</a>
+                            </div>
+                            <!--内容-->
+                            <div class="py-2 ">
+                                {{item.content}}
+                            </div>
+                            <!--操作-->
+                            <div class="flex justify-between items-center h-10">
+                                <div class="flex items-center space-x-4">
+                                    <p>{{dayjs(item.created_at).fromNow()}}</p>
+                                    <span class="flex items-center space-x-1">
+                                        <n-icon class=" cursor-pointer hover:text-purple-500">
+                                            <HeartRegular />
                                         </n-icon>
+                                        <p>{{item.like}}</p>
                                     </span>
-                                </template>
-                                <div class="w-32 py-2">
-                                    <p class="py-2 w-full text-center cursor-pointer hover:bg-gray-100">举报</p>
+                                    <p class="text-gray-500 cursor-pointer">回复</p>
                                 </div>
-                            </n-popover>
+                                <n-popover trigger="click" placement="bottom-center">
+                                    <template #trigger>
+                                        <span
+                                            class="invisible group-hover:visible flex items-center justify-center p-1 rounded hover:cursor-pointer hover:bg-gray-200  hover:text-purple-400 ">
+                                            <n-icon size="18" class="cursor-pointer hover:text-purple-400">
+                                                <EllipsisH />
+                                            </n-icon>
+                                        </span>
+                                    </template>
+                                    <div class="w-32 py-2">
+                                        <p class="py-2 w-full text-center cursor-pointer hover:bg-gray-100">举报</p>
+                                    </div>
+                                </n-popover>
+                            </div>
                         </div>
+                        <!--回复-->
+                        <ul v-if="item.reply_list.length > 0" class="pl-14">
+                            <li v-for="item2 in item.reply_list" class="mb-2 group">
+                                <div class="flex items-center space-x-2">
+                                    <n-avatar round :src="item2.user[0].avatar_url" :size="40" />
+                                    <a href="/#" class="text-black">{{item2.user[0].nickname}}</a>
+                                    <span> : </span>
+                                    <p>{{item2.content}}</p>
+                                </div>
+                                <div class="flex justify-between items-center h-10 pl-10">
+                                    <div class="flex items-center space-x-4">
+                                        <p>{{dayjs(item2.created_at).fromNow()}}</p>
+                                        <span class="flex items-center space-x-1">
+                                            <n-icon class=" cursor-pointer hover:text-purple-500">
+                                                <HeartRegular />
+                                            </n-icon>
+                                            <p>{{item2.like}}</p>
+                                        </span>
+                                        <p class="text-gray-500 cursor-pointer">回复</p>
+                                    </div>
+                                    <n-popover trigger="click" placement="bottom-center">
+                                        <template #trigger>
+                                            <span
+                                                class="invisible group-hover:visible flex items-center justify-center p-1 rounded hover:cursor-pointer hover:bg-gray-200  hover:text-purple-400 ">
+                                                <n-icon size="18" class="cursor-pointer hover:text-purple-400">
+                                                    <EllipsisH />
+                                                </n-icon>
+                                            </span>
+                                        </template>
+                                        <div class="w-32 py-2">
+                                            <p class="py-2 w-full text-center cursor-pointer hover:bg-gray-100">举报</p>
+                                        </div>
+                                    </n-popover>
+                                </div>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -130,14 +169,18 @@ import { ChevronLeft, EllipsisH, HeartRegular, CommentDotsRegular, ShareSquareRe
 import { PostFull } from '../Home/types';
 import dayjs from '@/utils/day'
 import { useUserStore } from '@/store';
+import usePostStore from '@/store/post.store';
 const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
+const postStore = usePostStore()
 interface State {
     post: PostFull | null
+    comments: COMMENT_API.CommentFull[]
 }
 const state = reactive<State>({
-    post: null
+    post: null,
+    comments: []
 })
 const comment = [
     {
@@ -154,67 +197,13 @@ const comment = [
         like: 1000,
         created_at: "2022-09-26T06:46:09.831Z",
     },
-    {
-        _id: '2',
-        comment: '大哥大哥',
-        from_user: {
-            _id: "632d81e04a8b9164b273f738",
-            username: "1015761882@qq.com",
-            nickname: "牛啊牛啊",
-            avatar_url: "http://localhost:3000/default_avatar.png"
-        },
-        to_post_id: '63314ab12c0b1cac75788c46',
-        to_comment_id: '1',
-        like: 99,
-        created_at: "2022-09-26T06:46:09.831Z",
-    },
-    {
-        _id: '3',
-        comment: 'ooooo',
-        from_user: {
-            _id: "632d81e04a8b9164b273f738",
-            username: "1015761882@qq.com",
-            nickname: "nihao",
-            avatar_url: "http://localhost:3000/default_avatar.png"
-        },
-        to_post_id: '63314ab12c0b1cac75788c46',
-        to_comment_id: '2',
-        like: 1000,
-        created_at: "2022-09-26T06:46:09.831Z",
-    },
-    {
-        _id: '4',
-        comment: 'ooooo',
-        from_user: {
-            _id: "632d81e04a8b9164b273f738",
-            username: "1015761882@qq.com",
-            nickname: "nihao",
-            avatar_url: "http://localhost:3000/default_avatar.png"
-        },
-        to_post_id: '63314ab12c0b1cac75788c46',
-        to_comment_id: '2',
-        like: 1000,
-        created_at: "2022-09-26T06:46:09.831Z",
-    },
-    {
-        _id: '5',
-        comment: 'ooooo',
-        from_user: {
-            _id: "632d81e04a8b9164b273f738",
-            username: "1015761882@qq.com",
-            nickname: "nihao",
-            avatar_url: "http://localhost:3000/default_avatar.png"
-        },
-        to_post_id: '63314ab12c0b1cac75788c46',
-        to_comment_id: '2',
-        like: 1000,
-        created_at: "2022-09-26T06:46:09.831Z",
-    }
 ]
 onMounted(async () => {
-    const { data } = await getPostById(route.params.post_id.toString())
-    if (data) {
-        state.post = data[0]
+    const post = await postStore.getPostById(route.params.post_id.toString())
+    const comments = await postStore.getComments(route.params.post_id.toString())
+    if (post) {
+        state.post = post
+        if (comments) state.comments = comments
     }
 })
 </script>
