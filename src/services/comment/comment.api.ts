@@ -16,7 +16,7 @@ export function createComment(
   })
 }
 //根据post_id查询所有的评论
-export function findAllCommentsById(post_id: string): AxiosPromise<COMMENT_API.Comment[]> {
+export function findAllCommentsById(post_id: string): AxiosPromise<COMMENT_API.CommentFull[]> {
   return httpRequest({
     url: '/api/comment/findAll',
     method: 'get',
