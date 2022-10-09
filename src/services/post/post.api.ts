@@ -2,6 +2,7 @@
 import { Post, PostFull } from '@/pages/Home/types'
 import httpRequest from '@/request/index'
 import { AxiosPromise } from 'axios'
+import { DeleteResult, UpdateResult } from '../api'
 //创建帖子
 export function createPost(post: POST_API.CreatePostParams): AxiosPromise<Post> {
   return httpRequest({
@@ -37,7 +38,7 @@ export function getPostById(post_id: string): AxiosPromise<PostFull[]> {
 export function updatePostById(
   post_id: string,
   postInfo: POST_API.UpdatePostParams
-): AxiosPromise<POST_API.UpdateResult> {
+): AxiosPromise<UpdateResult> {
   return httpRequest({
     url: `/api/post/findOne?post_id=${post_id}`,
     method: 'put',
@@ -48,7 +49,7 @@ export function updatePostById(
   })
 }
 //根据id删除帖子
-export function deletePostById(post_id: string): AxiosPromise<POST_API.DeleteResult> {
+export function deletePostById(post_id: string): AxiosPromise<DeleteResult> {
   return httpRequest({
     url: `/api/post/delete?post_id=${post_id}`,
     method: 'delete',

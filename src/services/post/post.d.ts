@@ -9,15 +9,5 @@ declare namespace POST_API {
     content: string
     author_id: string
   }
-  interface UpdateResult {
-    acknowledged: boolean
-    modifiedCount: number
-    upsertedId: string | null
-    upsertedCount: number
-    matchedCount: number
-  }
-  interface DeleteResult {
-    acknowledged: boolean
-    deletedCount: number
-  }
+
 }
