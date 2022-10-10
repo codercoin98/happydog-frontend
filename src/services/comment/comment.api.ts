@@ -5,7 +5,7 @@ import { DeleteResult } from '../api'
 //创建评论
 export function createComment(
   comment: COMMENT_API.CreateCommentParams
-): AxiosPromise<COMMENT_API.Comment> {
+): AxiosPromise<COMMENT_API.CommentFull[]> {
   return httpRequest({
     url: '/api/comment/create',
     method: 'post',

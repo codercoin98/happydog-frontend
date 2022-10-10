@@ -69,8 +69,10 @@
                 <n-number-animation ref="numberAnimationInstRef" :from="0" :to="state.comments.length" />)
             </p>
             <div class="flex space-x-2">
-                <n-input round autosize maxlength="100" show-count clearable placeholder="贴主期待你的评论~" class="flex-1" />
-                <button class="bg-purple-500 border-none text-white focus:outline-none active:bg-purple-400">发送</button>
+                <n-input round autosize maxlength="100" show-count clearable placeholder="贴主期待你的评论~" class="flex-1"
+                    v-model:value="state.input" />
+                <button class="bg-purple-500 border-none text-white focus:outline-none active:bg-purple-400"
+                    @click="submit">发送</button>
             </div>
             <div class="border rounded-lg p-4">
                 <ul class="flex flex-col space-y-2 divide-y">
@@ -116,7 +118,7 @@
                             </div>
                         </div>
                         <!--回复-->
-                        <ul v-if="item.reply_list.length > 0" class="pl-14">
+                        <ul v-if="item.reply_list && item.reply_list.length > 0" class="pl-14">
                             <li v-for="item2 in item.reply_list" class="mb-2 group">
                                 <div class="flex items-center space-x-2">
                                     <n-avatar round :src="item2.user[0].avatar_url" :size="40" />
@@ -162,7 +164,6 @@
 </template>
 
 <script setup lang="ts">
-import { getPostById } from '@/services/post/post.api';
 import { onMounted, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ChevronLeft, EllipsisH, HeartRegular, CommentDotsRegular, ShareSquareRegular } from '@vicons/fa'
@@ -170,6 +171,7 @@ import { PostFull } from '../Home/types';
 import dayjs from '@/utils/day'
 import { useUserStore } from '@/store';
 import usePostStore from '@/store/post.store';
+import { createComment } from '@/services/comment/comment.api';
 const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
@@ -177,27 +179,35 @@ const postStore = usePostStore()
 interface State {
     post: PostFull | null
     comments: COMMENT_API.CommentFull[]
+    input: string | null
 }
 const state = reactive<State>({
     post: null,
-    comments: []
+    comments: [],
+    input: null
 })
-const comment = [
-    {
-        _id: '1',
-        comment: '我去sadsadsadsadsadsadsadsadsa',
-        from_user: {
-            _id: "632d81e04a8b9164b273f738",
-            username: "1015761882@qq.com",
-            nickname: "nihao",
-            avatar_url: "http://localhost:3000/default_avatar.png"
-        },
-        to_post_id: '63314ab12c0b1cac75788c46',
-        to_comment_id: null,
-        like: 1000,
-        created_at: "2022-09-26T06:46:09.831Z",
-    },
-]
+//提交评论
+const submit = async () => {
+    console.log(state.input);
+    if (!state.input) {
+        window.$message.warning('不能发送空评论！')
+        return
+    }
+    try {
+        const { data } = await createComment({
+            post_id: state.post!._id!,
+            content: state.input,
+            user_id: userStore.userInfo!._id!
+        })
+        if (data.length > 0) {
+            window.$message.success('评论成功！')
+            state.input = null
+            state.comments.unshift(data[0])
+        }
+    } catch (error) {
+        return
+    }
+}
 onMounted(async () => {
     const post = await postStore.getPostById(route.params.post_id.toString())
     const comments = await postStore.getComments(route.params.post_id.toString())

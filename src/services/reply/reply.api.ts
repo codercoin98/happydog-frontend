@@ -3,7 +3,7 @@ import httpRequest from '@/request/index'
 import { AxiosPromise } from 'axios'
 import { DeleteResult } from '../api'
 //创建回复
-export function createComment(reply: REPLY_API.CreateReplyParams): AxiosPromise<REPLY_API.Reply> {
+export function createReply(reply: REPLY_API.CreateReplyParams): AxiosPromise<REPLY_API.Reply> {
   return httpRequest({
     url: '/api/reply/create',
     method: 'post',
