@@ -65,16 +65,19 @@
         </div>
         <!--评论区-->
         <div v-if="userStore.access_token !== '' " class="space-y-4">
+            <!--标题-->
             <p class="lg:text-lg font-semibold">评论(
                 <n-number-animation ref="numberAnimationInstRef" :from="0" :to="state.comments.length" />)
             </p>
+            <!--输入区域-->
             <div class="flex space-x-2">
                 <n-input round autosize maxlength="100" show-count clearable placeholder="贴主期待你的评论~" class="flex-1"
-                    v-model:value="state.input" />
+                    v-model:value="state.commentInput" />
                 <button class="bg-purple-500 border-none text-white focus:outline-none active:bg-purple-400"
-                    @click="submit">发送</button>
+                    @click="submitComment">发送</button>
             </div>
-            <div class="border rounded-lg p-4">
+            <!--评论-->
+            <div v-if="state.comments.length > 0" class="border rounded-lg p-4">
                 <ul class="flex flex-col space-y-2 divide-y">
                     <li v-for="item in state.comments" :key="item._id">
                         <!--根评论-->
@@ -100,8 +103,11 @@
                                         </n-icon>
                                         <p>{{item.like}}</p>
                                     </span>
-                                    <p class="text-gray-500 cursor-pointer">回复</p>
+                                    <p class="text-gray-500 cursor-pointer"
+                                        @click="handleReplyClick(item.user[0].nickname)">回复
+                                    </p>
                                 </div>
+                                <!--举报、删除-->
                                 <n-popover trigger="click" placement="bottom-center">
                                     <template #trigger>
                                         <span
@@ -113,8 +119,23 @@
                                     </template>
                                     <div class="w-32 py-2">
                                         <p class="py-2 w-full text-center cursor-pointer hover:bg-gray-100">举报</p>
+                                        <p v-if="item.user[0]._id === userStore.userInfo?._id"
+                                            class="py-2 w-full text-center cursor-pointer hover:bg-gray-100"
+                                            @click="deleteComment(item._id)">删除</p>
                                     </div>
                                 </n-popover>
+                            </div>
+                            <!--回复框-->
+                            <div v-if="state.replyInputVisible">
+                                <p v-if="userStore.access_token === ''">请登录后操作</p>
+                                <div v-else class="flex space-x-2">
+                                    <n-input round autosize maxlength="100" show-count clearable
+                                        :placeholder="`回复：@${state.replyUser}`" class="flex-1"
+                                        v-model:value="state.replyInput" />
+                                    <button
+                                        class="bg-purple-500 border-none text-white focus:outline-none active:bg-purple-400"
+                                        @click="submitReply(item._id,item.post_id)">发送</button>
+                                </div>
                             </div>
                         </div>
                         <!--回复-->
@@ -148,6 +169,9 @@
                                         </template>
                                         <div class="w-32 py-2">
                                             <p class="py-2 w-full text-center cursor-pointer hover:bg-gray-100">举报</p>
+                                            <p v-if="item2.user[0]._id === userStore.userInfo?._id"
+                                                class="py-2 w-full text-center cursor-pointer hover:bg-gray-100"
+                                                @click="deleteReply(item2._id,item2.reply_to_comment_id)">删除</p>
                                         </div>
                                     </n-popover>
                                 </div>
@@ -171,42 +195,131 @@ import { PostFull } from '../Home/types';
 import dayjs from '@/utils/day'
 import { useUserStore } from '@/store';
 import usePostStore from '@/store/post.store';
-import { createComment } from '@/services/comment/comment.api';
+import { createComment, deleteCommentById } from '@/services/comment/comment.api';
+import { useLoadingBar } from 'naive-ui';
+import { createReply, deleteReplyById } from '@/services/reply/reply.api';
 const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
 const postStore = usePostStore()
+const loadingBar = useLoadingBar()
 interface State {
     post: PostFull | null
     comments: COMMENT_API.CommentFull[]
-    input: string | null
+    commentInput: string | null
+    replyInput: string | null
+    replyInputVisible: boolean
+    replyUser: string | null
 }
 const state = reactive<State>({
     post: null,
     comments: [],
-    input: null
+    commentInput: null,
+    replyInput: null,
+    replyInputVisible: false,
+    replyUser: null
 })
 //提交评论
-const submit = async () => {
-    console.log(state.input);
-    if (!state.input) {
+const submitComment = async () => {
+    if (!state.commentInput) {
         window.$message.warning('不能发送空评论！')
         return
     }
     try {
+        loadingBar.start()
         const { data } = await createComment({
             post_id: state.post!._id!,
-            content: state.input,
+            content: state.commentInput,
             user_id: userStore.userInfo!._id!
         })
         if (data.length > 0) {
+            loadingBar.finish()
             window.$message.success('评论成功！')
-            state.input = null
+            state.commentInput = null
             state.comments.unshift(data[0])
         }
     } catch (error) {
+        loadingBar.error()
         return
     }
+}
+//提交回复
+const submitReply = async (comment_id: string, post_id: string) => {
+    if (!state.replyInput) {
+        window.$message.warning('不能发送空评论！')
+        return
+    }
+    try {
+        loadingBar.start()
+        const { data } = await createReply({
+            post_id: post_id,
+            content: state.replyInput,
+            user_id: userStore.userInfo!._id!,
+            reply_to_comment_id: comment_id
+        })
+        if (data && data.length > 0) {
+            loadingBar.finish()
+            window.$message.success('回复成功！')
+            state.replyInput = null
+            state.comments = state.comments.map(e => {
+                if (e._id === comment_id) {
+                    e.reply_list.push(data[0])
+                }
+                return e
+            })
+        }
+    } catch (error) {
+        loadingBar.error()
+        return
+    }
+}
+//删除评论
+const deleteComment = async (comment_id: string) => {
+    try {
+        loadingBar.start()
+        const { data } = await deleteCommentById(comment_id)
+        if (data && data.deletedCount === 1) {
+            //删除成功
+            loadingBar.finish()
+            window.$message.success('删除成功！')
+            state.comments = state.comments.filter(item => {
+                return item._id !== comment_id
+            })
+        }
+    } catch (error) {
+        loadingBar.error()
+        return
+    }
+}
+//删除回复
+const deleteReply = async (reply_id: string, comment_id: string) => {
+    try {
+        loadingBar.start()
+        const { data } = await deleteReplyById(reply_id)
+        if (data && data.deletedCount === 1) {
+            //删除成功
+            loadingBar.finish()
+            window.$message.success('删除成功！')
+            const target = state.comments.find(item => {
+                return item._id === comment_id
+            })
+            state.comments.forEach(item => {
+                if (item._id === comment_id) {
+                    item.reply_list.filter(e => {
+                        return e._id !== reply_id
+                    })
+                }
+            })
+        }
+    } catch (error) {
+        loadingBar.error()
+        return
+    }
+}
+//控制回复点击
+const handleReplyClick = (username: string) => {
+    state.replyInputVisible = true
+    state.replyUser = username
 }
 onMounted(async () => {
     const post = await postStore.getPostById(route.params.post_id.toString())
