@@ -300,18 +300,20 @@ const deleteReply = async (reply_id: string, comment_id: string) => {
             //删除成功
             loadingBar.finish()
             window.$message.success('删除成功！')
-            const target = state.comments.find(item => {
-                return item._id === comment_id
-            })
-            state.comments.forEach(item => {
+            state.comments = state.comments.map(item => {
                 if (item._id === comment_id) {
-                    item.reply_list.filter(e => {
+                    item.reply_list = item.reply_list.filter(e => {
                         return e._id !== reply_id
                     })
                 }
+                return item
             })
+            return 
         }
+        loadingBar.finish()
+        window.$message.error('删除失败！')
     } catch (error) {
+        console.log(error)
         loadingBar.error()
         return
     }
