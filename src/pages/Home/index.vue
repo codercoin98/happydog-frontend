@@ -61,10 +61,11 @@
                             </n-icon>
                         </button>
                         <button @click.stop=""
-                            class="flex-1 flex justify-center items-center py-2  border-none bg-transparent hover:border-none hover:bg-gray-100 hover:text-purple-400 focus:outline-none">
+                            class="flex-1 flex justify-center items-center space-x-1 py-2  border-none bg-transparent hover:border-none hover:bg-gray-100 hover:text-purple-400 focus:outline-none">
                             <n-icon size="18">
                                 <CommentDotsRegular />
                             </n-icon>
+                            <p>{{item.comment_count}}</p>
                         </button>
                         <button @click.stop=""
                             class="flex-1 flex justify-center items-center py-2 border-none bg-transparent hover:border-none hover:bg-gray-100 hover:text-purple-400 focus:outline-none">
