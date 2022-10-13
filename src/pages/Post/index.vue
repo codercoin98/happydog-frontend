@@ -64,17 +64,21 @@
             </div>
         </div>
         <!--评论区-->
-        <div v-if="userStore.access_token !== '' " class="space-y-4">
+        <div class="space-y-4">
             <!--标题-->
-            <p class="lg:text-lg font-semibold">评论(
-                <n-number-animation ref="numberAnimationInstRef" :from="0" :to="state.comments.length" />)
+            <p class="lg:text-lg font-semibold">评论
+                <span class="text-gray-400">{{state.comments.length}}</span>
             </p>
             <!--输入区域-->
-            <div class="flex space-x-2">
-                <n-input round autosize maxlength="100" show-count clearable placeholder="贴主期待你的评论~" class="flex-1"
-                    v-model:value="state.commentInput" />
-                <button class="bg-purple-500 border-none text-white focus:outline-none active:bg-purple-400"
+            <div v-if="userStore.access_token" class="flex space-x-2">
+                <n-input type="textarea" rows="3" autofocus maxlength="1000" show-count placeholder="贴主期待你的评论~"
+                    class="flex-1 rounded-lg" v-model:value="state.commentInput" />
+                <button
+                    class="bg-purple-500 border-none text-white hover:bg-purple-400 focus:outline-none active:bg-purple-400"
                     @click="submitComment">发送</button>
+            </div>
+            <div v-else class="text-center font-semibold text-lg">
+                登录后进行评论
             </div>
             <!--评论-->
             <div v-if="state.comments.length > 0" class="border rounded-lg p-4">
@@ -90,7 +94,7 @@
                                 <a href="/#" class="text-black">{{item.user[0].nickname}}</a>
                             </div>
                             <!--内容-->
-                            <div class="py-2 ">
+                            <div class="py-2 break-words">
                                 {{item.content}}
                             </div>
                             <!--操作-->
@@ -103,8 +107,7 @@
                                         </n-icon>
                                         <p>{{item.like}}</p>
                                     </span>
-                                    <p class="text-gray-500 cursor-pointer"
-                                        @click="handleReplyClick(item.user[0].nickname)">回复
+                                    <p class="text-gray-500 cursor-pointer" @click="handleReplyClick(item,1)">回复
                                     </p>
                                 </div>
                                 <!--举报、删除-->
@@ -125,29 +128,25 @@
                                     </div>
                                 </n-popover>
                             </div>
-                            <!--回复框-->
-                            <div v-if="state.replyInputVisible">
-                                <p v-if="userStore.access_token === ''">请登录后操作</p>
-                                <div v-else class="flex space-x-2">
-                                    <n-input round autosize maxlength="100" show-count clearable
-                                        :placeholder="`回复：@${state.replyUser}`" class="flex-1"
-                                        v-model:value="state.replyInput" />
-                                    <button
-                                        class="bg-purple-500 border-none text-white focus:outline-none active:bg-purple-400"
-                                        @click="submitReply(item._id,item.post_id)">发送</button>
-                                </div>
-                            </div>
                         </div>
                         <!--回复-->
                         <ul v-if="item.reply_list && item.reply_list.length > 0" class="pl-14">
-                            <li v-for="item2 in item.reply_list" class="mb-2 group">
-                                <div class="flex items-center space-x-2">
-                                    <n-avatar round :src="item2.user[0].avatar_url" :size="40" />
-                                    <a href="/#" class="text-black">{{item2.user[0].nickname}}</a>
-                                    <span> : </span>
-                                    <p>{{item2.content}}</p>
+                            <li v-for="item2 in item.reply_list" class="relative py-2 group pl-12">
+                                <n-avatar round :src="item2.user[0]?.avatar_url" :size="40"
+                                    class="absolute left-1 top-0" />
+                                <div class="inline-flex items-center flex-wrap space-x-2 h-min-10">
+                                    <div class="float-right font-sans break-words space-x-2">
+                                        <div class="inline-flex items-center">
+                                            <a href="/#" class="text-black">{{item2.user[0]?.nickname}}</a>
+                                        </div>
+                                        <span>回复</span>
+                                        <a href="/#" v-if="item2.reply_to_reply_id"
+                                            class="bg-transparent">@{{item2.reply_to_user[0]?.nickname}}</a>
+                                        <span> : </span>
+                                        {{item2.content}}
+                                    </div>
                                 </div>
-                                <div class="flex justify-between items-center h-10 pl-10">
+                                <div class="flex justify-between items-center h-10">
                                     <div class="flex items-center space-x-4">
                                         <p>{{dayjs(item2.created_at).fromNow()}}</p>
                                         <span class="flex items-center space-x-1">
@@ -156,7 +155,8 @@
                                             </n-icon>
                                             <p>{{item2.like}}</p>
                                         </span>
-                                        <p class="text-gray-500 cursor-pointer">回复</p>
+                                        <p class="text-gray-500 cursor-pointer" @click="handleReplyClick(item2,2)">回复
+                                        </p>
                                     </div>
                                     <n-popover trigger="click" placement="bottom-center">
                                         <template #trigger>
@@ -177,12 +177,21 @@
                                 </div>
                             </li>
                         </ul>
+                        <!--回复框-->
+                        <div v-if="state.replyInputVisible">
+                            <p v-if="userStore.access_token === ''">请登录后操作</p>
+                            <div v-else class="flex space-x-2 pl-14">
+                                <n-input type="textarea" rows="3" autofocus round maxlength="1000" show-count
+                                    :placeholder="`回复：@${state.replyTarget?.user[0].nickname}`" class="flex-grow"
+                                    v-model:value="state.replyInput" />
+                                <button
+                                    class="flex-shrink-0 bg-purple-500 border-none text-white hover:bg-purple-400 focus:outline-none active:bg-purple-400"
+                                    @click="submitReply">发送</button>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>
-        </div>
-        <div v-else class="text-center">
-            登录后进行评论
         </div>
     </div>
 </template>
@@ -209,7 +218,8 @@ interface State {
     commentInput: string | null
     replyInput: string | null
     replyInputVisible: boolean
-    replyUser: string | null
+    replyTarget: COMMENT_API.CommentFull | REPLY_API.ReplyFull | null
+    replyTargetType: number | null
 }
 const state = reactive<State>({
     post: null,
@@ -217,7 +227,8 @@ const state = reactive<State>({
     commentInput: null,
     replyInput: null,
     replyInputVisible: false,
-    replyUser: null
+    replyTarget: null,
+    replyTargetType: null
 })
 //提交评论
 const submitComment = async () => {
@@ -244,34 +255,40 @@ const submitComment = async () => {
     }
 }
 //提交回复
-const submitReply = async (comment_id: string, post_id: string) => {
+const submitReply = async () => {
     if (!state.replyInput) {
         window.$message.warning('不能发送空评论！')
         return
     }
-    try {
-        loadingBar.start()
-        const { data } = await createReply({
-            post_id: post_id,
-            content: state.replyInput,
-            user_id: userStore.userInfo!._id!,
-            reply_to_comment_id: comment_id
-        })
-        if (data && data.length > 0) {
-            loadingBar.finish()
-            window.$message.success('回复成功！')
-            state.replyInput = null
-            state.comments = state.comments.map(e => {
-                if (e._id === comment_id) {
-                    e.reply_list.push(data[0])
-                }
-                return e
+    if (state.replyTarget) {
+        try {
+            loadingBar.start()
+            const { data } = await createReply({
+                post_id: state.replyTarget.post_id,
+                content: state.replyInput,
+                user_id: userStore.userInfo?._id!,
+                reply_to_user_id: state.replyTarget.user[0]._id,
+                reply_to_comment_id: state.replyTargetType === 1 ? state.replyTarget._id : (state.replyTarget as REPLY_API.ReplyFull).reply_to_comment_id,
+                reply_to_reply_id: state.replyTargetType === 2 ? state.replyTarget._id : undefined
             })
+            console.log(data[0])
+            if (data && data.length > 0) {
+                loadingBar.finish()
+                window.$message.success('回复已提交')
+                state.replyInput = null
+                state.comments = state.comments.map(e => {
+                    if (e._id === state.replyTarget?._id || e._id === (state.replyTarget as REPLY_API.ReplyFull)?.reply_to_comment_id) {
+                        e.reply_list.push(data[0])
+                    }
+                    return e
+                })
+            }
+        } catch (error) {
+            loadingBar.error()
+            return
         }
-    } catch (error) {
-        loadingBar.error()
-        return
     }
+
 }
 //删除评论
 const deleteComment = async (comment_id: string) => {
@@ -308,7 +325,7 @@ const deleteReply = async (reply_id: string, comment_id: string) => {
                 }
                 return item
             })
-            return 
+            return
         }
         loadingBar.finish()
         window.$message.error('删除失败！')
@@ -318,10 +335,19 @@ const deleteReply = async (reply_id: string, comment_id: string) => {
         return
     }
 }
-//控制回复点击
-const handleReplyClick = (username: string) => {
+//控制回复点击,type为1时是回复顶级评论，为2是回复子评论
+const handleReplyClick = (target: COMMENT_API.CommentFull | REPLY_API.ReplyFull, type: number) => {
+    if (!userStore.access_token) {
+        window.$message.warning('请先登录')
+        return
+    }
+    state.replyTargetType = type
+    if (target === state.replyTarget) {
+        state.replyInputVisible = !state.replyInputVisible
+        return
+    }
     state.replyInputVisible = true
-    state.replyUser = username
+    state.replyTarget = target
 }
 onMounted(async () => {
     const post = await postStore.getPostById(route.params.post_id.toString())
@@ -333,6 +359,8 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped>
-
+<style>
+.n-input-wrapper {
+    resize: none !important;
+}
 </style>
