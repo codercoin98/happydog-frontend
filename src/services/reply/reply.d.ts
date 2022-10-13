@@ -7,6 +7,7 @@ declare namespace REPLY_API {
     post_id: string
     content: string
     user_id: string
+    reply_to_user_id: string
     reply_to_comment_id: string
     reply_to_reply_id?: string
   }
@@ -18,6 +19,13 @@ declare namespace REPLY_API {
     reply_to_reply_id: string
     like: number
     user: [
+      {
+        _id: string
+        nickname: string
+        avatar_url: string
+      }
+    ]
+    reply_to_user: [
       {
         _id: string
         nickname: string
