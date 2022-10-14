@@ -21,8 +21,8 @@
 <script setup lang="ts">
 import { NConfigProvider, GlobalThemeOverrides } from 'naive-ui'
 import Message from './components/Message/index.vue'
-import HeaderComponent from './pages/Header/index.vue'
-import FooterComponent from './pages/Footer/index.vue';
+import HeaderComponent from '@/components/Header/index.vue'
+import FooterComponent from '@/components/Footer/index.vue';
 const themeOverrides: GlobalThemeOverrides = {
   common: {
     primaryColor: '#8a2be2'
