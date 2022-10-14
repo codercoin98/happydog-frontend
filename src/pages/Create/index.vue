@@ -11,7 +11,7 @@
             <span class="lg:text-lg md:text-sm font-bold">发布帖子</span>
             <button @click="submit"
                 class="w-24 h-10 border-none bg-purple-400 text-white hover:bg-purple-500 active:bg-purple-400 focus:outline-none">
-                发布
+                {{loading ? '发布中':'发布'}}
             </button>
         </div>
         <div class="p-4 border rounded-lg">
@@ -48,6 +48,7 @@ const userStore = useUserStore()
 const loadingbar = useLoadingBar()
 const editorRef = ref()
 const title = ref<string>('')
+const loading = ref<boolean>(false)
 
 //提交表单
 const submit = async () => {
@@ -62,6 +63,7 @@ const submit = async () => {
     if (userStore.userInfo?._id) {
         try {
             loadingbar.start()
+            loading.value = true
             const { data } = await createPost({
                 title: title.value,
                 content: editorRef?.value?.content,
@@ -69,11 +71,13 @@ const submit = async () => {
             })
             if (data) {
                 loadingbar.finish()
+                loading.value = false
                 window.$message.success('发布成功~')
                 router.push(`/post/${data._id}`)
             }
         } catch (error) {
             loadingbar.error()
+            loading.value = false
         }
 
     }
