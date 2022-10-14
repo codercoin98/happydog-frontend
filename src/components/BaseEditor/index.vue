@@ -12,10 +12,9 @@ import { onBeforeUnmount, ref, shallowRef } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { IToolbarConfig, IEditorConfig } from '@wangeditor/editor'
 import { ImageElement, InsertFnType } from './types'
-import { useLoadingBar, useMessage } from 'naive-ui'
+import { useLoadingBar } from 'naive-ui'
 import { uploadImage } from '@/services/upload/upload.api'
 const loadingBar = useLoadingBar()
-const message = useMessage()
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef()
 // 内容 HTML
@@ -92,20 +91,28 @@ editorConfig.MENU_CONF!['editImage'] = {
 editorConfig.MENU_CONF!['uploadImage'] = {
     // 自定义上传
     async customUpload(file: File, insertFn: InsertFnType) {
+        console.log(file);
+        if (file.size > 1024 * 5) {
+            window.$message.warning('图片大小不要超过5MB')
+            return
+        }
         // 自己实现上传，并得到图片 url alt href
         const form = new FormData()
         form.append('file', file)
-        loadingBar.start()
-        const { data } = await uploadImage(form)
-        if (data.status === 201) {
-            //上传成功
-            insertFn(data.url, data.alt, data.href)
-            loadingBar.finish()
-            message.success('上传成功！')
-            return
+        try {
+            loadingBar.start()
+            const { data } = await uploadImage(form)
+            if (data.status === 201) {
+                //上传成功
+                insertFn(data.url, data.alt, data.href)
+                loadingBar.finish()
+                window.$message.success('图片上传成功！')
+                return
+            }
+        } catch (error) {
+            window.$message.success('图片上传失败！')
+            loadingBar.error()
         }
-        message.success('上传失败！')
-        loadingBar.error()
     },
 }
 // 组件销毁时，也及时销毁编辑器
