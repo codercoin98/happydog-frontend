@@ -1,2 +1,3 @@
 import useUserStore from './user.store'
-export { useUserStore }
+import usePostStore from './post.store'
+export { useUserStore, usePostStore }

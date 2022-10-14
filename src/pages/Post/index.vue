@@ -202,8 +202,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { ChevronLeft, EllipsisH, HeartRegular, CommentDotsRegular, ShareSquareRegular } from '@vicons/fa'
 import { PostFull } from '../Home/types';
 import dayjs from '@/utils/day'
-import { useUserStore } from '@/store';
-import usePostStore from '@/store/post.store';
+import { useUserStore,usePostStore } from '@/store';
 import { createComment, deleteCommentById } from '@/services/comment/comment.api';
 import { useLoadingBar } from 'naive-ui';
 import { createReply, deleteReplyById } from '@/services/reply/reply.api';

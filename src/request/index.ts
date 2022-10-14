@@ -4,6 +4,7 @@ import {
   USERNAME_ALREADY_EXISTS,
   USERNAME_OR_PASSWORD_NOT_MATCH,
 } from '@/constants/error'
+import { useUserStore } from '@/store/index'
 
 // 创建一个 axios 实例
 const service = axios.create({
@@ -12,12 +13,12 @@ const service = axios.create({
 
 // 添加请求拦截器
 service.interceptors.request.use(
-  function (config) {
+  function (config: any) {
     // 在发送请求之前做些什么
     if (localStorage.getItem('token')) {
       if (config.url !== 'api/auth/signin' && config.url !== 'api/auth/signup') {
         config.headers.Authorization =
-          'Bearer ' + JSON.parse(localStorage.getItem('token')).access_token
+          'Bearer ' + JSON.parse(localStorage.getItem('token')!).access_token
         return config
       }
     }
@@ -35,6 +36,7 @@ service.interceptors.response.use(
     return response
   },
   function (error) {
+    const userStore = useUserStore()
     const response = error.response
     switch (response.status) {
       case 400:
@@ -49,6 +51,7 @@ service.interceptors.response.use(
       case 401:
         //身份信息过期
         localStorage.removeItem('token')
+        userStore.access_token = null
         window.$message.error('请先登录！')
         break
       case 403:
