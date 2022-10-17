@@ -76,7 +76,7 @@
                 <n-input type="textarea" rows="3" autofocus maxlength="1000" show-count placeholder="贴主期待你的评论~"
                     class="flex-1 rounded-lg" v-model:value="state.commentInput" />
                 <button
-                    class="bg-purple-500 border-none text-white hover:bg-purple-400 focus:outline-none active:bg-purple-400"
+                    class="bg-purple-500 border-none text-white hover:bg-purple-400 focus:outline-none active:bg-purple-500"
                     @click="submitComment">发送</button>
             </div>
             <div v-else class="text-center font-semibold text-lg">
