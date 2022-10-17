@@ -14,9 +14,10 @@
                 {{loading ? '发布中':'发布'}}
             </button>
         </div>
-        <div class="p-4 border rounded-lg">
+        <div class="p-4 border rounded-lg space-y-2">
             <n-input type="text" placeholder="标题" clearable maxlength="30" show-count v-model:value="title" />
             <Editor ref="editorRef" />
+            <n-select placeholder="请选择社区发布" multiple :max-tag-count="5" v-model:value="category" :options="options" />
         </div>
         <div class="container border rounded-lg p-4">
             <n-list>
@@ -47,9 +48,27 @@ const router = useRouter()
 const userStore = useUserStore()
 const loadingbar = useLoadingBar()
 const editorRef = ref()
+const category = ref<string[] | null>(null)
 const title = ref<string>('')
 const loading = ref<boolean>(false)
-
+const options = [
+    {
+        label: '日常交流',
+        value: 'common',
+    },
+    {
+        label: '游戏攻略',
+        value: 'game',
+    },
+    {
+        label: '游戏资讯',
+        value: 'news',
+    },
+    {
+        label: '版务公告',
+        value: 'notice',
+    },
+]
 //提交表单
 const submit = async () => {
     if (!title.value) {
@@ -60,6 +79,10 @@ const submit = async () => {
         window.$message.warning('内容不能为空')
         return
     }
+    if (!category.value) {
+        window.$message.warning('请选择发布的社区')
+        return
+    }
     if (userStore.userInfo?._id) {
         try {
             loadingbar.start()
@@ -67,7 +90,8 @@ const submit = async () => {
             const { data } = await createPost({
                 title: title.value,
                 content: editorRef?.value?.content,
-                author_id: userStore.userInfo?._id
+                author_id: userStore.userInfo?._id,
+                categories: category.value!
             })
             if (data) {
                 loadingbar.finish()
@@ -75,6 +99,8 @@ const submit = async () => {
                 window.$message.success('发布成功~')
                 router.push(`/post/${data._id}`)
             }
+            loadingbar.finish()
+            loading.value = false
         } catch (error) {
             loadingbar.error()
             loading.value = false

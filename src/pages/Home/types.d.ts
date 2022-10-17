@@ -9,6 +9,7 @@ export interface Post {
       avatar_url: string
     }
   ]
+  categories: string[]
   created_at: string
 }
 export interface PostFull extends Post {
