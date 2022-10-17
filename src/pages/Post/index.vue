@@ -146,7 +146,7 @@
                                         <div class="inline-flex items-center">
                                             <a href="/#" class="text-black">{{item2.user[0]?.nickname}}</a>
                                         </div>
-                                        <span>回复</span>
+                                        <span v-if="item2.reply_to_reply_id">回复</span>
                                         <a href="/#" v-if="item2.reply_to_reply_id"
                                             class="bg-transparent">@{{item2.reply_to_user[0]?.nickname}}</a>
                                         <span> : </span>
@@ -204,7 +204,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ChevronLeft, EllipsisH, HeartRegular, CommentDotsRegular, ShareSquareRegular } from '@vicons/fa'
 import { PostFull } from '../Home/types';
@@ -280,7 +280,6 @@ const submitReply = async () => {
                 reply_to_comment_id: state.replyTargetType === 1 ? state.replyTarget._id : (state.replyTarget as REPLY_API.ReplyFull).reply_to_comment_id,
                 reply_to_reply_id: state.replyTargetType === 2 ? state.replyTarget._id : undefined
             })
-            console.log(data[0])
             if (data && data.length > 0) {
                 loadingBar.finish()
                 window.$message.success('回复已提交')
