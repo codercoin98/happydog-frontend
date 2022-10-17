@@ -21,6 +21,8 @@
                 </template>
                 <div class="w-32 py-2">
                     <p class="py-2 w-full text-center cursor-pointer hover:bg-gray-100">举报</p>
+                    <p v-if="state.post?.author[0]._id === userStore.userInfo?._id"
+                        class="py-2 w-full text-center cursor-pointer hover:bg-gray-100" @click="deletePost">删除</p>
                 </div>
             </n-popover>
         </div>
@@ -202,15 +204,17 @@ import { useRoute, useRouter } from 'vue-router';
 import { ChevronLeft, EllipsisH, HeartRegular, CommentDotsRegular, ShareSquareRegular } from '@vicons/fa'
 import { PostFull } from '../Home/types';
 import dayjs from '@/utils/day'
-import { useUserStore,usePostStore } from '@/store';
+import { useUserStore, usePostStore } from '@/store';
 import { createComment, deleteCommentById } from '@/services/comment/comment.api';
-import { useLoadingBar } from 'naive-ui';
+import { useDialog, useLoadingBar } from 'naive-ui';
 import { createReply, deleteReplyById } from '@/services/reply/reply.api';
+import { deletePostById } from '@/services/post/post.api';
 const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
 const postStore = usePostStore()
 const loadingBar = useLoadingBar()
+const dialog = useDialog()
 interface State {
     post: PostFull | null
     comments: COMMENT_API.CommentFull[]
@@ -333,6 +337,48 @@ const deleteReply = async (reply_id: string, comment_id: string) => {
         loadingBar.error()
         return
     }
+}
+//删除帖子
+const deletePost = async () => {
+    const DeleteDialog = dialog.info({
+        title: '警告',
+        content: '你确定要删除该帖子吗？',
+        positiveText: '确定',
+        positiveButtonProps: {
+            color: '#8a2be2',
+            textColor: '#8a2be2',
+            focusable: false
+        },
+        negativeText: '取消',
+        negativeButtonProps: {
+            color: '#000000',
+            textColor: 'gray',
+            bordered: false,
+            focusable: false
+        },
+        showIcon: false,
+        closable: false,
+        onPositiveClick: async () => {
+            try {
+                loadingBar.start()
+                const { data } = await deletePostById(state.post!._id)
+                if (data.deletedCount === 1) {
+                    loadingBar.finish()
+                    window.$message.success('操作成功')
+                    DeleteDialog.destroy()
+                    router.push('/home')
+                    return
+                }
+            } catch (error) {
+                loadingBar.error()
+                window.$message.error('操作失败')
+            }
+
+        },
+        onNegativeClick: () => {
+
+        }
+    })
 }
 //控制回复点击,type为1时是回复顶级评论，为2是回复子评论
 const handleReplyClick = (target: COMMENT_API.CommentFull | REPLY_API.ReplyFull, type: number) => {

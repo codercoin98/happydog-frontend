@@ -1,20 +1,22 @@
 <template>
   <n-config-provider :theme-overrides="themeOverrides" class="m-0">
     <n-loading-bar-provider>
-      <n-message-provider>
-        <message />
-        <div class="flex flex-row">
-          <div class="flex justify-end lg:flex-grow-0 h-screen w-1/4">
-            <header-component />
+      <n-dialog-provider>
+        <n-message-provider>
+          <message />
+          <div class="flex flex-row">
+            <div class="flex justify-end lg:flex-grow-0 h-screen w-1/4">
+              <header-component />
+            </div>
+            <main class="flex w-1/2 lg:flex-grow py-3 px-4">
+              <router-view />
+            </main>
+            <div class="flex lg:flex-grow-0 w-1/4">
+              <footer-component />
+            </div>
           </div>
-          <main class="flex w-1/2 lg:flex-grow py-3 px-4">
-            <router-view />
-          </main>
-          <div class="flex lg:flex-grow-0 w-1/4">
-            <footer-component />
-          </div>
-        </div>
-      </n-message-provider>
+        </n-message-provider>
+      </n-dialog-provider>
     </n-loading-bar-provider>
   </n-config-provider>
 </template>
