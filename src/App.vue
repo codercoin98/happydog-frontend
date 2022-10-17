@@ -36,6 +36,17 @@ const themeOverrides: GlobalThemeOverrides = {
   Input: {
     borderFocus: '#8a2be2',
     borderHover: '#8a2be2',
+  },
+  Select: {
+    peers: {
+      InternalSelection: {
+        borderFocus: '#8a2be2',
+        borderHover: '#8a2be2',
+      },
+      InternalSelectMenu: {
+        optionTextColorPressed: '#8a2be2',
+      }
+    }
   }
 }
 </script>
