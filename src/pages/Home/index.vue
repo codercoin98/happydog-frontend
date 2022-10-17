@@ -30,7 +30,13 @@
                             <n-avatar round :src="item.author[0].avatar_url" :size="50" />
                             <div class="">
                                 <p class="lg:text-lg">{{item.author[0].nickname}}</p>
-                                <p class="text-gray-400">{{dayjs(item.created_at).fromNow()}}</p>
+                                <div class="space-x-2">
+                                    <span class="text-gray-400">{{dayjs(item.created_at).fromNow()}}</span>
+                                    <a href="/" v-for="i in changeToCategory(item.categories)" class=" text-gray-400">
+                                        {{i}}
+                                    </a>
+                                </div>
+
                             </div>
                         </div>
                         <n-popover trigger="hover" placement="bottom-center">
@@ -87,6 +93,7 @@ import dayjs from '@/utils/day';
 import { HeartRegular, CommentDotsRegular, ShareSquareRegular, Spinner, EllipsisH } from '@vicons/fa'
 import { PostFull } from './types';
 import { useRouter } from 'vue-router';
+import { changeToCategory } from '@/utils/format';
 const router = useRouter()
 interface State {
     posts: PostFull[];

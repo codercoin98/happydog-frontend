@@ -44,6 +44,11 @@
             <!--内容-->
             <div class="py-2" v-html="state.post?.content">
             </div>
+            <div class="text-gray-400 space-x-2 py-2">
+                <n-tag v-for="item in state.post?.categories">
+                    {{item}}
+                </n-tag>
+            </div>
             <div class="flex justify-between border-t py-1">
                 <button @click.stop=""
                     class="flex-1 flex justify-center items-center py-2 border-none bg-transparent   hover:border-none hover:bg-gray-100 hover:text-purple-400 focus:outline-none">
@@ -199,7 +204,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue';
+import { computed, onMounted, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ChevronLeft, EllipsisH, HeartRegular, CommentDotsRegular, ShareSquareRegular } from '@vicons/fa'
 import { PostFull } from '../Home/types';
@@ -209,6 +214,7 @@ import { createComment, deleteCommentById } from '@/services/comment/comment.api
 import { useDialog, useLoadingBar } from 'naive-ui';
 import { createReply, deleteReplyById } from '@/services/reply/reply.api';
 import { deletePostById } from '@/services/post/post.api';
+import { changeToCategory } from '@/utils/format';
 const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
@@ -399,8 +405,10 @@ onMounted(async () => {
     const comments = await postStore.getComments(route.params.post_id.toString())
     if (post) {
         state.post = post
+        state.post.categories = changeToCategory(post.categories)
         if (comments) state.comments = comments
     }
+
 })
 </script>
 
