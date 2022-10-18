@@ -14,14 +14,15 @@ export function createPost(post: POST_API.CreatePostParams): AxiosPromise<Post> 
     data: post,
   })
 }
-//获取所有的帖子
-export function getAllPost(): AxiosPromise<PostFull[]> {
+//获取帖子
+export function getAllPost(params: POST_API.GetPostParams): AxiosPromise<PostFull[]> {
   return httpRequest({
     url: '/api/post/findAll',
     method: 'get',
     headers: {
       'Content-Type': 'application/json',
     },
+    params: params,
   })
 }
 //根据id获取帖子的详情

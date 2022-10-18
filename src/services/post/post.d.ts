@@ -10,4 +10,8 @@ declare namespace POST_API {
     content: string
     author_id: string
   }
+  interface GetPostParams {
+    currentPage: number
+    size: number
+  }
 }
