@@ -23,20 +23,19 @@
             </n-list>
         </div>
         <div class=" border rounded-lg p-2 flex flex-col justify-center items-center cursor-pointer mb-2">
-            <a href="https://github.com/coderlcb" class="no-underline text-black">
+            <a href="https://github.com/coderlcb/HappyDog" class="no-underline text-black">
                 <n-space class="flex items-center">
                     <n-icon size="20">
                         <Github />
                     </n-icon>
-                    Codercoin
+                    开发版
                 </n-space>
             </a>
             <div class="mt-2">{{ dayjs().format('dddd') }}</div>
         </div>
         <div class="flex justify-center">
-            <router-link to="/help" class="text-gray-400 hover:text-gray-500">关于本站</router-link>·<router-link to="#"
-                class="text-gray-400 hover:text-gray-500">用户协议</router-link>·<router-link to="#"
-                class="text-gray-400 hover:text-gray-500">联系方式</router-link>
+            <router-link to="/about" class="text-gray-400 hover:text-gray-500">关于本站</router-link>·<router-link to="/tos"
+                class="text-gray-400 hover:text-gray-500">用户协议</router-link>
         </div>
     </div>
 </template>
