@@ -28,7 +28,6 @@
                     <n-icon size="20">
                         <Github />
                     </n-icon>
-                    开发版
                 </n-space>
             </a>
             <div class="mt-2">{{ dayjs().format('dddd') }}</div>
