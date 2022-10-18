@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     Header: typeof import('./src/components/Header/index.vue')['default']
     Message: typeof import('./src/components/Message/index.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
+    NBackTop: typeof import('naive-ui')['NBackTop']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
     NCheckbox: typeof import('naive-ui')['NCheckbox']

@@ -14,6 +14,7 @@
             <div class="flex lg:flex-grow-0 w-1/4">
               <footer-component />
             </div>
+            <n-back-top :right="100" />
           </div>
         </n-message-provider>
       </n-dialog-provider>
@@ -47,6 +48,10 @@ const themeOverrides: GlobalThemeOverrides = {
         optionTextColorPressed: '#8a2be2',
       }
     }
+  },
+  BackTop: {
+    iconColorHover: '#8a2be2',
+    iconColorPressed: '#8a2be2',
   }
 }
 </script>
