@@ -17,7 +17,7 @@
                     <n-card style="width: 600px" title="编辑信息" :bordered="false" size="huge" role="dialog"
                         aria-modal="true">
                         <template #header-extra>
-                            <button class="rounded-full bg-black text-white w-20" @click="confirm">确认</button>
+                            <button class="py-2 px-4 rounded-full bg-black text-white w-20" @click="confirm">确认</button>
                         </template>
                         <n-form ref="formRef" :model="editModalForm" :rules="rules">
                             <n-form-item path="avatar_url" label="头像">
@@ -40,7 +40,7 @@
                     </n-card>
                 </n-modal>
                 <button
-                    class="block rounded-full w-24 border border-gray-400 bg-transparent font-semibold hover:border-gray-400 hover:bg-gray-100"
+                    class="block py-2 px-4 rounded-full w-24 border border-gray-400 bg-transparent font-semibold hover:border-gray-400 hover:bg-gray-100"
                     @click="isShow = true">编辑</button>
                 <div class="space-x-4">
                     <span class="text-base text-neutral-500 ">

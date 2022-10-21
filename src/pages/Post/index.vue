@@ -101,12 +101,7 @@
           class="flex-1 rounded-lg"
           v-model:value="state.commentInput"
         />
-        <button
-          class="py-2 px-4 rounded-lg bg-purple-500 border-none text-white hover:bg-purple-400 focus:outline-none active:bg-purple-500"
-          @click="submitComment"
-        >
-          发送
-        </button>
+        <button class="primary-btn" @click="submitComment">发送</button>
       </div>
       <div v-else class="text-center font-semibold text-lg">登录后进行评论</div>
       <!--评论-->
@@ -248,12 +243,7 @@
                   class="flex-grow"
                   v-model:value="state.replyInput"
                 />
-                <button
-                  class="py-2 px-4 rounded-lg flex-shrink-0 bg-purple-500 border-none text-white hover:bg-purple-400 focus:outline-none active:bg-purple-400"
-                  @click="submitReply"
-                >
-                  发送
-                </button>
+                <button class="primary-btn" @click="submitReply">发送</button>
               </div>
             </div>
           </li>
