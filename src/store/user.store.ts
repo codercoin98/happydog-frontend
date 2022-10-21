@@ -5,11 +5,13 @@ import { Token } from '@/pages/SignIn/types'
 interface UserState {
   access_token: string | null
   userInfo: USER_API.User | null
+  theme: string
 }
 const useUserStore = defineStore('user', {
   state: (): UserState => ({
     access_token: null,
     userInfo: null,
+    theme: 'light',
   }),
   getters: {},
   actions: {
@@ -34,6 +36,11 @@ const useUserStore = defineStore('user', {
         key: 'token',
         storage: localStorage,
         paths: ['access_token'],
+      },
+      {
+        key: 'theme',
+        storage: localStorage,
+        paths: ['theme'],
       },
     ],
   },

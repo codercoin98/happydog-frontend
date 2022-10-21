@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPluginPersist from 'pinia-plugin-persist'
-import 'default-passive-events'
 import 'tailwindcss/tailwind.css'
 import './index.css'
 import App from './App.vue'

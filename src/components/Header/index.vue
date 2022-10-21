@@ -6,7 +6,8 @@
       <router-link to="/" class="text-black">
         <n-space class="flex items-center">
           <n-avatar :size="48" round src="http://124.220.47.26:7777/images/dog.jpg" />
-          <span class="text-xl text-black subpixel-antialiased font-semibold cursor-pointer"
+          <span
+            class="text-xl text-black dark:text-white subpixel-antialiased font-semibold cursor-pointer"
             >HappyDog</span
           >
         </n-space>
@@ -26,8 +27,8 @@
       <li
         v-for="item in leftList"
         :key="item.title"
-        :class="route.path === item.path ? 'rounded-lg text-purple-400' : null"
-        class="relative flex items-center pl-2 pr-4 py-2 cursor-pointer text-black font-semibold hover:bg-gray-200 hover:rounded-lg group"
+        :class="route.path === item.path ? 'rounded-lg text-purple-400 dark:text-purple-400' : null"
+        class="relative flex items-center pl-2 pr-4 py-2 cursor-pointer text-black dark:text-white font-semibold hover:bg-gray-200 dark:hover:bg-gray-500 hover:rounded-lg group"
         @click="router.push({ path: item.path })"
       >
         <n-icon size="20" class="mr-4">
@@ -48,11 +49,11 @@
     <n-popover v-if="userStore.userInfo" width="trigger" trigger="click">
       <template #trigger>
         <div
-          class="absolute inset-x-0 bottom-3 mx-auto px-4 py-2 flex justify-between items-center cursor-pointer hover:bg-gray-200 hover:rounded-lg"
+          class="absolute inset-x-0 bottom-3 mx-auto px-4 py-2 flex justify-between items-center cursor-pointer hover:bg-gray-200 hover:rounded-lg dark:bg-gray-500 dark:rounded-lg dark:hover:bg-gray-400 dark:active:bg-gray-500"
         >
           <div class="flex items-center">
             <n-avatar size="large" :src="userStore.userInfo?.avatar_url" />
-            <span class="ml-2 overflow-ellipsis">{{ userStore.userInfo?.username }}</span>
+            <span class="ml-2 overflow-ellipsi">{{ userStore.userInfo?.username }}</span>
           </div>
           <n-icon>
             <EllipsisH />
@@ -63,6 +64,7 @@
         <li class="flex justify-center p-2">
           <n-switch
             size="large"
+            :default-value="theme"
             unchecked-value="light"
             checked-value="dark"
             :on-update:value="onModeSelect"
@@ -80,7 +82,7 @@
           </n-switch>
         </li>
         <li
-          class="flex justify-center items-center cursor-pointer p-2 hover:bg-gray-100"
+          class="flex justify-center items-center cursor-pointer p-2 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-500"
           @click="logout"
         >
           <n-icon>
@@ -93,7 +95,7 @@
   </header>
 </template>
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useUserStore } from '@/store'
 import { useRoute, useRouter } from 'vue-router'
 import { NIcon } from 'naive-ui'
@@ -112,14 +114,16 @@ import { leftList } from '@/constants/system'
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
-onMounted(() => {
-  if (userStore.access_token) {
-    userStore.getUser()
-  }
-})
+const theme = ref<string>('light')
 //主题切换
 const onModeSelect = (value: string): void => {
-  window.$message.info(value)
+  if (value === 'dark') {
+    userStore.theme = 'dark'
+    document.documentElement.classList.add('dark')
+    return
+  }
+  userStore.theme = 'light'
+  document.documentElement.classList.remove('dark')
 }
 const post = (): void => {
   if (!userStore.access_token) {
@@ -137,6 +141,14 @@ const logout = (): void => {
   window.$message.success('注销成功！')
   router.push('/home')
 }
+onMounted(() => {
+  if (userStore.access_token) {
+    userStore.getUser()
+  }
+  if (localStorage.theme) {
+    theme.value = JSON.parse(localStorage.getItem('theme')!).theme
+  }
+})
 </script>
 <style>
 .n-popover {

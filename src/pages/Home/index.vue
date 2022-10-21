@@ -58,7 +58,11 @@
                 </div>
               </template>
               <div class="w-32 py-2">
-                <p class="py-2 w-full text-center cursor-pointer hover:bg-gray-100">举报</p>
+                <p
+                  class="py-2 w-full text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500"
+                >
+                  举报
+                </p>
               </div>
             </n-popover>
           </div>

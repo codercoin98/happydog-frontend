@@ -1,38 +1,38 @@
 <template>
   <div class="container space-y-4">
     <!--顶部-->
-    <div class="flex justify-between items-center">
-      <span
-        class="flex items-center justify-center p-1 rounded hover:cursor-pointer hover:bg-gray-200 hover:text-purple-400"
-        @click="router.back()"
-      >
-        <n-icon size="20">
-          <ChevronLeft />
-        </n-icon>
-      </span>
-      <span class="lg:text-lg md:text-sm font-bold">帖子</span>
-      <n-popover trigger="click" placement="bottom-center">
-        <template #trigger>
-          <span
-            class="flex items-center justify-center p-1 rounded hover:cursor-pointer hover:bg-gray-200 hover:text-purple-400"
-          >
-            <n-icon size="18" class="cursor-pointer hover:text-purple-400">
-              <EllipsisH />
-            </n-icon>
-          </span>
-        </template>
-        <div class="w-32 py-2">
-          <p class="py-2 w-full text-center cursor-pointer hover:bg-gray-100">举报</p>
-          <p
-            v-if="state.post?.author[0]._id === userStore.userInfo?._id"
-            class="py-2 w-full text-center cursor-pointer hover:bg-gray-100"
-            @click="deletePost"
-          >
-            删除
-          </p>
-        </div>
-      </n-popover>
-    </div>
+    <top-bar>
+      <template #title>
+        <span class="lg:text-lg md:text-sm font-bold">帖子</span>
+      </template>
+      <template #right>
+        <n-popover trigger="click" placement="bottom-center">
+          <template #trigger>
+            <span
+              class="flex items-center justify-center p-1 rounded hover:cursor-pointer hover:bg-gray-200 hover:text-purple-400"
+            >
+              <n-icon size="18" class="cursor-pointer hover:text-purple-400">
+                <EllipsisH />
+              </n-icon>
+            </span>
+          </template>
+          <div class="w-32 py-2">
+            <p
+              class="py-2 w-full text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500"
+            >
+              举报
+            </p>
+            <p
+              v-if="state.post?.author[0]._id === userStore.userInfo?._id"
+              class="py-2 w-full text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500"
+              @click="deletePost"
+            >
+              删除
+            </p>
+          </div>
+        </n-popover>
+      </template>
+    </top-bar>
     <!--帖子信息-->
     <div class="border rounded-lg px-4">
       <div class="flex justify-between items-center py-4">
@@ -56,26 +56,17 @@
         </n-tag>
       </div>
       <div class="flex justify-between border-t py-1">
-        <button
-          @click.stop=""
-          class="flex-1 flex justify-center items-center py-2 rounded-lg border-none bg-transparent hover:border-none hover:bg-gray-100 hover:text-purple-400 focus:outline-none"
-        >
+        <button @click.stop="" class="flex-1 post-btn">
           <n-icon size="18">
             <HeartRegular />
           </n-icon>
         </button>
-        <button
-          @click.stop=""
-          class="flex-1 flex justify-center items-center py-2 rounded-lg border-none bg-transparent hover:border-none hover:bg-gray-100 hover:text-purple-400 focus:outline-none"
-        >
+        <button @click.stop="" class="flex-1 post-btn">
           <n-icon size="18">
             <CommentDotsRegular />
           </n-icon>
         </button>
-        <button
-          @click.stop=""
-          class="flex-1 flex justify-center items-center py-2 rounded-lg border-none bg-transparent hover:border-none hover:bg-gray-100 hover:text-purple-400 focus:outline-none"
-        >
+        <button @click.stop="" class="flex-1 post-btn">
           <n-icon size="18">
             <ShareSquareRegular />
           </n-icon>
@@ -115,7 +106,7 @@
               </div>
               <!--用户信息-->
               <div class="py-3">
-                <a href="/#" class="text-black">{{ item.user[0].nickname }}</a>
+                <a href="/#" class="text-black dark:text-white">{{ item.user[0].nickname }}</a>
               </div>
               <!--内容-->
               <div class="py-2 break-words">
@@ -147,10 +138,14 @@
                     </span>
                   </template>
                   <div class="w-32 py-2">
-                    <p class="py-2 w-full text-center cursor-pointer hover:bg-gray-100">举报</p>
+                    <p
+                      class="py-2 w-full text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500"
+                    >
+                      举报
+                    </p>
                     <p
                       v-if="item.user[0]._id === userStore.userInfo?._id"
-                      class="py-2 w-full text-center cursor-pointer hover:bg-gray-100"
+                      class="py-2 w-full text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500"
                       @click="deleteComment(item._id)"
                     >
                       删除
@@ -175,7 +170,9 @@
                 <div class="inline-flex items-center flex-wrap space-x-2 h-min-10">
                   <div class="float-right font-sans break-words space-x-2">
                     <div class="inline-flex items-center">
-                      <a href="/#" class="text-black">{{ item2.user[0]?.nickname }}</a>
+                      <a href="/#" class="text-black dark:text-white">{{
+                        item2.user[0]?.nickname
+                      }}</a>
                     </div>
                     <span v-if="item2.reply_to_reply_id">回复</span>
                     <a href="/#" v-if="item2.reply_to_reply_id" class="bg-transparent"
@@ -209,10 +206,14 @@
                       </span>
                     </template>
                     <div class="w-32 py-2">
-                      <p class="py-2 w-full text-center cursor-pointer hover:bg-gray-100">举报</p>
+                      <p
+                        class="py-2 w-full text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500"
+                      >
+                        举报
+                      </p>
                       <p
                         v-if="item2.user[0]._id === userStore.userInfo?._id"
-                        class="py-2 w-full text-center cursor-pointer hover:bg-gray-100"
+                        class="py-2 w-full text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500"
                         @click="deleteReply(item2._id, item2.reply_to_comment_id)"
                       >
                         删除
@@ -271,6 +272,7 @@ import { useDialog, useLoadingBar } from 'naive-ui'
 import { createReply, deleteReplyById } from '@/services/reply/reply.api'
 import { deletePostById } from '@/services/post/post.api'
 import { changeToCategory } from '@/utils/format'
+import TopBar from '@/components/TopBar/index.vue'
 const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
