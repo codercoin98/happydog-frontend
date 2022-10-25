@@ -2,7 +2,7 @@
 
 ## 主页预览👀
 
-![home](http://124.220.47.26:7777/images/home.png)
+![image](https://user-images.githubusercontent.com/55039022/197743981-e24127a0-03e4-4921-b4be-3bb9855fc93a.png)
 
 
 
