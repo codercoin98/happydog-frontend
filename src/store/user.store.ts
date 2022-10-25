@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
 import { getUserById } from '@/services/user/user.api'
 import jwt_decode from 'jwt-decode'
-import { Token } from '@/pages/SignIn/types'
+import { Token } from '@/types/auth'
+import { User } from '@/types/user'
 interface UserState {
   access_token: string | null
-  userInfo: USER_API.User | null
+  userInfo: User | null
   theme: string
 }
 const useUserStore = defineStore('user', {

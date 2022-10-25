@@ -1,11 +1,20 @@
 // 导入axios实例
 import httpRequest from '@/request/index'
+import { CommentFull } from '@/types/comment'
 import { AxiosPromise } from 'axios'
-import { DeleteResult } from '../api'
+import { DeleteResult } from '../../types/api'
 //创建评论
-export function createComment(
-  comment: COMMENT_API.CreateCommentParams
-): AxiosPromise<COMMENT_API.CommentFull[]> {
+export function createComment(comment: {
+  post_id: string
+  content: string
+  user_id: string
+}): AxiosPromise<
+  {
+    post_id: string
+    content: string
+    user_id: string
+  }[]
+> {
   return httpRequest({
     url: '/api/comment/create',
     method: 'post',
@@ -16,7 +25,7 @@ export function createComment(
   })
 }
 //根据post_id查询所有的评论
-export function findAllCommentsById(post_id: string): AxiosPromise<COMMENT_API.CommentFull[]> {
+export function findAllCommentsById(post_id: string): AxiosPromise<CommentFull[]> {
   return httpRequest({
     url: '/api/comment/findAll',
     method: 'get',

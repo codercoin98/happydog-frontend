@@ -117,7 +117,7 @@ import {
   Spinner,
   EllipsisH,
 } from '@vicons/fa'
-import { PostFull } from './types'
+import { PostFull } from '@/types/post'
 import { useRouter } from 'vue-router'
 import { changeToCategory } from '@/utils/format'
 const router = useRouter()

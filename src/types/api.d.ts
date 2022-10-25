@@ -1,3 +1,4 @@
+//用于声明更新和删除接口的返回结果
 export interface UpdateResult {
   acknowledged: boolean
   modifiedCount: number

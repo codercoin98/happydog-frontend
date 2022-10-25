@@ -86,7 +86,16 @@ const userStore = useUserStore()
 const formRef = ref<FormInst | null>(null)
 const agree = ref<boolean>(false)
 const loading = ref<boolean>(false)
-const state = reactive<SIGN_IN.State>({
+const state = reactive<{
+  userNumber: number
+  captcha: string | null
+  formModel: {
+    username: string | null
+    password: string | null
+    rePassword: string | null
+    captcha: string | null
+  }
+}>({
   userNumber: 0,
   captcha: '',
   formModel: {

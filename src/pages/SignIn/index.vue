@@ -73,7 +73,6 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store'
 import { FormInst, FormRules } from 'naive-ui'
 import { Github, Weixin, ArrowRight } from '@vicons/fa'
-import { Form } from './types'
 import { md5 } from '@/utils/crypt'
 import { signin } from '@/services/auth/auth.api'
 const userStore = useUserStore()
@@ -81,7 +80,10 @@ const router = useRouter()
 const formRef = ref<FormInst | null>(null)
 const agree = ref(false)
 const loading = ref(false)
-const authInfo = reactive<Form>({
+const authInfo = reactive<{
+  username: string
+  password: string
+}>({
   username: '',
   password: '',
 })

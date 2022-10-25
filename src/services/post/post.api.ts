@@ -1,10 +1,15 @@
 // 导入axios实例
-import { Post, PostFull } from '@/pages/Home/types'
+import { Post, PostFull } from '@/types/post'
 import httpRequest from '@/request/index'
 import { AxiosPromise } from 'axios'
-import { DeleteResult, UpdateResult } from '../api'
+import { DeleteResult, UpdateResult } from '../../types/api'
 //创建帖子
-export function createPost(post: POST_API.CreatePostParams): AxiosPromise<Post> {
+export function createPost(post: {
+  title: string
+  content: string
+  author_id: string
+  categories: string[]
+}): AxiosPromise<Post> {
   return httpRequest({
     url: '/api/post/create',
     method: 'post',
@@ -15,7 +20,10 @@ export function createPost(post: POST_API.CreatePostParams): AxiosPromise<Post> 
   })
 }
 //获取帖子
-export function getAllPost(params: POST_API.GetPostParams): AxiosPromise<PostFull[]> {
+export function getAllPost(params: {
+  currentPage: number
+  size: number
+}): AxiosPromise<PostFull[]> {
   return httpRequest({
     url: '/api/post/findAll',
     method: 'get',
@@ -38,7 +46,11 @@ export function getPostById(post_id: string): AxiosPromise<PostFull[]> {
 //更新帖子的详情
 export function updatePostById(
   post_id: string,
-  postInfo: POST_API.UpdatePostParams
+  postInfo: {
+    title: string
+    content: string
+    author_id: string
+  }
 ): AxiosPromise<UpdateResult> {
   return httpRequest({
     url: `/api/post/findOne?post_id=${post_id}`,

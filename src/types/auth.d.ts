@@ -3,7 +3,3 @@ export interface Token {
   iat: number
   exp: number
 }
-export interface Form {
-  username: string
-  password: string
-}

@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
-import { PostFull } from '@/pages/Home/types'
 import { getPostById } from '@/services/post/post.api'
 import { findAllCommentsById } from '@/services/comment/comment.api'
+import { CommentFull } from '@/types/comment'
+import { PostFull } from '@/types/post'
 interface UserState {
   post: PostFull | null
-  comments: COMMENT_API.CommentFull[]
+  comments: CommentFull[]
 }
 const usePostStore = defineStore('post', {
   state: (): UserState => ({
@@ -26,7 +27,7 @@ const usePostStore = defineStore('post', {
       }
     },
     //获取帖子的评论
-    async getComments(post_id: string): Promise<COMMENT_API.CommentFull[] | void> {
+    async getComments(post_id: string): Promise<CommentFull[] | void> {
       try {
         const { data } = await findAllCommentsById(post_id)
         if (data.length > 0) {
