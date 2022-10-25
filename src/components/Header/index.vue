@@ -64,7 +64,7 @@
         <li class="flex justify-center p-2">
           <n-switch
             size="large"
-            :default-value="theme"
+            :default-value="userStore.theme"
             unchecked-value="light"
             checked-value="dark"
             :on-update:value="onModeSelect"
@@ -114,7 +114,6 @@ import { leftList } from '@/constants/system'
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
-const theme = ref<string>('light')
 //主题切换
 const onModeSelect = (value: string): void => {
   if (value === 'dark') {
@@ -144,9 +143,6 @@ const logout = (): void => {
 onMounted(() => {
   if (userStore.access_token) {
     userStore.getUser()
-  }
-  if (localStorage.theme) {
-    theme.value = JSON.parse(localStorage.getItem('theme')!).theme
   }
 })
 </script>

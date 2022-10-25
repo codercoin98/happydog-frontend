@@ -62,7 +62,7 @@ const themeOverrides: GlobalThemeOverrides = {
   },
 }
 onMounted(() => {
-  if (JSON.parse(localStorage.theme).theme === 'dark') {
+  if (userStore.theme === 'dark') {
     document.documentElement.classList.add('dark')
   } else {
     document.documentElement.classList.remove('dark')
