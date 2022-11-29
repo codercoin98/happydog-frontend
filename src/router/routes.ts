@@ -1,13 +1,13 @@
-const SignIn = () => import('@/pages/SignIn/index.vue')
-const SignUp = () => import('@/pages/SignUp/index.vue')
-const Home = () => import('@/pages/Home/index.vue')
-const Games = () => import('@/pages/Games/index.vue')
-const Forums = () => import('@/pages/Forums/index.vue')
-const Profile = () => import('@/pages/Profile/index.vue')
-const About = () => import('@/pages/About/index.vue')
-const Tos = () => import('@/pages/Tos/index.vue')
-const Create = () => import('@/pages/Create/index.vue')
-const Post = () => import('@/pages/Post/index.vue')
+const SignIn = () => import('@/pages/signIn/index.vue')
+const SignUp = () => import('@/pages/signUp/index.vue')
+const Home = () => import('@/pages/home/index.vue')
+const Games = () => import('@/pages/games/index.vue')
+const Forums = () => import('@/pages/forums/index.vue')
+const Profile = () => import('@/pages/profile/index.vue')
+const About = () => import('@/pages/about/index.vue')
+const Tos = () => import('@/pages/tos/index.vue')
+const Create = () => import('@/pages/create/index.vue')
+const Post = () => import('@/pages/post/index.vue')
 import { RouteRecordRaw } from 'vue-router'
 //路由配置表
 const routes: RouteRecordRaw[] = [
