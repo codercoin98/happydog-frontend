@@ -120,7 +120,7 @@ import {
 import { PostFull } from '@/types/post'
 import { useRouter } from 'vue-router'
 import { changeToCategory } from '@/utils/format'
-const router = useRouter()
+
 interface State {
   posts: PostFull[]
   loading: boolean
@@ -128,6 +128,8 @@ interface State {
   currentPage: number
   finished: boolean
 }
+
+const router = useRouter()
 const state = reactive<State>({
   posts: [],
   loading: false,

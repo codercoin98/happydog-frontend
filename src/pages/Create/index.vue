@@ -55,6 +55,7 @@ import { ChevronLeft } from '@vicons/fa'
 import { rules } from '@/constants/system'
 import { createPost } from '@/services/post/post.api'
 import { useLoadingBar } from 'naive-ui'
+
 const router = useRouter()
 const userStore = useUserStore()
 const loadingbar = useLoadingBar()

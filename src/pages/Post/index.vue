@@ -273,12 +273,7 @@ import { createReply, deleteReplyById } from '@/services/reply/reply.api'
 import { deletePostById } from '@/services/post/post.api'
 import { changeToCategory } from '@/utils/format'
 import TopBar from '@/components/TopBar/index.vue'
-const router = useRouter()
-const route = useRoute()
-const userStore = useUserStore()
-const postStore = usePostStore()
-const loadingBar = useLoadingBar()
-const dialog = useDialog()
+
 interface State {
   post: PostFull | null
   comments: COMMENT_API.CommentFull[]
@@ -288,6 +283,14 @@ interface State {
   replyTarget: COMMENT_API.CommentFull | REPLY_API.ReplyFull | null
   replyTargetType: number | null
 }
+
+const router = useRouter()
+const route = useRoute()
+const userStore = useUserStore()
+const postStore = usePostStore()
+const loadingBar = useLoadingBar()
+const dialog = useDialog()
+
 const state = reactive<State>({
   post: null,
   comments: [],

@@ -32,6 +32,7 @@ import HeaderComponent from '@/components/Header/index.vue'
 import FooterComponent from '@/components/Footer/index.vue'
 import { useUserStore } from './store'
 import { onMounted } from 'vue'
+
 const userStore = useUserStore()
 const themeOverrides: GlobalThemeOverrides = {
   common: {

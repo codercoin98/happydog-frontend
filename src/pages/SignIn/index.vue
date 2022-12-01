@@ -75,6 +75,7 @@ import { FormInst, FormRules } from 'naive-ui'
 import { Github, Weixin, ArrowRight } from '@vicons/fa'
 import { md5 } from '@/utils/crypt'
 import { signin } from '@/services/auth/auth.api'
+
 const userStore = useUserStore()
 const router = useRouter()
 const formRef = ref<FormInst | null>(null)

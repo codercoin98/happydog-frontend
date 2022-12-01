@@ -7,6 +7,7 @@ interface UserState {
   post: PostFull | null
   comments: CommentFull[]
 }
+
 const usePostStore = defineStore('post', {
   state: (): UserState => ({
     post: null,

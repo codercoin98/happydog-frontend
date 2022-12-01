@@ -81,6 +81,7 @@ import { getAllUser } from '@/services/user/user.api'
 import { FormInst, FormItemRule, FormRules } from 'naive-ui'
 import { Users, ChevronLeft } from '@vicons/fa'
 import { md5 } from '@/utils/crypt'
+
 const router = useRouter()
 const userStore = useUserStore()
 const formRef = ref<FormInst | null>(null)

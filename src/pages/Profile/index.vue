@@ -64,6 +64,7 @@ import { UploadCustomRequestOptions } from 'naive-ui/es/upload';
 import { uploadImage } from '@/services/upload/upload.api';
 import { FormInst, FormRules, useLoadingBar } from 'naive-ui';
 import { updateUserById } from '@/services/user/user.api';
+
 const userStore = useUserStore()
 const loadingBar = useLoadingBar()
 const formRef = ref<FormInst | null>(null)
