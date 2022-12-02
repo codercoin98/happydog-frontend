@@ -48,7 +48,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import TopBar from '@/components/TopBar/index.vue'
+import TopBar from '@/components/topbar/index.vue'
 import dayjs from '@/utils/day'
 import { Github } from '@vicons/fa'
 import { QqOutlined } from '@vicons/antd'

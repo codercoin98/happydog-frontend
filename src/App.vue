@@ -28,8 +28,8 @@
 <script setup lang="ts">
 import { NConfigProvider, GlobalThemeOverrides, darkTheme } from 'naive-ui'
 import Message from './components/Message/index.vue'
-import HeaderComponent from '@/components/Header/index.vue'
-import FooterComponent from '@/components/Footer/index.vue'
+import HeaderComponent from '@/components/header/index.vue'
+import FooterComponent from '@/components/footer/index.vue'
 import { useUserStore } from './store'
 import { onMounted } from 'vue'
 

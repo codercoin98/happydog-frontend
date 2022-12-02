@@ -272,7 +272,7 @@ import { useDialog, useLoadingBar } from 'naive-ui'
 import { createReply, deleteReplyById } from '@/services/reply/reply.api'
 import { deletePostById } from '@/services/post/post.api'
 import { changeToCategory } from '@/utils/format'
-import TopBar from '@/components/TopBar/index.vue'
+import TopBar from '@/components/topbar/index.vue'
 
 interface State {
   post: PostFull | null

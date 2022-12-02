@@ -50,7 +50,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store'
-import Editor from '@/components/BaseEditor/index.vue'
+import Editor from '@/components/base-editor/index.vue'
 import { ChevronLeft } from '@vicons/fa'
 import { rules } from '@/constants/system'
 import { createPost } from '@/services/post/post.api'
