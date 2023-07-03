@@ -1,28 +1,18 @@
 # 一个简洁、现代、开源的游戏社区
 
+> 本仓库更新无限期延期。
+
 ```shell
 1.安装依赖
 npm i
 2.启动项目
-npm run dev/yarn dev
+npm run dev # or use yarn dev
 
 ```
 
-## 👀 主页预览
-
-![image](https://user-images.githubusercontent.com/55039022/197743981-e24127a0-03e4-4921-b4be-3bb9855fc93a.png)
-
 ## 🌈 技术栈
 
-框架：vue3 （干翻 React.jpg）
-
-CSS 框架：Tailwindcss （用过都说好）
-
-构建工具：Vite （紧跟技术潮流）
-
-编程语言：Typtscript/JS (未来是 TS 的天下！)
-
-请求库：Axios (一直在用，离不开了！)
+框架：Vue3 + Vite + TS + Tailwindcss + NaiveUI + wangeditor .
 
 ## ✨ 新特性
 
