@@ -8,9 +8,9 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BaseEditor: typeof import('./src/components/base-editor/index.vue')['default']
-    Footer: typeof import('./src/components/footer/index.vue')['default']
-    Header: typeof import('./src/components/header/index.vue')['default']
-    Message: typeof import('./src/components/message/index.vue')['default']
+    Footer: typeof import('./src/components/Footer/index.vue')['default']
+    Header: typeof import('./src/components/Header/index.vue')['default']
+    Message: typeof import('./src/components/Message/index.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NBackTop: typeof import('naive-ui')['NBackTop']
     NCard: typeof import('naive-ui')['NCard']
@@ -33,12 +33,10 @@ declare module '@vue/runtime-core' {
     NSwitch: typeof import('naive-ui')['NSwitch']
     NTab: typeof import('naive-ui')['NTab']
     NTabs: typeof import('naive-ui')['NTabs']
-    NTimeline: typeof import('naive-ui')['NTimeline']
-    NTimelineItem: typeof import('naive-ui')['NTimelineItem']
+    NTag: typeof import('naive-ui')['NTag']
     NUpload: typeof import('naive-ui')['NUpload']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Topbar: typeof import('./src/components/topbar/index.vue')['default']
     TopBar: typeof import('./src/components/TopBar/index.vue')['default']
   }
 }

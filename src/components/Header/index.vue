@@ -5,7 +5,7 @@
     <div class="flex justify-start pl-2">
       <router-link to="/" class="text-black">
         <n-space class="flex items-center">
-          <n-avatar :size="48" round src="http://124.220.47.26:7777/images/dog.jpg" />
+          <n-avatar :size="48" round src="/dog.png" />
           <span
             class="text-xl text-black dark:text-white subpixel-antialiased font-semibold cursor-pointer"
             >HappyDog</span
@@ -95,22 +95,22 @@
   </header>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { useUserStore } from '@/store'
-import { useRoute, useRouter } from 'vue-router'
-import { NIcon } from 'naive-ui'
-import {
-  Home,
-  Gamepad,
-  FacebookMessenger,
-  User,
-  ChevronRight,
-  EllipsisH,
-  PowerOff,
-  Sun,
-  Moon,
-} from '@vicons/fa'
 import { leftList } from '@/constants/system'
+import { useUserStore } from '@/store'
+import {
+ChevronRight,
+EllipsisH,
+FacebookMessenger,
+Gamepad,
+Home,
+Moon,
+PowerOff,
+Sun,
+User,
+} from '@vicons/fa'
+import { NIcon } from 'naive-ui'
+import { onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
